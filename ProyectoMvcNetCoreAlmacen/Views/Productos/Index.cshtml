@@ -1,0 +1,81 @@
+﻿@model IEnumerable<ProyectoMvcNetCoreAlmacen.Models.Producto>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdProducto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stock)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Precio)
+            </th>
+            <th>
+                Imagen
+            </th>
+            <th>
+                Proveedor
+            </th>
+            <th>
+               Tienda
+            </th>
+            
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdProducto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Stock)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Precio)
+            </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.Imagen))
+                    {
+                        // Usar la ruta relativa para cargar la imagen desde wwwroot/imagenes/
+                        <img src="@Url.Content("~/imagenes/" + item.Imagen)" alt="Imagen del producto" style="width:100px; height:auto;" />
+                    }
+                    else
+                    {
+                        <span>Imagen no disponible</span>
+                    }
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Proveedor.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tienda.Nombre)
+            </td>
+        
+        </tr>
+}
+    </tbody>
+</table>
