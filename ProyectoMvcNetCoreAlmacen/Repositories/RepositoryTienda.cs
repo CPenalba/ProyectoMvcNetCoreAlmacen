@@ -18,5 +18,17 @@ namespace ProyectoMvcNetCoreAlmacen.Repositories
             var consulta = from datos in this.context.Tiendas select datos;
             return await consulta.ToListAsync();
         }
+
+        public async Task<Tienda> LoginAsync(string correo, string contraseña)
+        {
+            return await this.context.Tiendas
+                .FirstOrDefaultAsync(t => t.Correo == correo && t.Contraseña == contraseña);
+        }
+
+        public async Task<Tienda> GetTiendaByIdAsync(int tiendaId)
+        {
+            return await this.context.Tiendas
+                .FirstOrDefaultAsync(t => t.IdTienda == tiendaId);
+        }
     }
 }

@@ -16,7 +16,16 @@ builder.Services.AddTransient<RepositoryAlertaStock>();
 string connectionString = builder.Configuration.GetConnectionString("SqlAlmacen");
 builder.Services.AddDbContext<AlmacenContext>(options => options.UseSqlServer(connectionString));
 
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Ajusta según tu necesidad
+    options.Cookie.IsEssential = true;
+});
+
+
 var app = builder.Build();
+
+app.UseSession();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -34,9 +43,12 @@ app.UseAuthorization();
 app.MapStaticAssets();
 
 app.MapControllerRoute(
+    name: "login",
+    pattern: "{controller=Tiendas}/{action=Login}/{id?}");
+
+app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
+    pattern: "{controller=Tiendas}/{action=Index}/{id?}");
 
 
 app.Run();

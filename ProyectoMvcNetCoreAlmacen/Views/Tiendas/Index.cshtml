@@ -1,53 +1,17 @@
-﻿@model IEnumerable<ProyectoMvcNetCoreAlmacen.Models.Tienda>
-
-@{
-    ViewData["Title"] = "Index";
+﻿@{
+    var tienda = ViewData["Tienda"] as Tienda;
 }
 
-<h1>Index</h1>
+@if (tienda != null)
+{
+    <h2>Bienvenido a la tienda: @tienda.Nombre</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.IdTienda)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Direccion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Correo)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdTienda)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Direccion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Correo)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
+    <!-- Botón para cerrar sesión -->
+    <form method="post" asp-action="Logout" asp-controller="Tiendas">
+        <button type="submit" class="btn btn-danger">Cerrar sesión</button>
+    </form>
 }
-    </tbody>
-</table>
+else
+{
+    <h2>No has iniciado sesión. Redirigiendo...</h2>
+}
