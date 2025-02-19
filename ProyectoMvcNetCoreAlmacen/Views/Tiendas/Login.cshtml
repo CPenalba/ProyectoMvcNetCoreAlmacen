@@ -1,24 +1,56 @@
-﻿@{
-    ViewData["Title"] = "Login";
-}
-
-<h2>@ViewData["Title"]</h2>
-
-<form method="post" action="@Url.Action("Login", "Tiendas")">
-    <div class="form-group">
-        <label for="correo">Correo</label>
-        <input type="email" class="form-control" id="correo" name="correo" required />
+﻿<section class="vh-100">
+    <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-9 col-lg-6 col-xl-5">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp" class="img-fluid" alt="Sample image">
+            </div>
+            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                <form method="post" action="@Url.Action("Login", "Tiendas")">
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="correo">Correo</label>
+                        <input type="email" class="form-control form-control-lg" id="correo" name="correo" placeholder="Enter a valid email address" required />
+                    </div>
+                    <div class="form-outline mb-3">
+                        <label class="form-label" for="contraseña">Contraseña</label>
+                        <input type="password" class="form-control form-control-lg" id="contraseña" name="contraseña" placeholder="Enter password" required />
+                    </div>
+                   
+                    <div class="text-center text-lg-start mt-4 pt-2">
+                        <button type="submit" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">Iniciar sesión</button>
+                        <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="#!" class="link-danger">Register</a></p>
+                    </div>
+                </form>
+                @if (ViewBag.Message != null)
+                {
+                    <div class="alert alert-info mt-3">
+                        @ViewBag.Message
+                    </div>
+                }
+            </div>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="contraseña">Contraseña</label>
-        <input type="password" class="form-control" id="contraseña" name="contraseña" required />
-    </div>
-    <button type="submit" class="btn btn-primary">Iniciar sesión</button>
-</form>
+    
+</section>
 
-@if (ViewBag.Message != null)
-{
-    <div class="alert alert-info mt-3">
-        @ViewBag.Message
-    </div>
-}
+<style>
+    .divider:after,
+    .divider:before {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: #eee;
+    }
+
+    .h-custom {
+        height: calc(100% - 73px);
+    }
+    media (max-width: 450px) {
+        .h-custom
+
+    {
+        height: 100%;
+    }
+
+    }
+    
+</style>

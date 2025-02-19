@@ -1,6 +1,6 @@
-﻿
-@{
+﻿@{
     var tiendaId = ViewContext.HttpContext.Session.GetInt32("TiendaId");
+    var isLoginPage = ViewContext.RouteData.Values["Action"]?.ToString() == "Login" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Account";
 }
 
 <!DOCTYPE html>
@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="~/ProyectoMvcNetCoreAlmacen.styles.css" asp-append-version="true" />
 </head>
 <body>
-    @if (tiendaId != null)
+    @if (!isLoginPage && tiendaId != null)
     {
         <!-- Si el usuario está logueado, mostramos el layout completo con la barra de navegación -->
         <header>
@@ -55,32 +55,12 @@
             </nav>
         </header>
     }
-    else
-    {
-        <!-- Si no hay una tienda logueada, muestra un layout más simple o redirige al login -->
-        <header>
-            <nav class="navbar navbar-expand-sm navbar-light bg-light">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">ProyectoMvcNetCoreAlmacen</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                </div>
-            </nav>
-        </header>
-    }
 
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - ProyectoMvcNetCoreAlmacen - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
