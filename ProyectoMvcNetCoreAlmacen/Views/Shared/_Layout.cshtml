@@ -1,70 +1,184 @@
 ﻿@{
-    var tiendaId = ViewContext.HttpContext.Session.GetInt32("TiendaId");
-    var isLoginPage = ViewContext.RouteData.Values["Action"]?.ToString() == "Login" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Account";
+	var tiendaId = ViewContext.HttpContext.Session.GetInt32("TiendaId");
+	var isLoginPage = ViewContext.RouteData.Values["Action"]?.ToString() == "Login" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Account";
 }
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ProyectoMvcNetCoreAlmacen</title>
-    <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/ProyectoMvcNetCoreAlmacen.styles.css" asp-append-version="true" />
+
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+	<link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/128/2795/2795451.png" type="image/x-icon">
+	<title>ProyectoMvcNetCoreAlmacen</title>
+	<link rel="stylesheet" href="https://r.mobirisesite.com/1218314/assets/web/assets/mobirise-icons2/mobirise2.css?rnd=1739994788032">
+	<link rel="stylesheet" href="https://r.mobirisesite.com/1218314/assets/bootstrap/css/bootstrap.min.css?rnd=1739994788032">
+	<link rel="stylesheet" href="https://r.mobirisesite.com/1218314/assets/bootstrap/css/bootstrap-grid.min.css?rnd=1739994788032">
+	<link rel="stylesheet" href="https://r.mobirisesite.com/1218314/assets/bootstrap/css/bootstrap-reboot.min.css?rnd=1739994788032">
+	<link rel="stylesheet" href="https://r.mobirisesite.com/1218314/assets/parallax/jarallax.css?rnd=1739994788032">
+	<link rel="stylesheet" href="~/css/estilonav.css">
+	<link rel="stylesheet" href="https://r.mobirisesite.com/1218314/assets/smart-cart/minicart-theme.css?rnd=1739994788032">
+	<link rel="stylesheet" href="https://r.mobirisesite.com/1218314/assets/socicon/css/styles.css?rnd=1739994788032">
+	<link rel="stylesheet" href="https://r.mobirisesite.com/1218314/assets/theme/css/style.css?rnd=1739994788032">
+	<link rel="stylesheet" href="https://r.mobirisesite.com/1218314/assets/recaptcha.css?rnd=1739994788032">
+	<link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;700&display=swap&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+	<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;700&display=swap&display=swap"></noscript>
+	<link rel="stylesheet" href="~/css/additional.css" type="text/css">
+
+	<style>
+
+		.navbar-fixed-top {
+			top: auto;
+		}
+
+
+		#mobirisePromo.container-banner {
+			height: 11rem;
+			opacity: 1;
+			-webkit-animation: 11s linear animationHeight;
+			-moz-animation: 11s linear animationHeight;
+			-o-animation: 11s linear animationHeight;
+			animation: 11s linear animationHeight;
+			transition: all 0.5s;
+		}
+
+			#mobirisePromo.container-banner.container-banner-closing {
+				pointer-events: none;
+				height: 0;
+				opacity: 0;
+				-webkit-animation: 0.5s linear animationClosing;
+				-moz-animation: 0.5s linear animationClosing;
+				-o-animation: 0.5s linear animationClosing;
+				animation: 0.5s linear animationClosing;
+			}
+
+		#mobirisePromo .banner {
+			min-height: 11rem;
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			background: #fff;
+			padding: 10px;
+			opacity: 1;
+			-webkit-animation: 11s linear animationBanner;
+			-moz-animation: 11s linear animationBanner;
+			-o-animation: 11s linear animationBanner;
+			animation: 11s linear animationBanner;
+			z-index: 1031;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+		}
+
+			#mobirisePromo .banner p {
+				overflow: hidden;
+				display: -webkit-box;
+				-webkit-line-clamp: 4;
+				-webkit-box-orient: vertical;
+				animation: none;
+				visibility: visible;
+			}
+
+		#mobirisePromo .buy-license {
+			text-decoration: underline;
+		}
+
+		#mobirisePromo .banner .btn {
+			margin: 0.3rem 0.5rem;
+			animation: none;
+			visibility: visible;
+		}
+
+		.navbar.opened {
+			z-index: 1032;
+		}
+
+		#mobirisePromo .mbr-section-abuse-report {
+			margin-top: 0.8rem;
+			font-size: 80%;
+		}
+
+			#mobirisePromo .mbr-section-abuse-report a {
+				color: #aaa;
+			}
+
+		}
+	</style>
 </head>
 <body>
-    @if (!isLoginPage && tiendaId != null)
-    {
-        <!-- Si el usuario está logueado, mostramos el layout completo con la barra de navegación -->
-        <header>
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                <div class="container-fluid">
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ProyectoMvcNetCoreAlmacen</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Productos" asp-action="Index">Productos</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Tiendas" asp-action="Index">Tiendas</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Proveedores" asp-action="Index">Proveedores</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Index">Usuarios</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="DetallesVentas" asp-action="Index">Detalles ventas</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="AlertasStocks" asp-action="Index">Alertas Stock</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </header>
-    }
+	@if (!isLoginPage && tiendaId != null)
+	{
+		<!-- Si el usuario está logueado, mostramos el layout completo con la barra de navegación -->
+		<header>
+			<section data-bs-version="5.1" class="menu menu01 nutritionm5 cid-uDfzjMuPtP" once="menu" id="menu-1-uDfzjMuPtP">
+				<nav class="navbar navbar-dropdown navbar-fixed-top navbar-expand-lg">
+					<div class="menu_box container-fluid">
+						<div class="navbar-brand d-flex">
+							<span class="navbar-caption-wrap"><a class="navbar-caption display-5" href="#">Inventario</a></span>
+							<button class="navbar-toggler" type="button" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbarSupportedContent" data-bs-target="#navbarSupportedContent" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+								<div class="hamburger">
+									<span></span>
+									<span></span>
+									<span></span>
+									<span></span>
+								</div>
+							</button>
+						</div>
+						<div class="collapse navbar-collapse" id="navbarSupportedContent">
+							<ul class="navbar-nav nav-dropdown" data-app-modern-menu="true">
+								<li class="nav-item">
+									<a class="nav-link link text-primary display-4" asp-controller="Productos" asp-action="Index">Productos </a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link link text-primary display-4" asp-controller="Tiendas" asp-action="Index">Tiendas </a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link link text-primary display-4" asp-controller="Proveedores" asp-action="Index">Proveedores </a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link link text-primary display-4" asp-controller="Usuarios" asp-action="Index">Usuarios </a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link link text-primary display-4" asp-controller="DetallesVentas" asp-action="Index">DetallesVentas </a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link link text-primary display-4" asp-controller="AlertasStocks" asp-action="Index">AlertasStocks </a>
+								</li>
+							</ul>
+							<div class="mbr-section-btn-main" role="tablist"><a class="btn btn-secondary display-4" href="#">Ver Más</a></div>
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+						</div>
+					</div>
+				</nav>
+			</section>
+		</header>
+	}
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+	<div class="container">
+		<main role="main" class="pb-3">
+			@RenderBody()
+		</main>
+	</div>
+
+	<script src="https://r.mobirisesite.com/1218314/assets/web/assets/jquery/jquery.min.js?rnd=1739994788032"></script>
+	<script src="https://r.mobirisesite.com/1218314/assets/bootstrap/js/bootstrap.bundle.min.js?rnd=1739994788032"></script>
+	<script src="https://r.mobirisesite.com/1218314/assets/parallax/jarallax.js?rnd=1739994788032"></script>
+	<script src="https://r.mobirisesite.com/1218314/assets/smoothscroll/smooth-scroll.js?rnd=1739994788032"></script>
+	<script src="https://r.mobirisesite.com/1218314/assets/ytplayer/index.js?rnd=1739994788032"></script>
+	<script src="https://r.mobirisesite.com/1218314/assets/dropdown/js/navbar-dropdown.js?rnd=1739994788032"></script>
+	<script src="https://r.mobirisesite.com/1218314/assets/smart-cart/minicart.js?rnd=1739994788032"></script>
+	<script src="https://r.mobirisesite.com/1218314/assets/smart-cart/minicart-customizer.js?rnd=1739994788032"></script>
+	<script src="https://r.mobirisesite.com/1218314/assets/mbr-switch-arrow/mbr-switch-arrow.js?rnd=1739994788032"></script>
+	<script src="https://r.mobirisesite.com/1218314/assets/vimeoplayer/player.js?rnd=1739994788032"></script>
+	<script src="https://r.mobirisesite.com/1218314/assets/mbr-tabs/mbr-tabs.js?rnd=1739994788032"></script>
+	<script src="https://r.mobirisesite.com/1218314/assets/scrollgallery/scroll-gallery.js?rnd=1739994788032"></script>
+	<script src="https://r.mobirisesite.com/1218314/assets/embla/embla.min.js?rnd=1739994788032"></script>
+	<script src="https://r.mobirisesite.com/1218314/assets/embla/script.js?rnd=1739994788032"></script>
+	<script src="https://r.mobirisesite.com/1218314/assets/theme/js/script.js?rnd=1739994788032"></script>
+	<script src="https://r.mobirisesite.com/1218314/assets/formoid.min.js?rnd=1739994788032"></script>
+	@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
