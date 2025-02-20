@@ -18,7 +18,7 @@ namespace ProyectoMvcNetCoreAlmacen.Models
         [Column("Precio")]
         public decimal Precio { get; set; }
         [Column("Imagen")]
-        public string Imagen { get; set; }
+        public string? Imagen { get; set; }
         [Column("IdProveedor")]
         public int IdProveedor { get; set; }
         [Column("IdTienda")]

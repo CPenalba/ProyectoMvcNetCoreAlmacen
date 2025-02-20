@@ -3252,7 +3252,6 @@ img,
         .cid-uDfzjME4wx .items-wrapper .item .item-wrapper .item-img img {
             height: 400px;
             width: 400px;
-            min-width: 400px;
             border-radius: 100% !important;
             object-fit: cover;
             transition: all 0.6s ease-in-out;
