@@ -2,6 +2,7 @@
     var tienda = ViewData["Tienda"] as Tienda;
 }
 
+<div class="container-fluid" style="padding-top: 19px;">
 @if (tienda != null)
 {
     <h2>Bienvenido a la tienda: @tienda.Nombre</h2>
@@ -15,3 +16,4 @@ else
 {
     <h2>No has iniciado sesión. Redirigiendo...</h2>
 }
+</div>
