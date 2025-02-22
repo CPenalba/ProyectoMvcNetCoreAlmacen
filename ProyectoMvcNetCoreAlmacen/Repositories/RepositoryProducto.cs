@@ -17,7 +17,6 @@ namespace ProyectoMvcNetCoreAlmacen.Repositories
 
         public async Task<List<Producto>> GetProductosAsync()
         {
-
             return await this.context.Productos
                              .Include(p => p.Proveedor) 
                              .Include(p => p.Tienda)    
@@ -37,6 +36,11 @@ namespace ProyectoMvcNetCoreAlmacen.Repositories
             await this.context.Productos.AddAsync(p);
             await this.context.SaveChangesAsync();
         }
+
+        public async Task<Producto> FindProductoAsync(int idProducto)
+        {
+            var consulta = from datos in this.context.Productos where datos.IdProducto == idProducto select datos;
+            return await consulta.FirstOrDefaultAsync();
+        }
     }
-    
 }

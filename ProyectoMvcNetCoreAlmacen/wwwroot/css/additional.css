@@ -917,9 +917,7 @@ img,
 .slide-content,
 .plan,
 .item-wrapper,
-.card {
-    border-radius: 30px !important;
-}
+.card 
 
 .image-wrapper img {
     border-radius: 0 !important;
@@ -2087,6 +2085,21 @@ img,
     color: #150764;
     text-align: center;
 }
+
+.miimagen {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    height: 300px; /* Ajusta el tamaño del contenedor según necesites */
+    overflow: hidden;
+}
+
+    .miimagen img {
+        max-width: 100%; /* Asegura que la imagen no se pase del contenedor */
+        max-height: 100%; /* Evita que sea más grande de lo permitido */
+        object-fit: cover; /* Mantiene la imagen ajustada sin deformarla */
+        border-radius: 10px;
+    }
 
 .cid-uDfzjMzvv1 .mbr-desc,
 .cid-uDfzjMzvv1 .desc-wrapper {

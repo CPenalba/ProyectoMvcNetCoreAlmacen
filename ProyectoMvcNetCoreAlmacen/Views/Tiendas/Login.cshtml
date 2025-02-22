@@ -1,54 +1,56 @@
-﻿<section class="vh-100">
-	<div class="container-fluid h-custom">
-		<div class="row d-flex justify-content-center align-items-center h-100">
-			<div class="col-md-9 col-lg-6 col-xl-5">
-				<img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp" class="img-fluid" alt="Sample image">
-			</div>
-			<div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-				<form method="post" action="@Url.Action("Login", "Tiendas")">
-					<div data-for="email" class="col-lg-12 col-md-12 col-sm-12 form-group mb-3 mb-3 mb-3 mb-3 mb-3 mb-3 mb-3" style="">
-						<p class="item-desc mbr-fonts-style display-4">Correo electronico</p>
-						<input type="email" name="correo" placeholder="Enter a valid email address" required data-form-field="email" class="form-control display-4" value="" id="email-contact-form-1-uDfzjMJtky">
+﻿<section class="form1 cid-sgSoZHg9Zb d-flex justify-content-center align-items-center vh-100" id="form1-a">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-lg-6 col-md-9">
+				<div class="form-block p-4 shadow bg-white rounded">
+					<h4 class="mbr-fonts-style mbr-section-title mbr-fonts-style mbr-bold display-2 text-center">Iniciar sesión</h4>
+					<div data-form-type="formoid">
+						<form method="post" action="@Url.Action("Login", "Tiendas")" class="mbr-form form-with-styler" data-form-title="Mobirise Form">
+							<input type="hidden" name="email" data-form-email="true" value="mURSKtS4wXTh7NbwmwwjBWVzdBKA/yYjRniM8rq409RhMz2OxbcEZ0TBCeY9DhDAi5ibM37dUT5Vv29fo12rYUtlhKABi1pCdaz9m2JLKCB7wwyci1gu0tv3RGprPrvJ">
+
+							<div class="dragArea form-row">
+								<div class="col-md-12 form-group">
+									<label for="orderNumber-form1-a" class="form-control-label mbr-fonts-style mbr-bold display-7">Email</label>
+									<input type="email" name="correo" placeholder="Your email" required class="form-control input display-7" id="orderNumber-form1-a">
+								</div>
+
+								<div class="col-md-12 form-group">
+									<label for="postCode-form1-a" class="form-control-label mbr-fonts-style mbr-bold display-7">Password</label>
+									<input type="password" name="contraseña" placeholder="Your password" required class="form-control input display-7" id="postCode-form1-a">
+								</div>
+
+								<div class="col-md-12 input-group-btn">
+									<button type="submit" class="btn btn-form btn-info display-4 w-100">Iniciar sesión</button>
+								</div>
+							</div>
+						</form>
+
+						@if (ViewBag.Message != null)
+						{
+							<div class="alert alert-info mt-3">
+								@ViewBag.Message
+							</div>
+						}
+
+						<div class="text-center mt-3">
+							<p class="item-desc mbr-fonts-style display-4">Don't have an account? <a href="">Register</a></p>
+						</div>
 					</div>
-					<div data-for="email" class="col-lg-12 col-md-12 col-sm-12 form-group mb-3 mb-3 mb-3 mb-3 mb-3 mb-3 mb-3" style="">
-						<p class="item-desc mbr-fonts-style display-4">Contraseña</p>
-						<input type="password" name="contraseña" placeholder="Enter password" required required data-form-field="email" class="form-control display-4" value="" id="email-contact-form-1-uDfzjMJtky">
-					</div>
-					<div class="col mbr-section-btn">
-						<p class="item-desc mbr-fonts-style display-4">Don't have an account?<a href="">Register</a></p>
-						<button type="submit" class="btn btn-secondary display-4">Iniciar sesión</button>
-					</div>
-				</form>
-				@if (ViewBag.Message != null)
-				{
-					<div class="alert alert-info mt-3">
-						@ViewBag.Message
-					</div>
-				}
+				</div>
 			</div>
 		</div>
 	</div>
-
 </section>
 
 <style>
-	.divider:after,
-	.divider:before {
-		content: "";
-		flex: 1;
-		height: 1px;
-		background: #eee;
+	#form1-a {
+		background: url('https://png.pngtree.com/thumb_back/fh260/background/20220312/pngtree-logistics-warehouse-image_1064282.jpg') no-repeat center center;
+		background-size: cover; /* Esto asegura que la imagen cubra toda el área */
+		height: 100vh; /* Esto hace que ocupe toda la altura de la pantalla */
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: 15px; /* Bordes redondeados */
+		padding: 20px;
 	}
-
-	.h-custom {
-		height: calc(100% - 73px);
-	}
-
-	media (max-width: 450px) {
-		.h-custom
-
-	{
-		height: 100%;
-	}
-
-	}</style>
+</style>

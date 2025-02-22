@@ -2,18 +2,22 @@
     var tienda = ViewData["Tienda"] as Tienda;
 }
 
-<div class="container-fluid" style="padding-top: 19px;">
-@if (tienda != null)
-{
-    <h2>Bienvenido a la tienda: @tienda.Nombre</h2>
+<section class="clients slider2 cid-sgSmWvbLuF" data-interval="false" id="slider2-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 section-header">
 
-    <!-- Botón para cerrar sesión -->
-    <form method="post" asp-action="Logout" asp-controller="Tiendas">
-        <button type="submit" class="btn btn-danger">Cerrar sesión</button>
-    </form>
-}
-else
-{
-    <h2>No has iniciado sesión. Redirigiendo...</h2>
-}
-</div>
+                @if (tienda != null)
+                {
+                    <h2 class="mbr-section-title mbr-fonts-style mb-0 mbr-bold display-5">Bienvenido a la tienda: @tienda.Nombre</h2>
+                    <form method="post" asp-action="Logout" asp-controller="Tiendas">
+                        <button type="submit" class="btn btn-form btn-bgr btn-info display-4">Cerrar sesion</button>
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
