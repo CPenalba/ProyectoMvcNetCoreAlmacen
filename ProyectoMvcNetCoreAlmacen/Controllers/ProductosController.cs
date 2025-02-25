@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ProyectoMvcNetCoreAlmacen.Models;
 using ProyectoMvcNetCoreAlmacen.Repositories;
 
@@ -8,10 +9,12 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
     {
 
         private RepositoryProducto repoProducto;
+        private RepositoryProveedor repoProveedor;
 
-        public ProductosController(RepositoryProducto repoProducto)
+        public ProductosController(RepositoryProducto repoProducto, RepositoryProveedor repoProveedor)
         {
             this.repoProducto = repoProducto;
+            this.repoProveedor = repoProveedor;
         }
         public async Task<IActionResult> Index()
         {
@@ -19,8 +22,10 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
             return View(productos);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var proveedores = await this.repoProveedor.GetProveedoresAsync();
+            ViewBag.Proveedores = new SelectList(proveedores, "IdProveedor", "Nombre");
             return View();
         }
 

@@ -15,8 +15,7 @@ namespace ProyectoMvcNetCoreAlmacen.Repositories
 
         public async Task<List<Proveedor>> GetProveedoresAsync()
         {
-            var consulta = from datos in this.context.Proveedores select datos;
-            return await consulta.ToListAsync();
+            return await this.context.Proveedores.ToListAsync();
         }
     }
 }
