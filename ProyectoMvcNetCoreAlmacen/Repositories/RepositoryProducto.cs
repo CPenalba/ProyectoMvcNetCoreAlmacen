@@ -15,12 +15,13 @@ namespace ProyectoMvcNetCoreAlmacen.Repositories
             this.context = context;
         }
 
-        public async Task<List<Producto>> GetProductosAsync()
+        public async Task<List<Producto>> GetProductosAsync(int idTienda)
         {
             return await this.context.Productos
-                             .Include(p => p.Proveedor) 
-                             .Include(p => p.Tienda)    
-                             .ToListAsync();
+                         .Where(p => p.IdTienda == idTienda) 
+                         .Include(p => p.Proveedor)
+                         .Include(p => p.Tienda)
+                         .ToListAsync();
         }
 
         public async Task InsertProductoAsync(string nombre, string descripcion, int stock, decimal precio, string? imagen, int idProveedor, int idTienda)

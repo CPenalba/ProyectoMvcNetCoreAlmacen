@@ -18,7 +18,14 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            List<Producto> productos = await this.repoProducto.GetProductosAsync();
+            var tiendaId = HttpContext.Session.GetInt32("TiendaId");
+
+            if (tiendaId == null)
+            {
+                return RedirectToAction("Login", "Tiendas"); 
+            }
+
+            List<Producto> productos = await this.repoProducto.GetProductosAsync((int)tiendaId);
             return View(productos);
         }
 
