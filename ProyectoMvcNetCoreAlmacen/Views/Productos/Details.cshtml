@@ -1,61 +1,68 @@
 ﻿@model ProyectoMvcNetCoreAlmacen.Models.Producto
 
-<section data-bs-version="5.1" class="features03 nutritionm5 cid-uDfzjMDC2p" id="features-3-uDfzjMDC2p">
+<section class="carousel slider1 slide testimonials-slider cid-sgSoTuntoX" data-interval="false" id="slider1-7">
 
-    <div class="container-fluid">
-        <div class="row content-wrap">
-            <div class="col-12 col-lg-6 card">
-                <div class="item-content">
-                    <div class="miimagen">
-                        <img src="@Url.Content("~/imagenes/" + Model.Imagen)" alt="" >
-                    </div>
-                   
-                </div>
-            </div>
-            <div class="col-12 col-lg-6 card">
-                <div class="items-wrapper">
-                    <div class="item features-without-image">
-                        <div class="item-wrapper">
-                            <div class="card-box">
-                                <div class="icon-wrapper">
-                                    <img src="https://cdn-icons-png.flaticon.com/128/2933/2933190.png" alt="Alternate Text" />
-                                </div>
-                                <div class="text-wrapper">
-                                    <h4 class="item-title mbr-fonts-style display-5">Nombre</h4>
-                                    <p class="item-text mbr-fonts-style display-4">@Model.Nombre</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item features-without-image">
-                        <div class="item-wrapper">
-                            <div class="card-box">
-                                <div class="icon-wrapper">
-                                    <img src="https://cdn-icons-png.flaticon.com/128/16916/16916548.png" alt="Alternate Text" />
-                                </div>
-                                <div class="text-wrapper">
-                                    <h4 class="item-title mbr-fonts-style display-5">Descripción</h4>
-                                    <p class="item-text mbr-fonts-style display-4">@Model.Descripcion</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item features-without-image">
-                        <div class="item-wrapper">
-                            <div class="card-box">
-                                <div class="icon-wrapper">
-                                    <img src="https://cdn-icons-png.flaticon.com/128/2103/2103693.png" alt="Alternate Text" />
-                                </div>
-                                <div class="text-wrapper">
-                                    <h4 class="item-title mbr-fonts-style display-5">Proveedor</h4>
-                                    <p class="item-text mbr-fonts-style display-4">@Model.IdProveedor</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="border-wrap"></div>
+
+
+
+
+	<div class="container text-center">
+
+		<div class="carousel slide" role="listbox" data-pause="true" data-keyboard="false" data-ride="false" data-interval="false">
+			<div class="media-container-row">
+				<div class="carousel-indicators">
+				</div>
+			</div>
+
+			<div class="carousel-inner">
+				<div class="carousel-item">
+					<div class="back"> </div>
+					<div class="media-container-row">
+
+						<div class="col-lg-9 col-12 image-element align-self-stretch">
+							<img src="@Url.Content("~/imagenes/" + Model.Imagen)"
+								 onerror="this.onerror=null;this.src='https://static.vecteezy.com/system/resources/previews/005/720/408/non_2x/crossed-image-icon-picture-not-available-delete-picture-symbol-free-vector.jpg';"
+								 alt="Imagen del producto"
+								 title="@Model.Nombre">
+						</div>
+						<div class="col-lg-3 col-12">
+							<div class="card-wrap">
+								<h1 class="mbr-section-title align-center mbr-fonts-style mbr-bold display-5">@Model.Nombre</h1>
+								<h5 class="mbr-section-text align-center mbr-fonts-style mb-0 display-7">
+									<table class="table" style="border-top: 1px solid black; border-bottom: 1px solid black; font-size:large">
+										<tbody>
+
+											<tr>
+												<th>Descripción</th>
+												<td>@Model.Descripcion</td>
+											</tr>
+											<tr>
+												<th>Stock</th>
+												<td>@Model.Stock</td>
+											</tr>
+											<tr>
+												<th>Precio</th>
+												<td>@Model.Precio €</td>
+											</tr>
+											<tr>
+												<th>Proveedor</th>
+												<td>@Model.Proveedor.Nombre</td>
+											</tr>
+										</tbody>
+									</table>
+
+								</h5>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 </section>
+
+<style>
+	table th {
+		width: 150px;
+	}
+</style>

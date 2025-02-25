@@ -39,8 +39,9 @@ namespace ProyectoMvcNetCoreAlmacen.Repositories
 
         public async Task<Producto> FindProductoAsync(int idProducto)
         {
-            var consulta = from datos in this.context.Productos where datos.IdProducto == idProducto select datos;
-            return await consulta.FirstOrDefaultAsync();
+            return await this.context.Productos
+                             .Include(p => p.Proveedor)
+                             .FirstOrDefaultAsync(p => p.IdProducto == idProducto);
         }
     }
 }
