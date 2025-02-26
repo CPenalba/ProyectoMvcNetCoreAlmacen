@@ -1,53 +1,31 @@
 ﻿@model IEnumerable<ProyectoMvcNetCoreAlmacen.Models.Proveedor>
 
-@{
-    ViewData["Title"] = "Index";
-}
 
-<h1>Index</h1>
+<section class="features2 cid-sgSyF0EE4Z" id="features2-d">
+    <section class="features5 cid-sgSsYuf1Xl" id="features5-c">
+        <div class="container">
+            <h1 class="mbr-section-title mbr-fonts-style mb-4 mbr-bold display-5">Nuestros Proveedores</h1>
+            <br />
+            <div class="row justify-content-center">
+                @foreach (var item in Model)
+                {
+                    <div class="card col-md-6 col-lg-4">
+                        <div class="card-wrapper">
+                            <div class="card-box align-left">
+                                <div class="icon-wrap">
+                                    <span class="mbr-iconfont mbri-delivery mobi-mbri" style="color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
+                                </div>
+                                <h5 class="card-title mbr-fonts-style mb-0 mbr-bold display-4">@Html.DisplayFor(modelItem => item.Nombre)</h5>
+                                <p class="mbr-text mbr-fonts-style display-7">Teléfono: @Html.DisplayFor(modelItem => item.Telefono)</p>
+                                
+                                    <button class="btn btn-form btn-info display-4 w-100" style="border-radius:5px">Detalles</button>
+                               
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.IdProveedor)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Telefono)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Correo)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdProveedor)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Telefono)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Correo)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+</section>
