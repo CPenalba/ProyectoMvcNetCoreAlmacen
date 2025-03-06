@@ -13,12 +13,15 @@ namespace ProyectoMvcNetCoreAlmacen.Models
         public string Nombre { get; set; }
         [Column("Correo")]
         public string Correo { get; set; }
+        [Column("Contraseña")]
+        public string Contraseña { get; set; }
         [Column("Rol")]
         public string Rol { get; set; }
+        [Column("Codigo_Jefe")]
+        public int CodigoJefe { get; set; }
         [Column("IdTienda")]
         public int IdTienda { get; set; }
         [ForeignKey("IdTienda")]
         public Tienda Tienda { get; set; }
-
     }
 }

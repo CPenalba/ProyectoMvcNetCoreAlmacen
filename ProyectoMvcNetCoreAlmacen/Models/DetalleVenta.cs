@@ -19,5 +19,7 @@ namespace ProyectoMvcNetCoreAlmacen.Models
         public int Cantidad { get; set; }
         [Column("Precio")]
         public decimal Precio { get; set; }
+        [Column("PrecioTotalVenta")]
+        public decimal PrecioTotalVenta { get; set; }
     }
 }

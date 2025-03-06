@@ -12,7 +12,11 @@
 							<form method="post" enctype="multipart/form-data" class="mbr-form form-with-styler" data-form-title="Mobirise Form">
 
 								<div class="dragArea form-row">
-
+									<div class="col-md-12  form-group">
+										<label asp-for="IdProducto" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
+										<input asp-for="IdProducto" class="form-control input display-7" />
+										<span asp-validation-for="IdProducto" class="text-danger"></span>
+									</div>
 									<div class="col-md-12  form-group">
 										<label asp-for="Nombre" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
 										<input asp-for="Nombre" class="form-control input display-7" />
@@ -38,17 +42,22 @@
 										<input type="file" name="Imagen" class="form-control input display-7" />
 										<span asp-validation-for="Imagen" class="text-danger"></span>
 									</div>
+									<div class="col-md-12  form-group">
+										<label asp-for="Marca" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
+										<input asp-for="Marca" class="form-control input display-7" />
+										<span asp-validation-for="Marca" class="text-danger"></span>
+									</div>
+									<div class="col-md-12  form-group">
+										<label asp-for="Modelo" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
+										<input asp-for="Modelo" class="form-control input display-7" />
+										<span asp-validation-for="Modelo" class="text-danger"></span>
+									</div>
 									<div class="col-md-12 form-group">
-										<label asp-for="IdProveedor" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
+										<label asp-for="Proveedor" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
 										<select asp-for="IdProveedor" asp-items="ViewBag.Proveedores" class="form-control input display-7">
 											<option value="">Seleccione un proveedor</option>
 										</select>
 										<span asp-validation-for="IdProveedor" class="text-danger"></span>
-									</div>
-									<div class="col-md-12  form-group">
-										<label asp-for="IdTienda" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
-										<input asp-for="IdTienda" class="form-control input display-7" />
-										<span asp-validation-for="IdTienda" class="text-danger"></span>
 									</div>
 									<div class="col-md-12 input-group-btn"><button type="submit" class="btn btn-form btn-bgr btn-info display-4">Añadir producto</button></div>
 								</div>

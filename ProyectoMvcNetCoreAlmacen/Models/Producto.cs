@@ -19,6 +19,10 @@ namespace ProyectoMvcNetCoreAlmacen.Models
         public decimal Precio { get; set; }
         [Column("Imagen")]
         public string? Imagen { get; set; }
+        [Column("Marca")]
+        public string Marca { get; set; }
+        [Column("Modelo")]
+        public string Modelo { get; set; }
         [Column("IdProveedor")]
         public int IdProveedor { get; set; }
         [Column("IdTienda")]
@@ -27,7 +31,5 @@ namespace ProyectoMvcNetCoreAlmacen.Models
         public Proveedor Proveedor { get; set; }
         [ForeignKey("IdTienda")]
         public Tienda Tienda { get; set; }
-
-
     }
 }

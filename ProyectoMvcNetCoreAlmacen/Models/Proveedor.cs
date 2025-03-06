@@ -15,5 +15,7 @@ namespace ProyectoMvcNetCoreAlmacen.Models
         public string Telefono { get; set; }
         [Column("Correo")]
         public string Correo { get; set; }
+        [Column("Direccion")]
+        public string Direccion { get; set; }
     }
 }

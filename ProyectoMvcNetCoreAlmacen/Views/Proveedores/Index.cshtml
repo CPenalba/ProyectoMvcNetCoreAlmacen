@@ -2,30 +2,29 @@
 
 
 <section class="features2 cid-sgSyF0EE4Z" id="features2-d">
-    <section class="features5 cid-sgSsYuf1Xl" id="features5-c">
-        <div class="container">
-            <h1 class="mbr-section-title mbr-fonts-style mb-4 mbr-bold display-5">Nuestros Proveedores</h1>
-            <br />
-            <div class="row justify-content-center">
-                @foreach (var item in Model)
-                {
-                    <div class="card col-md-6 col-lg-4">
-                        <div class="card-wrapper">
-                            <div class="card-box align-left">
-                                <div class="icon-wrap">
-                                    <span class="mbr-iconfont mbri-delivery mobi-mbri" style="color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
-                                </div>
-                                <h5 class="card-title mbr-fonts-style mb-0 mbr-bold display-4">@Html.DisplayFor(modelItem => item.Nombre)</h5>
-                                <p class="mbr-text mbr-fonts-style display-7">Teléfono: @Html.DisplayFor(modelItem => item.Telefono)</p>
-                                
-                                    <button class="btn btn-form btn-info display-4 w-100" style="border-radius:5px">Detalles</button>
-                               
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
-    </section>
+	<section class="features5 cid-sgSsYuf1Xl" id="features5-c">
+		<div class="container">
+			<h1 class="mbr-section-title mbr-fonts-style mb-4 mbr-bold display-5">Nuestros Proveedores</h1>
+			<br />
+			<div class="row justify-content-center">
+				@foreach (var item in Model)
+				{
+					<div class="card col-md-6 col-lg-4">
+						<div class="card-wrapper">
+							<div class="card-box align-left">
+								<div class="icon-wrap">
+									<span class="mbr-iconfont mbri-delivery mobi-mbri" style="color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
+								</div>
+								<h5 class="card-title mbr-fonts-style mbr-bold display-4" style="text-decoration: underline;">@Html.DisplayFor(modelItem => item.Nombre)</h5>
+								<p class="mbr-text mbr-fonts-style display-7">@Html.DisplayFor(modelItem => item.Correo)</p>
+								<p class="mbr-text mbr-fonts-style display-7" style="line-height: 1;">@Html.DisplayFor(modelItem => item.Telefono)</p>
+								<button class="btn btn-form btn-info display-4 w-100" style="border-radius:5px">Detalles</button>
+							</div>
+						</div>
+					</div>
+				}
+			</div>
+		</div>
+	</section>
 
 </section>

@@ -24,14 +24,17 @@ namespace ProyectoMvcNetCoreAlmacen.Repositories
                          .ToListAsync();
         }
 
-        public async Task InsertProductoAsync(string nombre, string descripcion, int stock, decimal precio, string? imagen, int idProveedor, int idTienda)
+        public async Task InsertProductoAsync(int idProducto, string nombre, string descripcion, int stock, decimal precio, string? imagen, string marca, string modelo, int idProveedor, int idTienda)
         {
             Producto p = new Producto();
+            p.IdProducto = idProducto;
             p.Nombre = nombre;
             p.Descripcion = descripcion;
             p.Stock = stock;
             p.Precio = precio;
             p.Imagen = imagen;
+            p.Marca = marca;
+            p.Modelo = modelo;
             p.IdProveedor = idProveedor;
             p.IdTienda = idTienda;
             await this.context.Productos.AddAsync(p);

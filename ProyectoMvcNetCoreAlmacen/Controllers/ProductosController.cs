@@ -39,6 +39,18 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Producto p, IFormFile imagen)
         {
+            // Obtener el IdTienda desde la sesión del usuario (esto depende de cómo esté configurada tu autenticación)
+            // Aquí se supone que el IdTienda se guarda en la sesión.
+            var tiendaId = HttpContext.Session.GetInt32("TiendaId");
+
+            if (tiendaId == null)
+            {
+                return RedirectToAction("Login", "Tiendas");
+            }
+            // Asignar el IdTienda al producto
+            p.IdTienda = tiendaId.Value;
+
+            // Procesar la imagen si existe
             if (imagen != null && imagen.Length > 0)
             {
                 var fileName = Path.GetFileName(imagen.FileName);
@@ -55,9 +67,13 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
                 }
                 p.Imagen = fileName;
             }
-            await this.repoProducto.InsertProductoAsync(p.Nombre, p.Descripcion, p.Stock, p.Precio, p.Imagen, p.IdProveedor, p.IdTienda);
+
+            // Insertar el producto en la base de datos
+            await this.repoProducto.InsertProductoAsync(p.IdProducto, p.Nombre, p.Descripcion, p.Stock, p.Precio, p.Imagen, p.Marca, p.Modelo, p.IdProveedor, p.IdTienda);
+
             return RedirectToAction("Index");
         }
+
 
         public async Task<IActionResult> Details(int idproducto)
         {
