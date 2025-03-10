@@ -34,7 +34,7 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(AlertaStock a)
         {
-            await this.repo.InsertAlertaAsync(a.IdAlertaStock, a.IdProducto, a.IdTienda, a.FechaAlerta, a.Estado);
+            await this.repo.InsertAlertaAsync(a.IdAlertaStock, a.IdProducto, a.IdTienda, a.FechaAlerta, a.Descripcion, a.Estado);
             TempData["AlertMessage"] = "Alerta creada exitosamente!!!";
             return RedirectToAction("Index");
         }
@@ -54,7 +54,7 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(AlertaStock a)
         {
-            await this.repo.UpdateAlertaAsync(a.IdAlertaStock, a.IdProducto, a.IdTienda, a.FechaAlerta, a.Estado);
+            await this.repo.UpdateAlertaAsync(a.IdAlertaStock, a.IdProducto, a.IdTienda, a.FechaAlerta, a.Descripcion, a.Estado);
             TempData["AlertMessage"] = "Alerta editada exitosamente!!!";
             return RedirectToAction("Index");
         }
@@ -70,10 +70,10 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
                 var item = new
                 {
                     id = a.IdAlertaStock,
-                    title = a.Estado,
+                    title = a.Descripcion,
                     start = a.FechaAlerta.ToString("yyyy-MM-ddTHH:mm:ss"),
                     end = a.FechaAlerta.AddHours(1),
-                    ubicacion = a.IdProducto,
+                    estado = a.Estado
                 };
                 items.Add(item);
             }

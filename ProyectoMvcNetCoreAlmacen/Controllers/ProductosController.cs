@@ -16,16 +16,29 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
             this.repoProducto = repoProducto;
             this.repoProveedor = repoProveedor;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? idproducto, string? marca)
         {
             var tiendaId = HttpContext.Session.GetInt32("TiendaId");
-
             if (tiendaId == null)
             {
-                return RedirectToAction("Login", "Tiendas"); 
+                return RedirectToAction("Login", "Tiendas");
             }
 
-            List<Producto> productos = await this.repoProducto.GetProductosAsync((int)tiendaId);
+            List<Producto> productos;
+
+            if (!string.IsNullOrEmpty(idproducto) && int.TryParse(idproducto, out int idProducto))
+            {
+                productos = await this.repoProducto.GetProductosByIdAsync(idProducto);
+            }
+            else if (!string.IsNullOrEmpty(marca))
+            {
+                productos = await this.repoProducto.GetProductosByMarcaAsync(marca);
+            }
+            else
+            {
+                productos = await this.repoProducto.GetProductosAsync((int)tiendaId);
+            }
+
             return View(productos);
         }
 
