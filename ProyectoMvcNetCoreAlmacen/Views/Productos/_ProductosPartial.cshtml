@@ -1,0 +1,80 @@
+﻿@model IEnumerable<ProyectoMvcNetCoreAlmacen.Models.Producto>
+
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="item features-image col-12 col-md-6 col-lg-3">
+            <div class="item-wrapper">
+                <div class="item-img">
+                    <img src="@Url.Content("~/imagenes/" + item.Imagen)"
+                         onerror="this.onerror=null;this.src='https://static.vecteezy.com/system/resources/previews/005/720/408/non_2x/crossed-image-icon-picture-not-available-delete-picture-symbol-free-vector.jpg';"
+                         alt="Imagen del producto"
+                         title="@item.Nombre">
+                    <h6 class="item-subtitle mbr-fonts-style text-muted mb-0 mt-2 display-7"
+                        style="font-style: italic; font-size: 0.8em; display: block; text-align: center;">
+                        Num artículo: @item.IdProducto
+                    </h6>
+                    <span class="item-subtitle mbr-fonts-style mb-0 mt-2 display-4"
+                          style="position: absolute; bottom: 2px; right: 238px;">
+                        @item.Stock
+                    </span>
+                    <span data-toggle="modal" data-target="#accionesModal"
+                          onclick="setModalActions(@item.IdProducto, '@item.Nombre')" class="mbri-menu item-subtitle" style="position: absolute; bottom: 2px; right: 8px; font-size:24px"></span>
+                </div>
+                <div class="item-content">
+                    <h5 class="item-title mbr-fonts-style mt-0 mb-0 mbr-bold display-4">
+                        @item.Nombre
+                    </h5>
+                    <p class="mbr-text mbr-fonts-style mt-4 mb-0 display-7">Modelo: @item.Modelo</p>
+                    <h6 class="item-subtitle mbr-fonts-style mb-0 mt-2 display-4">
+                        @item.Precio €
+                    </h6>
+                    <h6 class="item-subtitle mbr-fonts-style text-muted mb-0 mt-2 display-7" style="font-style: italic;">
+                        @item.Proveedor.Nombre
+                    </h6>
+                    <p class="mbr-text mbr-fonts-style mb-0 mt-2 display-7">@item.Descripcion</p>
+                </div>
+                <div class="mbr-section-btn item-footer">
+                    <a class="btn item-btn btn-secondary-outline display-7"
+                       asp-controller="Productos"
+                       asp-action="Details"
+                       asp-route-idproducto="@item.IdProducto">Detalles</a>
+
+                   @*  <a type="button" class="btn item-btn btn-secondary-outline display-7"
+                       data-toggle="modal" data-target="#accionesModal"
+                       onclick="setModalActions(@item.IdProducto, '@item.Nombre')">
+                        Acciones
+                    </a> *@
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+<div class="modal fade" id="accionesModal" tabindex="-1" role="dialog" aria-labelledby="accionesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="background-color: #f8f9fa; border-radius: 10px; width: auto; max-width: 400px; height:350px">
+            <div class="modal-header text-center" style="border-bottom: 1px solid #ddd;">
+                <h5 class="modal-title w-100" id="accionesModalLabel">Acciones para <span id="productoNombre"></span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <a id="editarBtn" class="btn btn-warning btn-block mb-2">Editar</a>
+                <a id="eliminarBtn" class="btn btn-danger btn-block">Eliminar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script para actualizar el modal dinámicamente -->
+<script>
+    function setModalActions(idProducto, nombreProducto) {
+        document.getElementById("productoNombre").innerText = nombreProducto;
+        document.getElementById("editarBtn").href = "/Productos/Edit/" + idProducto;
+        document.getElementById("eliminarBtn").href = "/Productos/Delete/" + idProducto;
+    }
+</script>

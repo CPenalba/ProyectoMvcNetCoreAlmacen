@@ -1,101 +1,65 @@
 ﻿@model IEnumerable<ProyectoMvcNetCoreAlmacen.Models.Producto>
 
 <section class="features2 cid-sgSyF0EE4Z" id="features2-d">
-	<div class="container">
-		<h1 class="mbr-section-title mbr-fonts-style mb-0 mbr-bold display-5">Productos del almacén</h1>
-		<br />
-		<form method="get" class="mb-3">
-			<div class="row">
-				<!-- Búsqueda por ID -->
-				<div class="col-md-4">
-					<input type="text" name="idproducto" class="form-control" placeholder="Buscar por ID del producto..." oninput="this.form.submit()" />
-				</div>
-				<!-- Búsqueda por Marca -->
-				<div class="col-md-4">
-					<input type="text" name="marca" class="form-control" placeholder="Buscar por Marca..." oninput="this.form.submit()" />
-				</div>
-				<!-- Botón de Reset -->
-				<div class="col-md-2">
-					<a href="@Url.Action("Index", "Productos")" class="btn btn-secondary">Limpiar</a>
-				</div>
-			</div>
-		</form>
+    <div class="container">
+        <h1 class="mbr-section-title mbr-fonts-style mb-0 mbr-bold display-5">Productos del almacén</h1>
+        <br />
+        <form id="searchForm" class="mb-3" style="width:max-content;">
+            <div class="row" style="margin-right:-8px; justify-content: flex-end;">
+                <!-- Búsqueda por ID -->
+                <div class="col-md-4">
+                    <input type="text" id="idproducto" name="idproducto" class="form-control" placeholder="Num artículo" />
+                </div>
+                <!-- Búsqueda por Marca -->
+                <div class="col-md-4">
+                    <input type="text" id="marca" name="marca" class="form-control" placeholder="Marca" />
+                </div>
+                <div class="col-md-4 d-flex" style="gap: 10px;">
+                    <button type="button" id="searchBtn" class="btn btn-primary flex-fill">Buscar</button>
+                    <a type="button" class="btn btn-primary flex-fill" id="limpiarBtn">Limpiar</a>
+                </div>
+            </div>
+        </form>
 
-		<div class="row">
-			@foreach (var item in Model)
-			{
-				<div class="item features-image col-12 col-md-6 col-lg-3">
-					<div class="item-wrapper">
-						<div class="item-img">
-							<img src="@Url.Content("~/imagenes/" + item.Imagen)"
-								 onerror="this.onerror=null;this.src='https://static.vecteezy.com/system/resources/previews/005/720/408/non_2x/crossed-image-icon-picture-not-available-delete-picture-symbol-free-vector.jpg';"
-								 alt="Imagen del producto"
-								 title="@item.Nombre">
-							<h6 class="item-subtitle mbr-fonts-style text-muted mb-0 mt-2 display-7"
-								style="font-style: italic; font-size: 0.8em; display: block; text-align: center;">
-								Num artículo: @item.IdProducto
-							</h6>
-							<span class="item-subtitle mbr-fonts-style mb-0 mt-2 display-4"
-								  style="position: absolute; bottom: 5px; right: 5px;">
-								@item.Stock
-							</span>
-						</div>
-						<div class="item-content">
-							<h5 class="item-title mbr-fonts-style mt-0 mb-0 mbr-bold display-4">
-								@item.Nombre
-							</h5>
-							<p class="mbr-text mbr-fonts-style mt-4 mb-0 display-7">Modelo: @item.Modelo</p>
-							<h6 class="item-subtitle mbr-fonts-style mb-0 mt-2 display-4">
-								@item.Precio €
-							</h6>
-							<h6 class="item-subtitle mbr-fonts-style text-muted mb-0 mt-2 display-7" style="font-style: italic;">
-								@item.Proveedor.Nombre
-							</h6>
-							<p class="mbr-text mbr-fonts-style mb-0 mt-2 display-7">@item.Descripcion</p>
-						</div>
-						<div class="mbr-section-btn item-footer">
-							<a class="btn item-btn btn-secondary-outline display-7"
-							   asp-controller="Productos"
-							   asp-action="Details"
-							   asp-route-idproducto="@item.IdProducto">Detalles</a>
-
-							<!-- Botón Acciones que abre el modal -->
-							<button type="button" class="btn item-btn btn-secondary-outline display-7"
-									data-toggle="modal" data-target="#accionesModal"
-									onclick="setModalActions(@item.IdProducto, '@item.Nombre')">
-								Acciones
-							</button>
-						</div>
-					</div>
-				</div>
-			}
-		</div>
-	</div>
+        <div id="productos-container">
+            @Html.Partial("_ProductosPartial", Model)
+        </div>
+    </div>
 </section>
 
-<!-- Modal de Acciones -->
-<div class="modal fade" id="accionesModal" tabindex="-1" role="dialog" aria-labelledby="accionesModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered" role="document">
-		<div class="modal-content" style="background-color: #f8f9fa; border-radius: 10px; width: auto; max-width: 400px; height:350px">
-			<div class="modal-header text-center" style="border-bottom: 1px solid #ddd;">
-				<h5 class="modal-title w-100" id="accionesModalLabel">Acciones para <span id="productoNombre"></span></h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body text-center">
-				<a id="editarBtn" class="btn btn-warning btn-block mb-2">Editar</a>
-				<a id="eliminarBtn" class="btn btn-danger btn-block">Eliminar</a>
-			</div>
-		</div>
-	</div>
-</div>
-
-<!-- Script para actualizar el modal dinámicamente -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-	function setModalActions(idProducto, nombreProducto) {
-		document.getElementById("productoNombre").innerText = nombreProducto;
-		document.getElementById("editarBtn").href = "/Productos/Edit/" + idProducto;
-		document.getElementById("eliminarBtn").href = "/Productos/Delete/" + idProducto;
-	}
+        $(document).ready(function () {
+        // Acción del botón "Buscar"
+        $('#searchBtn').click(function () {
+            var idProducto = $('#idproducto').val();
+            var marca = $('#marca').val();
+            $.ajax({
+                url: '@Url.Action("BuscarProductos", "Productos")',
+                type: 'GET',
+                data: { idproducto: idProducto, marca: marca },
+                success: function (data) {
+                    $('#productos-container').html(data);  // Actualiza los productos en la página
+                }
+            });
+        });
+
+        // Acción del botón "Limpiar"
+        $('#limpiarBtn').click(function () {
+            // Limpiar los campos de búsqueda
+            $('#idproducto').val('');
+            $('#marca').val('');
+
+            // Hacer una llamada AJAX para mostrar todos los productos sin filtros
+            $.ajax({
+                url: '@Url.Action("BuscarProductos", "Productos")',
+                type: 'GET',
+                data: { idproducto: '', marca: '' },  // No se pasan filtros
+                success: function (data) {
+                    $('#productos-container').html(data);  // Actualiza los productos en la página
+                }
+            });
+        });
+    });
+
 </script>

@@ -64,6 +64,17 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
             return RedirectToAction("Login");
         }
 
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Tienda t)
+        {
+            await this.repoTienda.InsertTiendaAsync(t.Nombre, t.Direccion, t.Correo, t.Contraseña);
+            return Json(new { success = true, message = "¡Te has registrado correctamente!", redirectUrl = Url.Action("Login") });
+        }
 
     }
 }

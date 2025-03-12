@@ -11,11 +11,26 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
         private RepositoryProducto repoProducto;
         private RepositoryProveedor repoProveedor;
 
+        
         public ProductosController(RepositoryProducto repoProducto, RepositoryProveedor repoProveedor)
         {
             this.repoProducto = repoProducto;
             this.repoProveedor = repoProveedor;
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            var tiendaId = HttpContext.Session.GetInt32("TiendaId");
+            if (tiendaId == null)
+            {
+                return RedirectToAction("Login", "Tiendas");
+            }
+            List<Producto> productos = await this.repoProducto.GetProductosAsync((int)tiendaId);
+            return View(productos);
+        }
+
+        [HttpPost]
         public async Task<IActionResult> Index(string? idproducto, string? marca)
         {
             var tiendaId = HttpContext.Session.GetInt32("TiendaId");
@@ -28,11 +43,11 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
 
             if (!string.IsNullOrEmpty(idproducto) && int.TryParse(idproducto, out int idProducto))
             {
-                productos = await this.repoProducto.GetProductosByIdAsync(idProducto);
+                productos = await this.repoProducto.GetProductosByIdAsync(idProducto, (int)tiendaId);
             }
             else if (!string.IsNullOrEmpty(marca))
             {
-                productos = await this.repoProducto.GetProductosByMarcaAsync(marca);
+                productos = await this.repoProducto.GetProductosByMarcaAsync(marca, (int)tiendaId);
             }
             else
             {
@@ -41,6 +56,34 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
 
             return View(productos);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> BuscarProductos(string? idproducto, string? marca)
+        {
+            var tiendaId = HttpContext.Session.GetInt32("TiendaId");
+            if (tiendaId == null)
+            {
+                return RedirectToAction("Login", "Tiendas");
+            }
+
+            List<Producto> productos;
+
+            if (!string.IsNullOrEmpty(idproducto) && int.TryParse(idproducto, out int idProducto))
+            {
+                productos = await this.repoProducto.GetProductosByIdAsync(idProducto, (int)tiendaId);
+            }
+            else if (!string.IsNullOrEmpty(marca))
+            {
+                productos = await this.repoProducto.GetProductosByMarcaAsync(marca, (int)tiendaId);
+            }
+            else
+            {
+                productos = await this.repoProducto.GetProductosAsync((int)tiendaId);
+            }
+
+            return PartialView("_ProductosPartial", productos);
+        }
+
 
         public async Task<IActionResult> Create()
         {

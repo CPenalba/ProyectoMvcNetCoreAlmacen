@@ -31,6 +31,14 @@
 	<link rel="stylesheet" href="~/css/estilonav.css" type="text/css">
 
 	<style>
+		.login-body {
+			/* https://img.freepik.com/fotos-premium/vista-interior-almacen_103577-1372.jpg */
+			background: url('https://www.scmlogistica.es/wp-content/uploads/tipos-almacenes-mas-habituales-1038x693.jpg') no-repeat center center;
+			background-size: cover; /* Para que cubra toda la pantalla */
+			background-attachment: fixed; /* Mantener fija la imagen */
+		}
+
+
 		.navbar-fixed-top {
 			top: auto;
 		}
@@ -107,7 +115,7 @@
 			}
 	</style>
 </head>
-<body>
+<body class="@ViewData["BodyClass"]">
 	@if (!isLoginPage && tiendaId != null)
 	{
 		<!-- Si el usuario está logueado, mostramos el layout completo con la barra de navegación -->

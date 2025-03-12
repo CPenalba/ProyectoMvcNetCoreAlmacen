@@ -48,19 +48,19 @@ namespace ProyectoMvcNetCoreAlmacen.Repositories
                              .FirstOrDefaultAsync(p => p.IdProducto == idProducto);
         }
 
-        public async Task<List<Producto>> GetProductosByIdAsync(int idProducto)
+        public async Task<List<Producto>> GetProductosByIdAsync(int idProducto, int idTienda)
         {
             return await this.context.Productos
-                         .Where(p => p.IdProducto.ToString().StartsWith(idProducto.ToString()))
+                         .Where(p => p.IdProducto.ToString().StartsWith(idProducto.ToString()) && p.IdTienda == idTienda)
                          .Include(p => p.Proveedor)
                          .Include(p => p.Tienda)
                          .ToListAsync();
         }
 
-        public async Task<List<Producto>> GetProductosByMarcaAsync(string marca)
+        public async Task<List<Producto>> GetProductosByMarcaAsync(string marca, int idTienda)
         {
             return await this.context.Productos
-                         .Where(p => p.Marca.StartsWith(marca))
+                         .Where(p => p.Marca.StartsWith(marca) && p.IdTienda == idTienda)
                          .Include(p => p.Proveedor)
                          .Include(p => p.Tienda)
                          .ToListAsync();
