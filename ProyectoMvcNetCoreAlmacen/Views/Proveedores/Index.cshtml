@@ -4,7 +4,13 @@
 <section class="features2 cid-sgSyF0EE4Z" id="features2-d">
 	<section class="features5 cid-sgSsYuf1Xl" id="features5-c">
 		<div class="container">
-			<h1 class="mbr-section-title mbr-fonts-style mb-4 mbr-bold display-5">Nuestros Proveedores</h1>
+			<div class="d-flex justify-content-between align-items-center">
+				<h1 class="mbr-section-title mbr-fonts-style mb-4 mbr-bold display-5">Nuestros Proveedores</h1>
+				<a href="@Url.Action("Create", "Proveedores")" class="btn btn-icon" style="border-radius:50%; padding: 10px 15px;">
+					<span class=" socicon socicon mbri-plus circle-icon"></span>
+				</a>
+				
+			</div>
 			<br />
 			<div class="row justify-content-center">
 				@foreach (var item in Model)
@@ -17,8 +23,7 @@
 								</div>
 								<h5 class="card-title mbr-fonts-style mbr-bold display-4" style="text-decoration: underline;">@Html.DisplayFor(modelItem => item.Nombre)</h5>
 								<p class="mbr-text mbr-fonts-style display-7">@Html.DisplayFor(modelItem => item.Correo)</p>
-								<p class="mbr-text mbr-fonts-style display-7" style="line-height: 1;">@Html.DisplayFor(modelItem => item.Telefono)</p>
-								<button class="btn btn-form btn-info display-4 w-100" style="border-radius:5px">Detalles</button>
+								<a asp-controller="Proveedores" asp-action="Details" asp-route-idproveedor="@item.IdProveedor" class="btn btn-form btn-info display-4 w-100" style="border-radius:5px">Detalles</a>
 							</div>
 						</div>
 					</div>
@@ -28,3 +33,32 @@
 	</section>
 
 </section>
+
+<style>
+	.circle-icon {
+		display: inline-block;
+		border: 2px solid #f28b00; /* Borde naranja */
+		color: #f28b00; /* Color del icono */
+		border-radius: 50%; /* Hace el borde circular */
+		padding: 8px; /* Espaciado alrededor del icono */
+		font-size: 38px; /* Tamaño del icono */
+		text-align: center; /* Centra el icono dentro del borde */
+		
+	}
+
+	.stock-input {
+		border: none;
+		border-bottom: 2px solid black;
+		outline: none;
+		background: transparent;
+		box-shadow: none;
+		width: 100%;
+	}
+
+		.stock-input:focus {
+			border-bottom: 2px solid black;
+			outline: none;
+		}
+
+
+</style>

@@ -16,7 +16,13 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            List<AlertaStock> alertas = await this.repo.GetAlertasStocksAsync();
+
+            var tiendaId = HttpContext.Session.GetInt32("TiendaId");
+            if (tiendaId == null)
+            {
+                return RedirectToAction("Login", "Tiendas");
+            }
+            List<AlertaStock> alertas = await this.repo.GetAlertasStocksAsync((int)tiendaId);
             return View(alertas);
         }
 
@@ -36,7 +42,7 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
         {
             await this.repo.InsertAlertaAsync(a.IdAlertaStock, a.IdProducto, a.IdTienda, a.FechaAlerta, a.Descripcion, a.Estado);
             TempData["AlertMessage"] = "Alerta creada exitosamente!!!";
-            return RedirectToAction("Index");
+            return RedirectToAction("Calendar");
         }
         public async Task<IActionResult> Delete(int idalerta)
         {
@@ -61,19 +67,28 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
 
         public async Task<IActionResult> Calendar()
         {
-            List<AlertaStock> alertas = await this.repo.GetAlertasStocksAsync();
+            var tiendaId = HttpContext.Session.GetInt32("TiendaId");
+            if (tiendaId == null)
+            {
+                return RedirectToAction("Login", "Tiendas");
+            }
 
+            List<AlertaStock> alertas = await this.repo.GetAlertasStocksAsync((int)tiendaId);
             List<object> items = new List<object>();
 
             foreach (AlertaStock a in alertas)
             {
+                // Obtener el nombre del producto
+                var producto = await this.repo.GetProductoByIdAsync(a.IdProducto);
+
                 var item = new
                 {
                     id = a.IdAlertaStock,
                     title = a.Descripcion,
                     start = a.FechaAlerta.ToString("yyyy-MM-ddTHH:mm:ss"),
                     end = a.FechaAlerta.AddHours(1),
-                    estado = a.Estado
+                    estado = a.Estado,
+                    productoNombre = producto?.Nombre // Suponiendo que 'Nombre' es la propiedad en la clase Producto
                 };
                 items.Add(item);
             }

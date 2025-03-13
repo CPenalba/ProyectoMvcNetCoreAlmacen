@@ -16,6 +16,7 @@
 				</button>
 			</div>
 			<div class="modal-body">
+				<p><strong>Producto:</strong> <span id="alertaProducto"></span></p>
 				<p><strong>Descripción:</strong> <span id="alertaDescripcion"></span></p>
 				<p><strong>Fecha de Alerta:</strong> <span id="alertaFecha"></span></p>
 				<p><strong>Estado:</strong> <span id="alertaEstado"></span></p>
@@ -70,11 +71,12 @@
 						eventClick: function (info) {
 					// Extraer datos del evento
 					var descripcion = info.event.title;
-					var estado = info.event.extendedProps.estado; 
-
+					var estado = info.event.extendedProps.estado;
+					var nombreProducto = info.event.extendedProps.productoNombre;
 					var fecha = info.event.start.toLocaleString();
 
 					// Insertar datos en el modal
+					document.getElementById("alertaProducto").innerText = nombreProducto;
 					document.getElementById("alertaDescripcion").innerText = descripcion;
 					document.getElementById("alertaFecha").innerText = fecha;
 					document.getElementById("alertaEstado").innerText = estado;

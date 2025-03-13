@@ -14,10 +14,11 @@ namespace ProyectoMvcNetCoreAlmacen.Repositories
             this.context = context;
         }
 
-        public async Task<List<AlertaStock>> GetAlertasStocksAsync()
+        public async Task<List<AlertaStock>> GetAlertasStocksAsync(int idTienda)
         {
-            var consulta = from datos in this.context.AlertasStocks select datos;
-            return await consulta.ToListAsync();
+            return await this.context.AlertasStocks
+                         .Where(p => p.IdTienda == idTienda)
+                         .ToListAsync();
         }
 
         public async Task<AlertaStock> FindAlertaAsync(int idAlerta)
@@ -28,8 +29,9 @@ namespace ProyectoMvcNetCoreAlmacen.Repositories
 
         public async Task InsertAlertaAsync(int idAlerta, int idProducto, int idTienda, DateTime fechaAlerta, string descripcion, string estado)
         {
+            int maxId = (await this.context.AlertasStocks.MaxAsync(t => (int?)t.IdAlertaStock) ?? 0) + 1;
             AlertaStock a = new AlertaStock();
-            a.IdAlertaStock = idAlerta;
+            a.IdAlertaStock = maxId;
             a.IdProducto = idProducto;
             a.IdTienda = idTienda;
             a.FechaAlerta = fechaAlerta;
@@ -57,5 +59,13 @@ namespace ProyectoMvcNetCoreAlmacen.Repositories
             this.context.AlertasStocks.Remove(a);
             await this.context.SaveChangesAsync();
         }
+
+        public async Task<Producto> GetProductoByIdAsync(int idProducto)
+        {
+            return await this.context.Productos
+                                     .Where(p => p.IdProducto == idProducto)
+                                     .FirstOrDefaultAsync();
+        }
+
     }
 }

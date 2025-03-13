@@ -1,56 +1,48 @@
 ﻿@model ProyectoMvcNetCoreAlmacen.Models.AlertaStock
 
-@{
-    ViewData["Title"] = "Create";
-    Layout = null;
-}
+<section class="features2 cid-sgSyF0EE4Z" id="features2-d">
+	<section class="form1 cid-sgSoZHg9Zb features2 cid-sgSyF0EE4Z" id="form1-a features2-d">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-6 col-md-9 block-content">
+					<div class="form-block">
+						<h4 class="mbr-fonts-style mbr-section-title mbr-fonts-style mbr-bold display-2" style="font-size:50px">Añadir alerta</h4>
+						<div data-form-type="formoid">
+							<form method="post" enctype="multipart/form-data" class="mbr-form form-with-styler" data-form-title="Mobirise Form">
 
-<div class=" col-md-12">
-    <div class=" card">
-        <div class=" card-header text-center">
-            <h5> Crear alerta</h5>
-        </div>
-        <div class=" card-body text-center">
-            <form asp-action="Create" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="IdAlertaStock" class="control-label"></label>
-                    <input asp-for="IdAlertaStock" class="form-control" />
-                    <span asp-validation-for="IdAlertaStock" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="IdProducto" class="control-label"></label>
-                    <input asp-for="IdProducto" class="form-control" />
-                    <span asp-validation-for="IdProducto" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="IdTienda" class="control-label"></label>
-                    <input asp-for="IdTienda" class="form-control" />
-                    <span asp-validation-for="IdTienda" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="FechaAlerta" class="control-label"></label>
-                    <input asp-for="FechaAlerta" class="form-control" />
-                    <span asp-validation-for="FechaAlerta" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Descripcion" class="control-label"></label>
-                    <input asp-for="Descripcion" class="form-control" />
-                    <span asp-validation-for="Descripcion" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Estado" class="control-label"></label>
-                    <input asp-for="Estado" class="form-control" />
-                    <span asp-validation-for="Estado" class="text-danger"></span>
-                </div>
-                <div class=" card-footer ">
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-sm btn-success"><i class="fa fa-save"></i> Guardar</button>
-                        <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal"><i class="fa fa-ban"></i> Cancelar</button>
-                    </div>
-                </div>
-            </form>
-
-        </div>
-    </div>
-</div>
+								<div class="dragArea form-row">
+									<div class="col-md-12  form-group">
+										<label asp-for="IdProducto" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
+										<input asp-for="IdProducto" class="form-control input display-7" />
+										<span asp-validation-for="IdProducto" class="text-danger"></span>
+									</div>
+									<div class="col-md-12  form-group">
+										<label asp-for="IdTienda" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
+										<input asp-for="IdTienda" class="form-control input display-7" />
+										<span asp-validation-for="IdTienda" class="text-danger"></span>
+									</div>
+									<div class="col-md-12  form-group">
+										<label asp-for="FechaAlerta" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
+										<input asp-for="FechaAlerta" class="form-control input display-7" />
+										<span asp-validation-for="FechaAlerta" class="text-danger"></span>
+									</div>
+									<div class="col-md-12  form-group">
+										<label asp-for="Descripcion" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
+										<input asp-for="Descripcion" class="form-control input display-7" />
+										<span asp-validation-for="Descripcion" class="text-danger"></span>
+									</div>
+									<div class="col-md-12  form-group">
+										<label asp-for="Estado" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
+										<input asp-for="Estado" class="form-control input display-7" />
+										<span asp-validation-for="Estado" class="text-danger"></span>
+									</div>
+									<div class="col-md-12 input-group-btn"><button type="submit" class="btn btn-form btn-bgr btn-info display-4">Añadir alerta</button></div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</section>

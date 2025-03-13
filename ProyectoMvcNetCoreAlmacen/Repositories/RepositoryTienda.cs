@@ -21,6 +21,15 @@ namespace ProyectoMvcNetCoreAlmacen.Repositories
 
         public async Task<Tienda> LoginAsync(string correo, string contraseña)
         {
+            //var tienda = await this.context.Tiendas.FirstOrDefaultAsync(t => t.Correo == correo);
+
+            //// Si la tienda existe, verifica la contraseña
+            //if (tienda != null && BCrypt.Net.BCrypt.Verify(contraseña, tienda.Contraseña))
+            //{
+            //    return tienda; // La contraseña es correcta
+            //}
+
+            //return null; // Si no coincide, retorna null
             return await this.context.Tiendas.FirstOrDefaultAsync(t => t.Correo == correo && t.Contraseña == contraseña);
         }
 
@@ -28,6 +37,12 @@ namespace ProyectoMvcNetCoreAlmacen.Repositories
         {
             return await this.context.Tiendas.FirstOrDefaultAsync(t => t.IdTienda == tiendaId);
         }
+
+        public string HashPwd(string contraseña)
+        {
+            return BCrypt.Net.BCrypt.HashPassword(contraseña);
+        }
+
 
         public async Task InsertTiendaAsync(string nombre, string direccion, string correo, string contraseña)
         {
@@ -37,7 +52,7 @@ namespace ProyectoMvcNetCoreAlmacen.Repositories
             t.Nombre = nombre;
             t.Direccion = direccion;
             t.Correo = correo;
-            t.Contraseña = contraseña;
+            t.Contraseña = this.HashPwd(contraseña);
             await this.context.Tiendas.AddAsync(t);
             await this.context.SaveChangesAsync();
         }
