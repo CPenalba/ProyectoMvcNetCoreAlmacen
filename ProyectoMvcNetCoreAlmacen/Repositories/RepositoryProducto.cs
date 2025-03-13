@@ -18,7 +18,7 @@ namespace ProyectoMvcNetCoreAlmacen.Repositories
         public async Task<List<Producto>> GetProductosAsync(int idTienda)
         {
             return await this.context.Productos
-                         .Where(p => p.IdTienda == idTienda) 
+                         .Where(p => p.IdTienda == idTienda)
                          .Include(p => p.Proveedor)
                          .Include(p => p.Tienda)
                          .ToListAsync();
@@ -64,6 +64,22 @@ namespace ProyectoMvcNetCoreAlmacen.Repositories
                          .Include(p => p.Proveedor)
                          .Include(p => p.Tienda)
                          .ToListAsync();
+        }
+
+        public async Task UpdateProductoStockAsync(int idProducto, int nuevoStock)
+        {
+            var producto = await context.Productos.FindAsync(idProducto);
+            if (producto != null)
+            {
+                producto.Stock = nuevoStock;
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task UpdateProductoAsync(Producto producto)
+        {
+            this.context.Productos.Update(producto);
+            await this.context.SaveChangesAsync();
         }
     }
 }

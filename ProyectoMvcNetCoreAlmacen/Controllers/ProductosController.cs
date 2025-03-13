@@ -136,5 +136,67 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
             Producto p = await this.repoProducto.FindProductoAsync(idproducto);
             return View(p);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ActualizarStock(int idproducto, int cantidad, bool sumar)
+        {
+            var producto = await repoProducto.FindProductoAsync(idproducto);
+            if (producto == null)
+            {
+                return NotFound();
+            }
+
+            if (sumar)
+            {
+                producto.Stock += cantidad;
+            }
+            else
+            {
+                producto.Stock = Math.Max(0, producto.Stock - cantidad); // Evita stock negativo
+            }
+
+            await repoProducto.UpdateProductoStockAsync(producto.IdProducto, producto.Stock);
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Edit(int idproducto)
+        {
+            Producto p = await this.repoProducto.FindProductoAsync(idproducto);
+            var proveedores = await this.repoProveedor.GetProveedoresAsync();
+            ViewBag.Proveedores = new SelectList(proveedores, "IdProveedor", "Nombre");
+            if (p == null)
+            {
+                return NotFound();
+            }
+            return View(p);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Producto p, IFormFile imagen)
+        {
+            var tiendaId = HttpContext.Session.GetInt32("TiendaId");
+
+            if (tiendaId == null)
+            {
+                return RedirectToAction("Login", "Tiendas");
+            }
+            // Asignar el IdTienda al producto
+            p.IdTienda = tiendaId.Value;
+            if (imagen != null && imagen.Length > 0)
+            {
+                var fileName = Path.GetFileName(imagen.FileName);
+                var directoryPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "imagenes");
+
+                var filePath = Path.Combine(directoryPath, fileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await imagen.CopyToAsync(stream);
+                }
+                p.Imagen = fileName;
+            }
+
+            await this.repoProducto.UpdateProductoAsync(p);
+            return RedirectToAction("Index");
+        }
     }
 }

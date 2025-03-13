@@ -2014,7 +2014,7 @@ section.lazy-placeholder:after {
     background-color: #fff;
     padding: 1rem 2.1rem;
     margin-top: 6rem;
-    margin-bottom: 2rem;
+    margin-bottom: 5rem;
 }
 
 @media (min-width: 992px) {

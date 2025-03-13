@@ -1,0 +1,80 @@
+﻿@model ProyectoMvcNetCoreAlmacen.Models.Producto
+
+
+<section class="features2 cid-sgSyF0EE4Z" id="features2-d">
+	<section class="form1 cid-sgSoZHg9Zb features2 cid-sgSyF0EE4Z" id="form1-a features2-d">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-6 col-md-9 block-content">
+					<div class="form-block">
+						<h4 class="mbr-fonts-style mbr-section-title mbr-fonts-style mbr-bold display-2" style="font-size:50px">Editar producto</h4>
+						<div data-form-type="formoid">
+							<form asp-controller="Productos" asp-action="Edit" method="post" enctype="multipart/form-data" class="mbr-form form-with-styler" data-form-title="Mobirise Form">
+
+								<div class="dragArea form-row">
+									<div class="col-md-12  form-group">
+										<label asp-for="IdProducto" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
+										<input asp-for="IdProducto" class="form-control input display-7" readonly />
+										<span asp-validation-for="IdProducto" class="text-danger"></span>
+									</div>
+									<div class="col-md-12  form-group">
+										<label asp-for="Nombre" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
+										<input asp-for="Nombre" class="form-control input display-7" />
+										<span asp-validation-for="Nombre" class="text-danger"></span>
+									</div>
+									<div class="col-md-12  form-group">
+										<label asp-for="Descripcion" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
+										<input asp-for="Descripcion" class="form-control input display-7" />
+										<span asp-validation-for="Descripcion" class="text-danger"></span>
+									</div>
+									<div class="col-md-12  form-group">
+										<label asp-for="Stock" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
+										<input asp-for="Stock" class="form-control input display-7" />
+										<span asp-validation-for="Stock" class="text-danger"></span>
+									</div>
+									<div class="col-md-12  form-group">
+										<label asp-for="Precio" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
+										<input asp-for="Precio" class="form-control input display-7" type="number" step="0.01" />
+										<span asp-validation-for="Precio" class="text-danger"></span>
+									</div>
+									<div class="col-md-12  form-group">
+										<label asp-for="Imagen" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
+										@if (!string.IsNullOrEmpty(Model.Imagen))
+										{
+											<div>
+												<img src="~/imagenes/@Model.Imagen" class="form-control input display-7" onerror="this.onerror=null;this.src='https://static.vecteezy.com/system/resources/previews/005/720/408/non_2x/crossed-image-icon-picture-not-available-delete-picture-symbol-free-vector.jpg';" />
+											</div>
+										}
+
+										<!-- Input oculto para mantener la imagen actual si no se sube una nueva -->
+										<input type="hidden" asp-for="Imagen" />
+										<input type="file" name="Imagen" class="form-control input display-7" />
+										<span asp-validation-for="Imagen" class="text-danger"></span>
+									</div>
+									<div class="col-md-12  form-group">
+										<label asp-for="Marca" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
+										<input asp-for="Marca" class="form-control input display-7" />
+										<span asp-validation-for="Marca" class="text-danger"></span>
+									</div>
+									<div class="col-md-12  form-group">
+										<label asp-for="Modelo" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
+										<input asp-for="Modelo" class="form-control input display-7" />
+										<span asp-validation-for="Modelo" class="text-danger"></span>
+									</div>
+									<div class="col-md-12 form-group">
+										<label asp-for="Proveedor" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
+										<select asp-for="IdProveedor" asp-items="ViewBag.Proveedores" class="form-control input display-7">
+											<option value="ViewBag.Proveedores">Seleccione un proveedor</option>
+										</select>
+										<span asp-validation-for="IdProveedor" class="text-danger"></span>
+									</div>
+									<div class="col-md-12 input-group-btn"><button type="submit" class="btn btn-form btn-bgr btn-info display-4">Editar producto</button></div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</section>

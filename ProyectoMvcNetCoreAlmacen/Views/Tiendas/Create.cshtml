@@ -1,75 +1,86 @@
 ﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["BodyClass"] = "login-body";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["BodyClass"] = "login-body";
 }
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-    $(document).ready(function () {
-        $("form").submit(function (event) {
-            event.preventDefault(); // Evita la recarga de la página
+	$(document).ready(function () {
+		$("form").submit(function (event) {
+			event.preventDefault(); // Evita la recarga de la página
 
-            $.ajax({
-                type: "POST",
-                url: $(this).attr("action"),
-                data: $(this).serialize(),
-                success: function (response) {
-                    if (response.success) {
-                        Swal.fire({
-                            title: "¡Registro exitoso!",
-                            text: response.message,
-                            icon: "success",
-                            confirmButtonText: "Aceptar"
-                        }).then(() => {
-                            window.location.href = response.redirectUrl; // Redirige al login
-                        });
-                    }
-                }
-            });
-        });
-    });
+			$.ajax({
+				type: "POST",
+				url: $(this).attr("action"),
+				data: $(this).serialize(),
+				success: function (response) {
+					if (response.success) {
+						   Swal.fire({
+		title: "¡Registro exitoso!",
+		text: response.message,
+		icon: "success",
+		confirmButtonText: "Aceptar",
+		customClass: {
+			confirmButton: "swal-confirm-orange"
+		}
+	}).then(() => {
+		window.location.href = response.redirectUrl;
+	});
+					}
+				}
+			});
+		});
+	});
 </script>
 
 <div class="d-flex justify-content-center align-items-center vh-100">
-    <div class="col-lg-6 col-md-9">
-        <div class="form-block p-4 shadow bg-white rounded" style="border-radius: 35px !important;">
-            <h4 class="mbr-fonts-style mbr-section-title mbr-bold display-2 text-center" style="font-style:italic">Registrarse</h4>
-            <br />
-            <div data-form-type="formoid">
-                <form method="post" action="@Url.Action("Create", "Tiendas")" class="mbr-form form-with-styler">
-                    <input type="hidden" name="email" data-form-email="true" value="mURSKtS4wXTh7NbwmwwjBWVzdBKA/yYjRniM8rq409RhMz2OxbcEZ0TBCeY9DhDAi5ibM37dUT5Vv29fo12rYUtlhKABi1pCdaz9m2JLKCB7wwyci1gu0tv3RGprPrvJ">
+	<div class="col-lg-6 col-md-9">
+		<div class="form-block p-4 shadow bg-white rounded" style="border-radius: 35px !important;">
+			<h4 class="mbr-fonts-style mbr-section-title mbr-bold display-2 text-center" style="font-style:italic">Registrarse</h4>
+			<br />
+			<div data-form-type="formoid">
+				<form method="post" action="@Url.Action("Create", "Tiendas")" class="mbr-form form-with-styler">
+					<input type="hidden" name="email" data-form-email="true" value="mURSKtS4wXTh7NbwmwwjBWVzdBKA/yYjRniM8rq409RhMz2OxbcEZ0TBCeY9DhDAi5ibM37dUT5Vv29fo12rYUtlhKABi1pCdaz9m2JLKCB7wwyci1gu0tv3RGprPrvJ">
 
-                    <div class="dragArea form-row">
-                        <div class="col-md-12 form-group">
-                            <label for="orderNumber-form1-a" class="form-control-label mbr-fonts-style mbr-bold display-7">Nombre</label>
-                            <input type="text" name="nombre" placeholder="Introduce el nombre" required class="form-control input display-7" id="orderNumber-form1-a">
-                        </div>
-                        <div class="col-md-12 form-group">
-                            <label for="orderNumber-form1-a" class="form-control-label mbr-fonts-style mbr-bold display-7">Direccion</label>
-                            <input type="text" name="direccion" placeholder="Introduce la direccion" required class="form-control input display-7" id="orderNumber-form1-a">
-                        </div>
-                        <div class="col-md-12 form-group">
-                            <label for="orderNumber-form1-a" class="form-control-label mbr-fonts-style mbr-bold display-7">Email</label>
-                            <input type="email" name="correo" placeholder="Introduce el email" required class="form-control input display-7" id="orderNumber-form1-a">
-                        </div>
+					<div class="dragArea form-row">
+						<div class="col-md-12 form-group">
+							<label for="orderNumber-form1-a" class="form-control-label mbr-fonts-style mbr-bold display-7">Nombre</label>
+							<input type="text" name="nombre" placeholder="Introduce el nombre" required class="form-control input display-7" id="orderNumber-form1-a">
+						</div>
+						<div class="col-md-12 form-group">
+							<label for="orderNumber-form1-a" class="form-control-label mbr-fonts-style mbr-bold display-7">Direccion</label>
+							<input type="text" name="direccion" placeholder="Introduce la direccion" required class="form-control input display-7" id="orderNumber-form1-a">
+						</div>
+						<div class="col-md-12 form-group">
+							<label for="orderNumber-form1-a" class="form-control-label mbr-fonts-style mbr-bold display-7">Email</label>
+							<input type="email" name="correo" placeholder="Introduce el email" required class="form-control input display-7" id="orderNumber-form1-a">
+						</div>
 
-                        <div class="col-md-12 form-group">
-                            <label for="postCode-form1-a" class="form-control-label mbr-fonts-style mbr-bold display-7">Contraseña</label>
-                            <input type="password" name="contraseña" placeholder="Introduce la contraseña" required class="form-control input display-7" id="postCode-form1-a">
-                        </div>
+						<div class="col-md-12 form-group">
+							<label for="postCode-form1-a" class="form-control-label mbr-fonts-style mbr-bold display-7">Contraseña</label>
+							<input type="password" name="contraseña" placeholder="Introduce la contraseña" required class="form-control input display-7" id="postCode-form1-a">
+						</div>
 
-                        <div class="col-md-12 input-group-btn">
-                            <button type="submit" class="btn btn-form btn-info display-4 w-100">Registrarse</button>
-                        </div>
-                    </div>
-                </form>
+						<div class="col-md-12 input-group-btn">
+							<button type="submit" class="btn btn-form btn-info display-4 w-100">Registrarse</button>
+						</div>
+					</div>
+				</form>
 
-                
 
-                
-            </div>
-        </div>
-    </div>
+
+
+			</div>
+		</div>
+	</div>
 </div>
+
+
+<style>
+	.swal-confirm-orange {
+		background-color: #f28b00 !important;
+		color: white !important;
+	}
+</style>
