@@ -21,16 +21,16 @@ namespace ProyectoMvcNetCoreAlmacen.Repositories
 
         public async Task<Tienda> LoginAsync(string correo, string contraseña)
         {
-            //var tienda = await this.context.Tiendas.FirstOrDefaultAsync(t => t.Correo == correo);
+            var tienda = await this.context.Tiendas.FirstOrDefaultAsync(t => t.Correo == correo);
 
-            //// Si la tienda existe, verifica la contraseña
-            //if (tienda != null && BCrypt.Net.BCrypt.Verify(contraseña, tienda.Contraseña))
-            //{
-            //    return tienda; // La contraseña es correcta
-            //}
+            // Si la tienda existe, verifica la contraseña
+            if (tienda != null && BCrypt.Net.BCrypt.Verify(contraseña, tienda.Contraseña))
+            {
+                return tienda; // La contraseña es correcta
+            }
 
-            //return null; // Si no coincide, retorna null
-            return await this.context.Tiendas.FirstOrDefaultAsync(t => t.Correo == correo && t.Contraseña == contraseña);
+            return null; // Si no coincide, retorna null
+
         }
 
         public async Task<Tienda> GetTiendaByIdAsync(int tiendaId)
