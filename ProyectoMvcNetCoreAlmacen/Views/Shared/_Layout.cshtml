@@ -31,6 +31,13 @@
 	<link rel="stylesheet" href="~/css/estilonav.css" type="text/css">
 
 	<style>
+		.dropdown-menu .nav-link:hover {
+			box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+			background-color: rgba(0, 0, 0, 0.1); /* Si deseas un pequeño fondo oscuro */
+		}
+		.dropdown-menu {
+			width: 250px; /* O usa min-width: 250px */
+		}
 		.login-body {
 			/* https://img.freepik.com/fotos-premium/vista-interior-almacen_103577-1372.jpg */
 			background: url('https://www.scmlogistica.es/wp-content/uploads/tipos-almacenes-mas-habituales-1038x693.jpg') no-repeat center center;
@@ -133,32 +140,32 @@
 					<div class="menu-logo">
 						<div class="navbar-brand">
 
-							<span class="navbar-caption-wrap"><a class="navbar-caption text-white display-5" href="#">ClaimM4</a></span>
+							<span class="navbar-caption-wrap"><a class="navbar-caption text-white display-5" href="#">Inventario</a></span>
 						</div>
 					</div>
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav nav-dropdown" data-app-modern-menu="true">
 							<li class="nav-item">
-								<a class="nav-link link mbr-bold text-white display-7" asp-controller="Productos" asp-action="Index">Productos </a>
+								<a class="nav-link link mbr-bold text-white display-7" asp-controller="AlertasStocks" asp-action="Calendar">Home </a>
 							</li>
-							<li class="nav-item">
-								<a class="nav-link link mbr-bold text-white display-7" asp-controller="Productos" asp-action="Create">Añadir productos </a>
+
+							<li class="nav-item dropdown">
+								<a class="nav-link link mbr-bold text-white display-7" href="#" data-toggle="dropdown-submenu" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="true">
+									Productos
+								</a>
+								<div class="dropdown-menu show" aria-labelledby="dropdown-650" data-bs-popper="none">
+									<a class="nav-link link mbr-bold text-white display-7" asp-controller="Productos" asp-action="Index">Productos </a>
+									<a class="nav-link link mbr-bold text-white display-7" asp-controller="Productos" asp-action="Create">Añadir productos </a>
+								</div>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link link mbr-bold text-white display-7" asp-controller="Proveedores" asp-action="Index">Proveedores </a>
 							</li>
-							@* <li class="nav-item">
-								<a class="nav-link link mbr-bold text-white display-7" asp-controller="Usuarios" asp-action="Index">Usuarios </a>
-							</li> *@
-							@* <li class="nav-item">
-								<a class="nav-link link mbr-bold text-white display-7" asp-controller="DetallesVentas" asp-action="Index">DetallesVentas </a>
-							</li> *@
-							
-							<li class="nav-item">
-								<a class="nav-link link mbr-bold text-white display-7" asp-controller="AlertasStocks" asp-action="Calendar">Calendario </a>
-							</li>
 							<li class="nav-item">
 								<a class="nav-link link mbr-bold text-white display-7" asp-controller="AlertasStocks" asp-action="Create">Añadir alerta </a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link link mbr-bold text-white display-7" asp-controller="Pedidos" asp-action="Index">Pedidos </a>
 							</li>
 						</ul>
 						<div class="navbar-buttons mbr-section-btn">
@@ -193,6 +200,12 @@
 	<script src="https://r.mobirisesite.com/1228755/assets/pauseVideo/script.js?rnd=1740240563993"></script>
 	<script src="https://r.mobirisesite.com/1228755/assets/formoid.min.js?rnd=1740240563993"></script>
 	<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+	<script src="https://r.mobirisesite.com/1228853/assets/web/assets/jquery/jquery.min.js?rnd=1741923534718"></script>
+	<script src="https://r.mobirisesite.com/1228853/assets/bootstrap/js/bootstrap.bundle.min.js?rnd=1741923534718"></script>
+	<script src="https://r.mobirisesite.com/1228853/assets/smoothscroll/smooth-scroll.js?rnd=1741923534718"></script>
+	<script src="https://r.mobirisesite.com/1228853/assets/ytplayer/index.js?rnd=1741923534718"></script>
+	<script src="https://r.mobirisesite.com/1228853/assets/dropdown/js/navbar-dropdown.js?rnd=1741923534718"></script>
+	<script src="https://r.mobirisesite.com/1228853/assets/theme/js/script.js?rnd=1741923534718"></script>
 	@await RenderSectionAsync("Scripts", required: false)
 	<div id="scrollToTop" class="scrollToTop mbr-arrow-up"><a style="text-align: center;"><i></i></a></div>
 </body>

@@ -1,0 +1,42 @@
+﻿@model ProyectoMvcNetCoreAlmacen.Models.Pedido
+
+<section class="features2 cid-sgSyF0EE4Z" id="features2-d">
+	<section class="form1 cid-sgSoZHg9Zb features2 cid-sgSyF0EE4Z" id="form1-a features2-d">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-6 col-md-9 block-content">
+					<div class="form-block">
+						<h4 class="mbr-fonts-style mbr-section-title mbr-fonts-style mbr-bold display-2" style="font-size:50px">Añadir pedido</h4>
+						<div data-form-type="formoid">
+							<form method="post" enctype="multipart/form-data" class="mbr-form form-with-styler" data-form-title="Mobirise Form">
+								<div class="dragArea form-row">
+									<div class="col-md-12  form-group">
+										<label asp-for="IdPedido" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
+										<input asp-for="IdPedido" class="form-control input display-7" />
+										<span asp-validation-for="IdPedido" class="text-danger"></span>
+									</div>
+									<div class="col-md-12  form-group">
+										<label asp-for="FechaPedido" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
+										<input asp-for="FechaPedido" class="form-control input display-7" />
+										<span asp-validation-for="FechaPedido" class="text-danger"></span>
+									</div>
+									<div class="col-md-12  form-group">
+										<label asp-for="Estado" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
+										<input asp-for="Estado" class="form-control input display-7" />
+										<span asp-validation-for="Estado" class="text-danger"></span>
+									</div>
+									<div class="col-md-12  form-group">
+										<label asp-for="Cantidad" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
+										<input asp-for="Cantidad" class="form-control input display-7" />
+										<span asp-validation-for="Cantidad" class="text-danger"></span>
+									</div>
+									<div class="col-md-12 input-group-btn"><button type="submit" class="btn btn-form btn-bgr btn-info display-4">Añadir pedido</button></div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</section>

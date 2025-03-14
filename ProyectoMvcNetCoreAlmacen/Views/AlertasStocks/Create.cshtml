@@ -1,5 +1,36 @@
 ﻿@model ProyectoMvcNetCoreAlmacen.Models.AlertaStock
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+	$(document).ready(function () {
+		$("form").submit(function (event) {
+			event.preventDefault(); // Evita la recarga de la página
+
+			$.ajax({
+				type: "POST",
+				url: $(this).attr("action"),
+				data: $(this).serialize(),
+				success: function (response) {
+					if (response.success) {
+						   Swal.fire({
+		title: "¡Perfecto!",
+		text: response.message,
+		icon: "success",
+		confirmButtonText: "Aceptar",
+		customClass: {
+			confirmButton: "swal-confirm-orange"
+		}
+	}).then(() => {
+		window.location.href = response.redirectUrl;
+	});
+					}
+				}
+			});
+		});
+	});
+</script>
 <section class="features2 cid-sgSyF0EE4Z" id="features2-d">
 	<section class="form1 cid-sgSoZHg9Zb features2 cid-sgSyF0EE4Z" id="form1-a features2-d">
 		<div class="container">
@@ -12,15 +43,13 @@
 
 								<div class="dragArea form-row">
 									<div class="col-md-12  form-group">
-										<label asp-for="IdProducto" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
-										<input asp-for="IdProducto" class="form-control input display-7" />
+										<label asp-for="IdProducto" class="form-control-label mbr-fonts-style mbr-bold display-7">Producto</label>
+										<select asp-for="IdProducto" asp-items="ViewBag.Productos" class="form-control input display-7">
+											<option value="">Seleccione un producto</option>
+										</select>
 										<span asp-validation-for="IdProducto" class="text-danger"></span>
 									</div>
-									<div class="col-md-12  form-group">
-										<label asp-for="IdTienda" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
-										<input asp-for="IdTienda" class="form-control input display-7" />
-										<span asp-validation-for="IdTienda" class="text-danger"></span>
-									</div>
+									
 									<div class="col-md-12  form-group">
 										<label asp-for="FechaAlerta" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
 										<input asp-for="FechaAlerta" class="form-control input display-7" />
@@ -33,7 +62,7 @@
 									</div>
 									<div class="col-md-12  form-group">
 										<label asp-for="Estado" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
-										<input asp-for="Estado" class="form-control input display-7" />
+										<input asp-for="Estado" class="form-control input display-7" placeholder="Pendiente" />
 										<span asp-validation-for="Estado" class="text-danger"></span>
 									</div>
 									<div class="col-md-12 input-group-btn"><button type="submit" class="btn btn-form btn-bgr btn-info display-4">Añadir alerta</button></div>
@@ -46,3 +75,10 @@
 		</div>
 	</section>
 </section>
+
+<style>
+	.swal-confirm-orange {
+		background-color: #f28b00 !important;
+		color: white !important;
+	}
+</style>

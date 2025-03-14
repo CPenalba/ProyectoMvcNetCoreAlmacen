@@ -1,0 +1,113 @@
+﻿@model IEnumerable<ProyectoMvcNetCoreAlmacen.Models.Pedido>
+
+<style>
+    .btn-exportar-excel {
+        background-color: #198754 !important;
+        color: white !important;
+    }
+
+    .btn-exportar-pdf {
+        background-color: #dc3545 !important;
+        color: white !important;
+    }
+
+    .btn-exportar-print {
+        background-color: #00a7c9 !important;
+        color: white !important;
+    }
+    .dataTables_filter{
+        right: 82px;
+        position: absolute;
+        top: 51px;
+    }
+    input{
+        border: 3px solid #f28b00;
+    }
+</style>
+
+<section class="features2 cid-sgSyF0EE4Z" id="features2-d">
+    <div class="container">
+        <h1 class="mbr-section-title mbr-fonts-style mb-0 mbr-bold display-5">Pedidos</h1>
+        <table id="pedidos" class="table table-hover table-responsive table-striped">
+            <br />
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.IdPedido)</th>
+                    <th>Proveedor</th>
+                    <th>Producto</th>
+                    <th>@Html.DisplayNameFor(model => model.FechaPedido)</th>
+                    <th>@Html.DisplayNameFor(model => model.FechaEntrega)</th>
+                    <th>@Html.DisplayNameFor(model => model.Estado)</th>
+                    <th>@Html.DisplayNameFor(model => model.Cantidad)</th>
+                    <th>@Html.DisplayNameFor(model => model.Precio)</th>
+                    <th>@Html.DisplayNameFor(model => model.PrecioTotalPedido)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.IdPedido)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Proveedor.Nombre)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Producto.Nombre)</td>
+                        <td>@Html.DisplayFor(modelItem => item.FechaPedido)</td>
+                        <td>@Html.DisplayFor(modelItem => item.FechaEntrega)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Estado)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Cantidad)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Precio)</td>
+                        <td>@Html.DisplayFor(modelItem => item.PrecioTotalPedido)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#pedidos').DataTable({
+                    "paging": false, // Deshabilita la paginación
+                    "info": false,
+                "language": {
+                    url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json",
+                    searchPlaceholder: "Buscar pedido...", // Aquí puedes poner el texto que desees
+                    search: ""
+                },
+                dom: "Bfrtip",
+                buttons: [
+                    {
+                        extend: 'excelHtml5',
+                        text: 'Exportar Excel',
+                        filename: 'Reporte Pedidos',
+                        title: 'Listado de Pedidos',
+                        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8] },
+                        className: 'btn-exportar-excel',
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        text: 'Exportar PDF',
+                        filename: 'Reporte Pedidos',
+                        title: 'Listado de Pedidos',
+                        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8] },
+                        className: 'btn-exportar-pdf',
+                    },
+                    {
+                        extend: 'print',
+                        title: 'Listado de Pedidos',
+                        exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8] },
+                        className: 'btn-exportar-print'
+                    }
+                ]
+            });
+        });
+    </script>
+}

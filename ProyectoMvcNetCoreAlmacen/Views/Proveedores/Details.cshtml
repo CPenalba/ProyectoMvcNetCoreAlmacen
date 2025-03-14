@@ -1,13 +1,13 @@
 ﻿@model ProyectoMvcNetCoreAlmacen.Models.Proveedor
 
 <section class="features2 cid-sgSyF0EE4Z" id="features2-d">
-<section class="contacts2 cid-sgTa8gUoV5" id="contacts2-e">
-	<div class="container">
-		<h2 class="align-center mbr-fonts-style mb-5 mbr-bold display-2">
-			Detalles
-		</h2>
-		<div class="row">
-			<div class="col-md-12 col-lg-9">
+	<section class="contacts2 cid-sgTa8gUoV5" id="contacts2-e">
+		<div class="container">
+			<h2 class="align-center mbr-fonts-style mb-5 mbr-bold display-2">
+				Detalles
+			</h2>
+			<div class="row">
+				<div class="col-md-12 col-lg-9">
 					<div class="google-map">
 						<iframe frameborder="0" style="border:0"
 								src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDbnCmnHmtigIYiD8jIfeHQv7gW2ANhHD4&q=@Uri.EscapeDataString(Model.Direccion)"
@@ -15,11 +15,11 @@
 						</iframe>
 					</div>
 
-			</div>
-			<div class="col-md-12 col-lg-3">
-				<div class="card-wrap">
-					<div class="row content-wrap">
-						<div class="col-12">
+				</div>
+				<div class="col-md-12 col-lg-3">
+					<div class="card-wrap">
+						<div class="row content-wrap">
+							<div class="col-12">
 								<div class="d-flex justify-content-between align-items-center">
 									<a asp-controller="Proveedores" asp-action="Edit" asp-route-idproveedor="@Model.IdProveedor" class="btn btn-icon" style="border-radius:50%; padding: 10px 15px;">
 										<span class=" socicon socicon mbri-edit2 circle-icon"></span>
@@ -29,21 +29,21 @@
 								<h2 class="mbr-card-title align-center mbr-fonts-style mb-1 mbr-bold display-5" style="font-size: xx-large;">
 									@Model.Nombre
 								</h2>
-							<p class="mbr-section-text align-center mbr-fonts-style mb-0 display-4">
-								@Model.Telefono
-							</p>
+								<p class="mbr-section-text align-center mbr-fonts-style mb-0 display-4">
+									@Model.Telefono
+								</p>
 								<p class="mbr-section-text align-center mbr-fonts-style mb-0 display-4">
 									@Model.Correo
 								</p>
+							</div>
+
 						</div>
-						
 					</div>
 				</div>
-			</div>
 
+			</div>
 		</div>
-	</div>
-</section>
+	</section>
 </section>
 
 <style>
@@ -57,7 +57,7 @@
 		text-align: center; /* Centra el icono dentro del borde */
 		bottom: 150px;
 		right: 367px;
-		position:absolute;
+		position: absolute;
 	}
 
 	.stock-input {

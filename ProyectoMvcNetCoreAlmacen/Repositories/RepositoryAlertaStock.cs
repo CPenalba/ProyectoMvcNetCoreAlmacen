@@ -41,15 +41,9 @@ namespace ProyectoMvcNetCoreAlmacen.Repositories
             await this.context.SaveChangesAsync();
         }
 
-        public async Task UpdateAlertaAsync(int idAlertaStock, int idProducto, int idTienda, DateTime fechaAlerta, string descripcion, string estado)
+        public async Task UpdateAlertaAsync(AlertaStock a)
         {
-            AlertaStock a = await this.FindAlertaAsync(idAlertaStock);
-            a.IdAlertaStock = idAlertaStock;
-            a.IdProducto = idProducto;
-            a.IdTienda = idTienda;
-            a.FechaAlerta = fechaAlerta;
-            a.Descripcion = descripcion;
-            a.Estado = estado;
+            this.context.AlertasStocks.Update(a);
             await this.context.SaveChangesAsync();
         }
 

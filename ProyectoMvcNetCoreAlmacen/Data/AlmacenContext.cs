@@ -13,6 +13,8 @@ namespace ProyectoMvcNetCoreAlmacen.Data
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<DetalleVenta> DetallesVentas { get; set; }
         public DbSet<AlertaStock> AlertasStocks { get; set; }
+        public DbSet<Pedido> Pedidos { get; set; }
+
 
         // Configuración del modelo
         protected override void OnModelCreating(ModelBuilder modelBuilder)

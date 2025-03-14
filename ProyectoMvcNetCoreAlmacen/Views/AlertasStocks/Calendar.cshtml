@@ -1,4 +1,5 @@
-﻿﻿@{
+﻿
+@{
 	ViewData["Title"] = "Calendar";
 }
 <section class="features2 cid-sgSyF0EE4Z" id="features2-d">
@@ -8,7 +9,7 @@
 <!-- Modal para detalles de la alerta -->
 <div class="modal fade" id="alertaModal" tabindex="-1" role="dialog" aria-labelledby="alertaModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
-		<div class="modal-content" style="background-color: #f8f9fa; border-radius: 10px; width: auto; max-width: 450px; max-height: min-content;">
+		<div class="modal-content" style="background-color: #f8f9fa; border-radius: 10px; max-width: 450px; max-height: 355px;">
 			<div class="modal-header">
 				<h5 class="modal-title" id="alertaModalLabel">Detalles de la Alerta</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -20,6 +21,16 @@
 				<p><strong>Descripción:</strong> <span id="alertaDescripcion"></span></p>
 				<p><strong>Fecha de Alerta:</strong> <span id="alertaFecha"></span></p>
 				<p><strong>Estado:</strong> <span id="alertaEstado"></span></p>
+				<a id="editarAlerta" href="#" data-idAlerta="">
+					<span class="mbr-iconfont socicon socicon mbri-edit2 circle-icon"></span>
+				</a>
+				<a id="crearPedido" href="#" style="position:absolute; left:388px">
+					<span class="mbr-iconfont socicon socicon mbri-edit circle-icon"></span>
+				</a>
+
+
+
+
 
 			</div>
 		</div>
@@ -74,6 +85,10 @@
 					var estado = info.event.extendedProps.estado;
 					var nombreProducto = info.event.extendedProps.productoNombre;
 					var fecha = info.event.start.toLocaleString();
+					var idAlerta = info.event.id;
+					var idProducto = info.event.extendedProps.idProducto;
+					var idProveedor = info.event.extendedProps.idProveedor;
+					var precio = info.event.extendedProps.precio;
 
 					// Insertar datos en el modal
 					document.getElementById("alertaProducto").innerText = nombreProducto;
@@ -81,6 +96,11 @@
 					document.getElementById("alertaFecha").innerText = fecha;
 					document.getElementById("alertaEstado").innerText = estado;
 
+					var editLink = document.getElementById("editarAlerta");
+					editLink.href = '@Url.Action("Edit", "AlertasStocks", new { idalerta = "__id__" })'.replace('__id__', idAlerta);
+
+					var createPedidoLink = document.getElementById("crearPedido");
+					createPedidoLink.href = '@Url.Action("Create", "Pedidos")' + `?idProducto=${idProducto}&idProveedor=${idProveedor}&precio=${precio}`;
 
 					// Mostrar el modal
 					$('#alertaModal').modal('show');
@@ -92,3 +112,17 @@
 		});
 	</script>
 }
+
+<style>
+	.circle-icon {
+		display: inline-block;
+		border: 2px solid #f28b00; /* Borde naranja */
+		color: #f28b00; /* Color del icono */
+		border-radius: 50%; /* Hace el borde circular */
+		padding: 8px; /* Espaciado alrededor del icono */
+		font-size: 20px; /* Tamaño del icono */
+		text-align: center; /* Centra el icono dentro del borde */
+		width: 40px; /* Tamaño del círculo */
+	}
+
+</style>
