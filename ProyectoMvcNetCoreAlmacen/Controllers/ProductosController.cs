@@ -159,6 +159,24 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+public async Task<IActionResult> CambiarEstado(int idproducto)
+{
+    var producto = await repoProducto.FindProductoAsync(idproducto);
+    if (producto == null)
+    {
+        return NotFound();
+    }
+
+    // Cambiar el estado del producto a 'false'
+    producto.Estado = false;
+
+    // Actualizar el producto en la base de datos
+    await repoProducto.UpdateProductoAsync(producto);
+
+    return Json(new { success = true });
+}
+
         public async Task<IActionResult> Edit(int idproducto)
         {
             Producto p = await this.repoProducto.FindProductoAsync(idproducto);

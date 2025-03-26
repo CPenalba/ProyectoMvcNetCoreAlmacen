@@ -71,30 +71,20 @@
 								<button type="button" class="btn btn-form btn-info display-4 w-50" style="border-radius:10px; font-size:34px;" onclick="actualizarStock(idProductoModal, false)">
 									<i class="bi bi-dash"></i>
 								</button>
-
 								<a id="editarBtn"
 								   asp-controller="Productos"
 								   asp-action="Edit"
 								   asp-route-idproducto="">
-									<span class="mbr-iconfont socicon socicon mbri-edit2 circle-icon" style=" position: absolute; top: 213px; right: 286px; "></span>
+									<span class="mbr-iconfont socicon socicon mbri-edit2 circle-icon" style=" position: absolute; top: 213px; left:289px"></span>
 								</a>
-
-								@* <div class="toggle" style="position:absolute; top:190px; left:182px">
-									<div>
-										<input type="checkbox" id="toggles">
-										<div data-unchecked="On" data-checked="Off">
-										</div>
-									</div>
-								</div>
- *@
-
-								 <a>
-									<span class="mbr-iconfont socicon socicon mbri-close circle-icon" style=" position: absolute; top: 213px; left:289px"></span>
-								</a> 
-
+								<a>
+									<button class="button" style=" position: absolute; top: 213px; right: 286px;" onclick="cambiarEstado(idProductoModal)">
+										<svg class="svgIcon" viewBox="0 0 384 512">
+											<path d="M324.7 163.7L220.9 256l103.8 92.3c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L175.6 301.3 71.8 393.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L130.3 256 26.5 163.7c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l103.8 92.3 103.8-92.3c12.5-12.5 32.8-12.5 45.3 0s12.5 32.8 0 45.3z" />
+										</svg>
+									</button>
+								</a>
 							</div>
-
-
 						</div>
 				</form>
 			</div>
@@ -103,14 +93,12 @@
 </div>
 
 
-<!-- Script para actualizar el modal dinámicamente -->
+
 <script>
 	let idProductoModal;
 	function setModalActions(idProducto, nombreProducto) {
 		idProductoModal = idProducto;
 	document.getElementById("productoNombre").innerText = nombreProducto;
-
-	// Aseguramos que el href del botón editar se asigna correctamente
 	let editarBtn = document.getElementById("editarBtn");
 	if (editarBtn) {
 		editarBtn.href = `/Productos/Edit?idproducto=${idProductoModal}`;
@@ -124,14 +112,104 @@
 			fetch(url, { method: 'POST' })
 				.then(response => {
 					if (response.ok) {
-						location.reload(); // Recarga la página para ver los cambios
+						location.reload();
 					}
 				});
 		}
 	}
+
+	function cambiarEstado(idProducto) {
+        // Realizar la solicitud POST para cambiar el estado del producto
+        fetch(`/Productos/CambiarEstado?idproducto=${idProducto}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Aquí puedes agregar lógica para cambiar la apariencia del botón o algo en la interfaz de usuario
+                alert("El estado del producto ha sido cambiado a 'Inactivo'.");
+                location.reload(); // Recargar la página para reflejar los cambios
+            } else {
+                alert("Hubo un error al cambiar el estado.");
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+    }
 </script>
 
 <style>
+
+	.button {
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		background-color: white;
+		border: none;
+		font-weight: 600;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border: 2px solid #f28b00;
+		cursor: pointer;
+		overflow: hidden;
+		position: relative;
+	}
+
+	.svgIcon {
+		width: 12px;
+		transition-duration: 0.3s;
+	}
+
+		.svgIcon path {
+			fill: white;
+		}
+
+	.button:hover {
+		width: 140px;
+		border-radius: 50px;
+		transition-duration: 0.3s;
+		background-color: white;
+		align-items: center;
+		justify-content: start;
+		padding-left: 15px; /* Ajuste para alinear el texto */
+		transform: translateX(50%); /* Expansión hacia la derecha */
+	}
+
+	.button .svgIcon path {
+		fill: #f28b00;
+	}
+
+	.button:hover .svgIcon {
+		transition-duration: 0.3s;
+		transform: translateY(-200%);
+	}
+
+		.button:hover .svgIcon path {
+			fill: #f28b00;
+		}
+
+
+	.button::before {
+		position: absolute;
+		bottom: -20px;
+		content: "Inactivo";
+		color: #f28b00;
+		font-size: 0px;
+	}
+
+	.button:hover::before {
+		font-size: 13px;
+		opacity: 1;
+		bottom: unset;
+		transition-duration: 0.3s;
+		left: 40px; /* Mueve el texto a la derecha */
+	}
+
 	.circle-icon {
 		display: inline-block;
 		border: 2px solid #f28b00; /* Borde naranja */

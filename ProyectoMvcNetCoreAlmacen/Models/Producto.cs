@@ -27,6 +27,8 @@ namespace ProyectoMvcNetCoreAlmacen.Models
         public int IdProveedor { get; set; }
         [Column("IdTienda")]
         public int IdTienda { get; set; }
+        [Column("Estado")]
+        public bool Estado { get; set; } = true;
         [ForeignKey("IdProveedor")]
         public Proveedor Proveedor { get; set; }
         [ForeignKey("IdTienda")]
