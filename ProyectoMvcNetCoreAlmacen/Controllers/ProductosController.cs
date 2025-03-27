@@ -11,7 +11,7 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
         private RepositoryProducto repoProducto;
         private RepositoryProveedor repoProveedor;
 
-        
+
         public ProductosController(RepositoryProducto repoProducto, RepositoryProveedor repoProveedor)
         {
             this.repoProducto = repoProducto;
@@ -160,22 +160,23 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
         }
 
         [HttpPost]
-public async Task<IActionResult> CambiarEstado(int idproducto)
-{
-    var producto = await repoProducto.FindProductoAsync(idproducto);
-    if (producto == null)
-    {
-        return NotFound();
-    }
+        public async Task<IActionResult> CambiarEstado(int idproducto)
+        {
+            var producto = await repoProducto.FindProductoAsync(idproducto);
+            if (producto == null)
+            {
+                return NotFound();
+            }
 
-    // Cambiar el estado del producto a 'false'
-    producto.Estado = false;
+            // Alternar el estado
+            producto.Estado = !producto.Estado;
 
-    // Actualizar el producto en la base de datos
-    await repoProducto.UpdateProductoAsync(producto);
+            // Actualizar el producto en la base de datos
+            await repoProducto.UpdateProductoAsync(producto);
 
-    return Json(new { success = true });
-}
+            return Json(new { success = true, nuevoEstado = producto.Estado });
+        }
+
 
         public async Task<IActionResult> Edit(int idproducto)
         {

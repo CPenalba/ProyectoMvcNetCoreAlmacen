@@ -58,11 +58,17 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
             {
                 return RedirectToAction("Login", "Tiendas");
             }
+
             // Asignar el IdTienda al producto
             a.IdTienda = tiendaId.Value;
+
+            // Establecer el estado a "Pendiente" automáticamente
+            a.Estado = "Pendiente";
+
             await this.repo.InsertAlertaAsync(a.IdAlertaStock, a.IdProducto, a.IdTienda, a.FechaAlerta, a.Descripcion, a.Estado);
             return Json(new { success = true, message = "Alerta creada correctamente", redirectUrl = Url.Action("Calendar") });
         }
+
         public async Task<IActionResult> Delete(int idalerta)
         {
             await this.repo.DeleteAlertaAsync(idalerta);
@@ -94,6 +100,26 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
             await this.repo.UpdateAlertaAsync(a);
             return RedirectToAction("Calendar");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CambiarEstado(int idAlertaStock, string estado)
+        {
+            var alerta = await this.repo.FindAlertaAsync(idAlertaStock);
+            if (alerta == null)
+            {
+                return NotFound();
+            }
+
+            // Cambiar el estado
+            alerta.Estado = estado;
+
+            // Actualizar la alerta
+            await this.repo.UpdateAlertaAsync(alerta);
+
+            return Json(new { success = true });
+        }
+
+
 
         public async Task<IActionResult> Calendar()
         {

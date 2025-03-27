@@ -158,8 +158,14 @@
 									<a class="nav-link link mbr-bold text-white display-7" asp-controller="Productos" asp-action="Create">Añadir productos </a>
 								</div>
 							</li>
-							<li class="nav-item">
-								<a class="nav-link link mbr-bold text-white display-7" asp-controller="Proveedores" asp-action="Index">Proveedores </a>
+							<li class="nav-item dropdown">
+								<a class="nav-link link mbr-bold text-white display-7" href="#" data-toggle="dropdown-submenu" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="true">
+									Proveedores
+								</a>
+								<div class="dropdown-menu show" aria-labelledby="dropdown-650" data-bs-popper="none">
+									<a class="nav-link link mbr-bold text-white display-7" asp-controller="Proveedores" asp-action="Index">Proveedores </a>
+									<a class="nav-link link mbr-bold text-white display-7" asp-controller="Proveedores" asp-action="Create">Añadir proveedores </a>
+								</div>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link link mbr-bold text-white display-7" asp-controller="AlertasStocks" asp-action="Create">Añadir alerta </a>

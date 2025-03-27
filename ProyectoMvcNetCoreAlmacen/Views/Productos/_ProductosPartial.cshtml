@@ -5,7 +5,7 @@
 	@foreach (var item in Model)
 	{
 		<div class="item features-image col-12 col-md-6 col-lg-3">
-			<div class="item-wrapper">
+			<div class="item-wrapper @(item.Estado ? "" : "producto-inactivo")">
 				<div class="item-img">
 					<img src="@Url.Content("~/imagenes/" + item.Imagen)"
 						 onerror="this.onerror=null;this.src='https://static.vecteezy.com/system/resources/previews/005/720/408/non_2x/crossed-image-icon-picture-not-available-delete-picture-symbol-free-vector.jpg';"
@@ -79,9 +79,7 @@
 								</a>
 								<a>
 									<button class="button" style=" position: absolute; top: 213px; right: 286px;" onclick="cambiarEstado(idProductoModal)">
-										<svg class="svgIcon" viewBox="0 0 384 512">
-											<path d="M324.7 163.7L220.9 256l103.8 92.3c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L175.6 301.3 71.8 393.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L130.3 256 26.5 163.7c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l103.8 92.3 103.8-92.3c12.5-12.5 32.8-12.5 45.3 0s12.5 32.8 0 45.3z" />
-										</svg>
+										<span class="mbr-iconfont socicon socicon mbri-update circle-icon svgIcon"></span>
 									</button>
 								</a>
 							</div>
@@ -118,31 +116,44 @@
 		}
 	}
 
-	function cambiarEstado(idProducto) {
-        // Realizar la solicitud POST para cambiar el estado del producto
-        fetch(`/Productos/CambiarEstado?idproducto=${idProducto}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Aquí puedes agregar lógica para cambiar la apariencia del botón o algo en la interfaz de usuario
-                alert("El estado del producto ha sido cambiado a 'Inactivo'.");
-                location.reload(); // Recargar la página para reflejar los cambios
-            } else {
-                alert("Hubo un error al cambiar el estado.");
-            }
-        })
-        .catch(error => {
-            console.error("Error:", error);
-        });
-    }
+		function cambiarEstado(idProducto) {
+		fetch(`/Productos/CambiarEstado?idproducto=${idProducto}`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' }
+		})
+		.then(response => response.json())
+		.then(data => {
+			if (data.success) {
+				let button = document.querySelector(`button[data-idproducto='${idProducto}']`);
+				if (button) {
+					let nuevoEstadoTexto = data.nuevoEstado ? "Activo" : "Inactivo";
+					let nuevaClase = data.nuevoEstado ? "btn-success" : "btn-danger";
+					let viejaClase = data.nuevoEstado ? "btn-danger" : "btn-success";
+
+					button.classList.remove(viejaClase);
+					button.classList.add(nuevaClase);
+					button.innerHTML = nuevoEstadoTexto;
+
+					// Mostrar el alert con el estado actualizado
+					alert(`El estado ha cambiado a: ${nuevoEstadoTexto}`);
+				}
+			} else {
+				alert("Hubo un error al cambiar el estado.");
+			}
+		})
+		.catch(error => {
+			console.error("Error:", error);
+		});
+	}
+
 </script>
 
 <style>
+	.producto-inactivo {
+		filter: grayscale(100%);
+		opacity: 0.6;
+	}
+
 
 	.button {
 		width: 40px;
@@ -176,8 +187,8 @@
 		background-color: white;
 		align-items: center;
 		justify-content: start;
-		padding-left: 15px; /* Ajuste para alinear el texto */
-		transform: translateX(50%); /* Expansión hacia la derecha */
+		padding-left: 15px;
+		transform: translateX(50%);
 	}
 
 	.button .svgIcon path {
@@ -197,17 +208,17 @@
 	.button::before {
 		position: absolute;
 		bottom: -20px;
-		content: "Inactivo";
+		content: "Cambiar estado";
 		color: #f28b00;
 		font-size: 0px;
 	}
 
 	.button:hover::before {
-		font-size: 13px;
 		opacity: 1;
 		bottom: unset;
 		transition-duration: 0.3s;
-		left: 40px; /* Mueve el texto a la derecha */
+		left: 20px;
+		font-size: 12px;
 	}
 
 	.circle-icon {
