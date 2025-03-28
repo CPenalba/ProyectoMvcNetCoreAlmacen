@@ -38,5 +38,15 @@ namespace ProyectoMvcNetCoreAlmacen.Repositories
             await this.context.Pedidos.AddAsync(p);
             await this.context.SaveChangesAsync();
         }
+
+        public async Task UpdateEstadoPedidoAsync(int idPedido, string nuevoEstado)
+        {
+            var pedido = await this.context.Pedidos.FindAsync(idPedido);
+            if (pedido != null)
+            {
+                pedido.Estado = nuevoEstado;
+                await this.context.SaveChangesAsync();
+            }
+        }
     }
 }

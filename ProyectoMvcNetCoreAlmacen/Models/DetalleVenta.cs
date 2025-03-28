@@ -21,5 +21,7 @@ namespace ProyectoMvcNetCoreAlmacen.Models
         public decimal Precio { get; set; }
         [Column("PrecioTotalVenta")]
         public decimal PrecioTotalVenta { get; set; }
+        [ForeignKey("IdProducto")]
+        public Producto Producto { get; set; }
     }
 }

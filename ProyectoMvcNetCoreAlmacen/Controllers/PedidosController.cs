@@ -52,12 +52,22 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
             }
             // Asignar el IdTienda al producto
             p.IdTienda = tiendaId.Value;
+            p.FechaPedido = DateTime.Now;
             p.FechaEntrega = p.FechaPedido.AddDays(7);
             p.PrecioTotalPedido = p.Precio * p.Cantidad;
+            p.Estado = "Pendiente";
 
             await this.repo.InsertPedidoAsync(p.IdPedido, p.IdProveedor, p.IdTienda, p.IdProducto, p.FechaPedido, p.FechaEntrega, p.Estado, p.Cantidad, p.Precio, p.PrecioTotalPedido);
 
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CambiarEstado(int IdPedido, string Estado)
+        {
+            await this.repo.UpdateEstadoPedidoAsync(IdPedido, Estado);
+            return RedirectToAction("Index");
+        }
+
     }
 }
