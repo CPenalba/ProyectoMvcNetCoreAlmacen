@@ -16,13 +16,26 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
             this.repo = repo;
             this.repoProducto = repoProducto;
         }
-        public async Task<IActionResult> Index()
+
+        public async Task<IActionResult> Index(int? año)
         {
             var tiendaId = HttpContext.Session.GetInt32("TiendaId");
             if (tiendaId == null)
             {
                 return RedirectToAction("Login", "Tiendas");
             }
+
+            // Obtener lista de años disponibles para el dropdown
+            var añosDisponibles = await this.repo.GetAñosVentasAsync((int)tiendaId);
+            ViewBag.Años = new SelectList(añosDisponibles, año ?? DateTime.Now.Year);
+
+            // Obtener datos para el gráfico
+            var datosVentas = await this.repo.GetVentasPorMesAsync((int)tiendaId, año ?? DateTime.Now.Year);
+            ViewBag.DatosVentas = datosVentas;
+
+            var productosMasVendidos = await this.repo.GetProductosMasVendidosAsync((int)tiendaId);
+            ViewBag.ProductosMasVendidos = productosMasVendidos;
+
             List<DetalleVenta> detalles = await this.repo.GetDetallesVentasAsync((int)tiendaId);
             return View(detalles);
         }
@@ -36,7 +49,8 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
             }
 
             var productos = await this.repoProducto.GetProductosAsync((int)tiendaId);
-            ViewBag.Productos = new SelectList(productos, "IdProducto", "Nombre");
+            ViewBag.Productos = productos;
+
 
             return View();
         }

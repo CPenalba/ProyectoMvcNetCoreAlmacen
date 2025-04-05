@@ -1,44 +1,69 @@
 ﻿@model ProyectoMvcNetCoreAlmacen.Models.DetalleVenta
 
-<h4>DetalleVenta</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="IdDetalleVenta" class="control-label"></label>
-                <input asp-for="IdDetalleVenta" class="form-control" />
-                <span asp-validation-for="IdDetalleVenta" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Fecha" class="control-label"></label>
-                <input asp-for="Fecha" class="form-control" />
-                <span asp-validation-for="Fecha" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdProducto" class="control-label"></label>
-                <input asp-for="IdProducto" class="form-control" />
-                <span asp-validation-for="IdProducto" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Cantidad" class="control-label"></label>
-                <input asp-for="Cantidad" class="form-control" />
-                <span asp-validation-for="Cantidad" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Precio" class="control-label"></label>
-                <input asp-for="Precio" class="form-control" />
-                <span asp-validation-for="Precio" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<section class="features2 cid-sgSyF0EE4Z" id="features2-d">
+	<section class="form1 cid-sgSoZHg9Zb features2 cid-sgSyF0EE4Z" id="form1-a features2-d">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-6 col-md-9 block-content">
+					<div class="form-block">
+						<h4 class="mbr-fonts-style mbr-section-title mbr-fonts-style mbr-bold display-2" style="font-size:50px">Añadir venta</h4>
+						<div data-form-type="formoid">
+							<form method="post" enctype="multipart/form-data" class="mbr-form form-with-styler" data-form-title="Mobirise Form">
+								<div class="dragArea form-row">
+									<div class="col-md-12  form-group">
+										<label asp-for="IdDetalleVenta" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
+										<input asp-for="IdDetalleVenta" class="form-control input display-7" />
+										<span asp-validation-for="IdDetalleVenta" class="text-danger"></span>
+									</div>
+									<div class="col-md-12  form-group">
+										<label asp-for="Fecha" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
+										<input asp-for="Fecha" class="form-control input display-7" />
+										<span asp-validation-for="Fecha" class="text-danger"></span>
+									</div>
+									<div class="col-md-12  form-group">
+										<label asp-for="IdProducto" class="form-control-label mbr-fonts-style mbr-bold display-7">Producto</label>
+										<select id="IdProducto" name="IdProducto" class="form-control input display-7">
+											<option value="">Seleccione un producto</option>
+											@foreach (var producto in ViewBag.Productos)
+											{
+												<option value="@producto.IdProducto" data-precio="@producto.Precio">@producto.Nombre</option>
+											}
+										</select>
+										<span asp-validation-for="IdProducto" class="text-danger"></span>
+									</div>
+									<div class="col-md-12  form-group">
+										<label asp-for="Cantidad" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
+										<input asp-for="Cantidad" class="form-control input display-7" />
+										<span asp-validation-for="Cantidad" class="text-danger"></span>
+									</div>
+									<div class="col-md-12  form-group">
+										<label asp-for="Precio" class="form-control-label mbr-fonts-style mbr-bold display-7"></label>
+										<input asp-for="Precio" id="Precio" class="form-control input display-7" readonly />
+										<span asp-validation-for="Precio" class="text-danger"></span>
+									</div>
+									<div class="col-md-12 input-group-btn"><button type="submit" class="btn btn-form btn-bgr btn-info display-4">Añadir venta</button></div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</section>
 
+@section Scripts {
+	<script>
+		document.getElementById("IdProducto").addEventListener("change", function () {
+			const selectedOption = this.options[this.selectedIndex];
+			const precio = selectedOption.getAttribute("data-precio");
+
+			if (precio) {
+				document.getElementById("Precio").value = precio;
+			} else {
+				document.getElementById("Precio").value = "";
+			}
+		});
+	</script>
+}

@@ -1,60 +1,229 @@
 ﻿@model IEnumerable<ProyectoMvcNetCoreAlmacen.Models.Proveedor>
 
-
 <section class="features2 cid-sgSyF0EE4Z" id="features2-d">
-	<section class="features5 cid-sgSsYuf1Xl" id="features5-c">
-		<div class="container">
-			<div class="d-flex justify-content-center">
-				<h1 class="mbr-section-title mbr-fonts-style mb-4 mbr-bold display-5 text-center">Nuestros Proveedores</h1>
-			</div>
-			<br />
-			<div class="row justify-content-center">
-				@foreach (var item in Model)
-				{
-					<div class="card col-md-6 col-lg-4">
-						<div class="card-wrapper">
-							<div class="card-box align-left">
-								<div class="icon-wrap">
-									<span class="mbr-iconfont mbri-delivery mobi-mbri" style="color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
-								</div>
-								<h5 class="card-title mbr-fonts-style mbr-bold display-4" style="text-decoration: underline;">@Html.DisplayFor(modelItem => item.Nombre)</h5>
-								<p class="mbr-text mbr-fonts-style display-7">@Html.DisplayFor(modelItem => item.Correo)</p>
-								<a asp-controller="Proveedores" asp-action="Details" asp-route-idproveedor="@item.IdProveedor" class="btn btn-form btn-info display-4 w-100" style="border-radius:5px">Detalles</a>
-							</div>
-						</div>
-					</div>
-				}
-			</div>
-		</div>
-	</section>
+    <section class="features5 cid-sgSsYuf1Xl" id="features5-c">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <h1 class="display-4 fw-bold position-relative d-inline-block">
+                Nuestros Proveedores
+                <span class="section-underline"></span>
+            </h1>
+        </div>
 
+        <div class="row justify-content-center gy-5">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="proveedor-card">
+                        <div class="proveedor-header">
+                            <div class="icon-container">
+                                <span class="circle-icon">
+                                    <i class="mbr-iconfont mbri-delivery mobi-mbri"></i>
+                                </span>
+                            </div>
+                            <h3 class="proveedor-title">@Html.DisplayFor(modelItem => item.Nombre)</h3>
+                        </div>
+                        <div class="proveedor-body">
+                            <div class="contact-info">
+                                <p class="email-text">
+                                    <i class="fa fa-envelope me-2"></i>
+                                    @Html.DisplayFor(modelItem => item.Correo)
+                                </p>
+                            </div>
+                            <div class="proveedor-footer">
+                                <a asp-controller="Proveedores" asp-action="Details" asp-route-idproveedor="@item.IdProveedor" class="btn-details">
+                                    <span>Ver Detalles</span>
+                                    <i class="fa fa-arrow-right ms-2"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
 </section>
 
+
 <style>
-	.circle-icon {
-		display: inline-block;
-		border: 2px solid #f28b00; /* Borde naranja */
-		color: #f28b00; /* Color del icono */
-		border-radius: 50%; /* Hace el borde circular */
-		padding: 8px; /* Espaciado alrededor del icono */
-		font-size: 38px; /* Tamaño del icono */
-		text-align: center; /* Centra el icono dentro del borde */
-		
-	}
+    /* Estilos generales */
+    .proveedores-section {
+        background-color: #f9f9f9;
+        padding: 60px 0;
+    }
 
-	.stock-input {
-		border: none;
-		border-bottom: 2px solid black;
-		outline: none;
-		background: transparent;
-		box-shadow: none;
-		width: 100%;
-	}
+    /* Estilos del encabezado de sección */
+    .section-header {
+        margin-bottom: 50px;
+    }
 
-		.stock-input:focus {
-			border-bottom: 2px solid black;
-			outline: none;
-		}
+        .section-header h1 {
+            font-size: 2.5rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: #333333;
+        }
 
+    .section-underline {
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        height: 4px;
+        width: 100px;
+        background-color: #f28b00;
+        border-radius: 10px;
+    }
 
+    /* Estilos de tarjetas de proveedores */
+    .proveedor-card {
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+        transition: all 0.4s ease;
+        height: 100%;
+        position: relative;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        margin-bottom: 15px;
+    }
+
+        .proveedor-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(242, 139, 0, 0.15);
+            border-color: rgba(242, 139, 0, 0.2);
+        }
+
+    .proveedor-header {
+        padding: 25px 20px 15px;
+        position: relative;
+        text-align: center;
+    }
+
+    .icon-container {
+        margin-bottom: 20px;
+    }
+
+    .circle-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background-color: rgba(242, 139, 0, 0.1);
+        color: #f28b00;
+        border: 2px solid #f28b00;
+        font-size: 32px;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(242, 139, 0, 0.2);
+    }
+
+    .proveedor-card:hover .circle-icon {
+        background-color: #f28b00;
+        color: white;
+        transform: scale(1.1);
+    }
+
+    .proveedor-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 10px;
+        position: relative;
+        display: inline-block;
+    }
+
+        .proveedor-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #f28b00;
+        }
+
+    .proveedor-body {
+        padding: 15px 25px 30px;
+    }
+
+    .contact-info {
+        margin-bottom: 20px;
+    }
+
+    .email-text {
+        color: #666;
+        font-size: 0.95rem;
+        margin-bottom: 0;
+    }
+
+    .proveedor-footer {
+        text-align: center;
+        margin-top: 25px;
+    }
+
+    .btn-details {
+        display: inline-block;
+        background-color: #f28b00;
+        color: white;
+        font-weight: 600;
+        padding: 12px 30px;
+        border-radius: 30px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(242, 139, 0, 0.3);
+        width: 100%;
+    }
+
+        .btn-details:hover {
+            background-color: #e07d00;
+            box-shadow: 0 6px 15px rgba(242, 139, 0, 0.4);
+            transform: translateY(-2px);
+        }
+
+    /* Estilos de input mantenidos del código original */
+    .stock-input {
+        border: none;
+        border-bottom: 2px solid black;
+        outline: none;
+        background: transparent;
+        box-shadow: none;
+        width: 100%;
+        padding: 8px 2px;
+        transition: all 0.3s ease;
+    }
+
+        .stock-input:focus {
+            border-bottom: 2px solid #f28b00;
+        }
+
+    /* Espaciado entre filas */
+    .row.gy-5 > [class*="col-"] {
+        margin-bottom: 30px;
+    }
+
+    /* Responsive ajustes */
+    media (max-width: 768px) {
+        .circle-icon
+
+    {
+        width: 70px;
+        height: 70px;
+        font-size: 28px;
+    }
+
+    .proveedor-title {
+        font-size: 1.2rem;
+    }
+
+    .section-header h1 {
+        font-size: 2rem;
+    }
+
+    }
 </style>
+
+<!-- Agrega Font Awesome para iconos adicionales -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">

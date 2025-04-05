@@ -173,8 +173,14 @@
 							<li class="nav-item">
 								<a class="nav-link link mbr-bold text-white display-7" asp-controller="Pedidos" asp-action="Index">Pedidos </a>
 							</li>
-							<li class="nav-item">
-								<a class="nav-link link mbr-bold text-white display-7" asp-controller="DetallesVentas" asp-action="Index">Ventas </a>
+							<li class="nav-item dropdown">
+								<a class="nav-link link mbr-bold text-white display-7" href="#" data-toggle="dropdown-submenu" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="true">
+									Ventas
+								</a>
+								<div class="dropdown-menu show" aria-labelledby="dropdown-650" data-bs-popper="none">
+									<a class="nav-link link mbr-bold text-white display-7" asp-controller="DetallesVentas" asp-action="Index">Ventas </a>
+									<a class="nav-link link mbr-bold text-white display-7" asp-controller="DetallesVentas" asp-action="Create">Añadir venta</a>
+								</div>
 							</li>
 						</ul>
 						<div class="navbar-buttons mbr-section-btn">
