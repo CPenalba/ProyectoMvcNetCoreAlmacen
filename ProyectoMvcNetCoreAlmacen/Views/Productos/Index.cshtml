@@ -12,28 +12,22 @@
                 <form id="searchForm" class="shadow-sm border rounded p-3 bg-white">
                     <div class="row g-2 align-items-center">
                         <!-- Búsqueda por ID -->
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <label for="idproducto" class="form-label text-muted small mb-1">
                                 <i class="fas fa-barcode mr-1"></i> Num. artículo
                             </label>
-                            <input type="text" id="idproducto" name="idproducto" class="form-control form-control-sm custom-input" />
+                            <input type="text" id="idproducto" name="idproducto"
+                                   class="form-control form-control-sm custom-input"
+                                   placeholder="Buscar por número..." />
                         </div>
                         <!-- Búsqueda por Marca -->
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <label for="marca" class="form-label text-muted small mb-1">
                                 <i class="fas fa-tag mr-1"></i> Marca
                             </label>
-                            <input type="text" id="marca" name="marca" class="form-control form-control-sm custom-input" />
-                        </div>
-                        <div class="col-md-6 d-flex align-items-end">
-                            <div class="btn-group w-100">
-                                <button type="button" id="searchBtn" class="btn btn-primary">
-                                    <i class="fas fa-search mr-1"></i> Buscar
-                                </button>
-                                <button type="button" id="limpiarBtn" class="btn btn-outline-secondary">
-                                    <i class="fas fa-broom mr-1"></i> Limpiar
-                                </button>
-                            </div>
+                            <input type="text" id="marca" name="marca"
+                                   class="form-control form-control-sm custom-input"
+                                   placeholder="Buscar por marca..." />
                         </div>
                     </div>
                 </form>
@@ -61,6 +55,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
 <script>
     $(document).ready(function () {
+        // Variables para controlar el tiempo de espera
+        var searchTimeout;
+        var delay = 300; // 300ms de retraso después de escribir
+
         // Función para mostrar/ocultar indicador de carga
         function toggleLoading(show) {
             if (show) {
@@ -72,8 +70,8 @@
             }
         }
 
-        // Acción del botón "Buscar"
-        $('#searchBtn').click(function () {
+        // Función para realizar la búsqueda
+        function performSearch() {
             var idProducto = $('#idproducto').val();
             var marca = $('#marca').val();
 
@@ -85,49 +83,35 @@
                 data: { idproducto: idProducto, marca: marca },
                 success: function (data) {
                     toggleLoading(false);
-                    $('#productos-container').html(data);  // Actualiza los productos en la página
+                    $('#productos-container').html(data);
                 },
                 error: function() {
                     toggleLoading(false);
                     $('#productos-container').html('<div class="alert alert-danger m-3">Error al buscar productos. Intente nuevamente.</div>');
                 }
             });
+        }
+
+        // Eventos para los campos de búsqueda
+        $('#idproducto, #marca').on('input', function() {
+            // Cancelar el timeout anterior si existe
+            clearTimeout(searchTimeout);
+
+            // Establecer un nuevo timeout
+            searchTimeout = setTimeout(function() {
+                performSearch();
+            }, delay);
         });
 
-        // Acción del botón "Limpiar"
-        $('#limpiarBtn').click(function () {
-            // Limpiar los campos de búsqueda
-            $('#idproducto').val('');
-            $('#marca').val('');
-
-            toggleLoading(true);
-
-            // Hacer una llamada AJAX para mostrar todos los productos sin filtros
-            $.ajax({
-                url: '@Url.Action("BuscarProductos", "Productos")',
-                type: 'GET',
-                data: { idproducto: '', marca: '' },  // No se pasan filtros
-                success: function (data) {
-                    toggleLoading(false);
-                    $('#productos-container').html(data);  // Actualiza los productos en la página
-                },
-                error: function() {
-                    toggleLoading(false);
-                    $('#productos-container').html('<div class="alert alert-danger m-3">Error al cargar productos. Intente nuevamente.</div>');
-                }
-            });
+        // También realizar búsqueda cuando se pierde el foco (por si acaso)
+        $('#idproducto, #marca').on('change', function() {
+            performSearch();
         });
 
-        // Permitir búsqueda al presionar Enter
-        $('#searchForm input').keypress(function(e) {
-            if(e.which == 13) {
-                e.preventDefault();
-                $('#searchBtn').click();
-            }
-        });
+        // Realizar búsqueda inicial para cargar todos los productos
+        performSearch();
     });
 </script>
-
 <style>
     /* Estilo para inputs y selects */
     .custom-input,
