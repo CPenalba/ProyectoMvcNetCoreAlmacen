@@ -31,6 +31,159 @@
 	<link rel="stylesheet" href="~/css/estilonav.css" type="text/css">
 
 	<style>
+		<!-- Estilos CSS avanzados para los menús dropdown -->
+		<style >
+		/* Mejora general del menú de navegación */
+		.navbar-nav {
+			display: flex;
+			align-items: center;
+		}
+
+		/* Estilos para elementos dropdown */
+		.navbar-nav .nav-item.dropdown {
+			position: relative;
+		}
+
+			.navbar-nav .nav-item.dropdown > .nav-link {
+				position: relative;
+				padding: 0.8rem 1.2rem;
+				transition: all 0.3s ease;
+				border-radius: 4px;
+			}
+
+				.navbar-nav .nav-item.dropdown > .nav-link:hover {
+					background-color: rgba(255, 255, 255, 0.1);
+				}
+
+				/* Indicador de dropdown mejorado */
+				.navbar-nav .nav-item.dropdown > .nav-link:after {
+					content: "";
+					display: inline-block;
+					width: 8px;
+					height: 8px;
+					margin-left: 8px;
+					border-right: 2px solid #fff;
+					border-bottom: 2px solid #fff;
+					transform: rotate(45deg);
+					transition: transform 0.3s ease, margin 0.3s ease;
+					position: relative;
+					top: -2px;
+				}
+
+			.navbar-nav .nav-item.dropdown:hover > .nav-link:after {
+				transform: rotate(-135deg);
+				margin-top: 3px;
+			}
+
+		/* Menú desplegable con efectos avanzados */
+		.navbar-nav .dropdown-menu {
+			background: linear-gradient(to bottom, rgba(40, 40, 40, 0.98), rgba(30, 30, 30, 0.98));
+			border-radius: 8px;
+			border: none;
+			padding: 0.8rem 0;
+			margin-top: 0.8rem;
+			box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 2px 5px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1);
+			width: 240px;
+			transform-origin: top center;
+			transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+			opacity: 0;
+			visibility: hidden;
+			transform: translateY(10px) scale(0.98);
+			backdrop-filter: blur(5px);
+			position: absolute;
+		}
+
+			.navbar-nav .dropdown-menu.show,
+			.navbar-nav .nav-item.dropdown:hover .dropdown-menu {
+				opacity: 1;
+				visibility: visible;
+				transform: translateY(0) scale(1);
+			}
+
+			/* Decoración y separador en el menú desplegable */
+			.navbar-nav .dropdown-menu:before {
+				content: "";
+				position: absolute;
+				top: -6px;
+				left: 20px;
+				width: 12px;
+				height: 12px;
+				background: rgba(35, 35, 35, 0.98);
+				transform: rotate(45deg);
+				border-top: 1px solid rgba(255, 255, 255, 0.1);
+				border-left: 1px solid rgba(255, 255, 255, 0.1);
+				z-index: -1;
+			}
+
+			/* Estilos para los enlaces dentro del menú desplegable */
+			.navbar-nav .dropdown-menu .nav-link {
+				padding: 0.85rem 1.5rem;
+				margin: 0 0.5rem;
+				border-radius: 6px;
+				color: rgba(255, 255, 255, 0.85) !important;
+				font-size: 0.95rem;
+				font-weight: 500;
+				letter-spacing: 0.3px;
+				transition: all 0.25s ease;
+				display: flex;
+				align-items: center;
+			}
+
+				.navbar-nav .dropdown-menu .nav-link:hover {
+					background-color: rgba(255, 255, 255, 0.1);
+					color: #ffffff !important;
+					transform: translateX(5px);
+					box-shadow: inset 3px 0 0 #2c3e50;
+				}
+
+				/* Iconos para las opciones del menú */
+				.navbar-nav .dropdown-menu .nav-link i {
+					margin-right: 10px;
+					font-size: 1.1rem;
+					opacity: 0.7;
+					transition: opacity 0.3s;
+				}
+
+				.navbar-nav .dropdown-menu .nav-link:hover i {
+					opacity: 1;
+				}
+
+		/* Animación para el menú activo */
+		.navbar-nav .nav-item.dropdown.active > .nav-link {
+			background-color: rgba(255, 255, 255, 0.15);
+		}
+
+		/* Responsive design para dispositivos móviles */
+					media (max-width: 991px) {
+			.navbar-nav .dropdown-menu
+
+		{
+			background: rgba(25, 25, 25, 0.95);
+			border: none;
+			margin-top: 0;
+			margin-bottom: 10px;
+			box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.2);
+			width: 100%;
+			padding: 0.5rem;
+		}
+
+		.navbar-nav .dropdown-menu:before {
+			display: none;
+		}
+
+		.navbar-nav .dropdown-menu .nav-link {
+			padding: 0.7rem 1rem;
+			margin: 2px 0;
+		}
+
+		.navbar-nav .nav-item.dropdown > .nav-link:after {
+			position: absolute;
+			right: 15px;
+			top: 50%;
+			margin-top: -6px;
+		}
+
+		}
 		.dropdown-menu .nav-link:hover {
 			box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
 			background-color: rgba(0, 0, 0, 0.1); /* Si deseas un pequeño fondo oscuro */
@@ -150,21 +303,31 @@
 							</li>
 
 							<li class="nav-item dropdown">
-								<a class="nav-link link mbr-bold text-white display-7" href="#" data-toggle="dropdown-submenu" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="true">
+								<a class="nav-link link mbr-bold text-white display-7" href="#" data-toggle="dropdown-submenu" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
 									Productos
 								</a>
-								<div class="dropdown-menu show" aria-labelledby="dropdown-650" data-bs-popper="none">
-									<a class="nav-link link mbr-bold text-white display-7" asp-controller="Productos" asp-action="Index">Productos </a>
-									<a class="nav-link link mbr-bold text-white display-7" asp-controller="Productos" asp-action="Create">Añadir productos </a>
+								<div class="dropdown-menu" aria-labelledby="dropdown-productos">
+									<a class="nav-link link text-white" asp-controller="Productos" asp-action="Index">
+										<i class="fas fa-box-open mr-2"></i> Ver productos
+									</a>
+									<a class="nav-link link text-white" asp-controller="Productos" asp-action="Create">
+										<i class="mbri-plus"></i> Añadir productos
+									</a>
 								</div>
 							</li>
+
+							<!-- Elemento dropdown mejorado para "Proveedores" -->
 							<li class="nav-item dropdown">
-								<a class="nav-link link mbr-bold text-white display-7" href="#" data-toggle="dropdown-submenu" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="true">
+								<a class="nav-link link mbr-bold text-white display-7" href="#" data-toggle="dropdown-submenu" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
 									Proveedores
 								</a>
-								<div class="dropdown-menu show" aria-labelledby="dropdown-650" data-bs-popper="none">
-									<a class="nav-link link mbr-bold text-white display-7" asp-controller="Proveedores" asp-action="Index">Proveedores </a>
-									<a class="nav-link link mbr-bold text-white display-7" asp-controller="Proveedores" asp-action="Create">Añadir proveedores </a>
+								<div class="dropdown-menu" aria-labelledby="dropdown-proveedores">
+									<a class="nav-link link text-white" asp-controller="Proveedores" asp-action="Index">
+										<i class="mbri-delivery"></i> Ver proveedores
+									</a>
+									<a class="nav-link link text-white" asp-controller="Proveedores" asp-action="Create">
+										<i class="mbri-plus"></i> Añadir proveedores
+									</a>
 								</div>
 							</li>
 							<li class="nav-item">
@@ -174,12 +337,16 @@
 								<a class="nav-link link mbr-bold text-white display-7" asp-controller="Pedidos" asp-action="Index">Pedidos </a>
 							</li>
 							<li class="nav-item dropdown">
-								<a class="nav-link link mbr-bold text-white display-7" href="#" data-toggle="dropdown-submenu" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="true">
+								<a class="nav-link link mbr-bold text-white display-7" href="#" data-toggle="dropdown-submenu" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
 									Ventas
 								</a>
-								<div class="dropdown-menu show" aria-labelledby="dropdown-650" data-bs-popper="none">
-									<a class="nav-link link mbr-bold text-white display-7" asp-controller="DetallesVentas" asp-action="Index">Ventas </a>
-									<a class="nav-link link mbr-bold text-white display-7" asp-controller="DetallesVentas" asp-action="Create">Añadir venta</a>
+								<div class="dropdown-menu" aria-labelledby="dropdown-ventas">
+									<a class="nav-link link text-white" asp-controller="DetallesVentas" asp-action="Index">
+										<i class="mbri-shopping-cart"></i> Ver ventas
+									</a>
+									<a class="nav-link link text-white" asp-controller="DetallesVentas" asp-action="Create">
+										<i class="mbri-plus"></i> Añadir venta
+									</a>
 								</div>
 							</li>
 						</ul>
@@ -222,6 +389,62 @@
 	<script src="https://r.mobirisesite.com/1228853/assets/dropdown/js/navbar-dropdown.js?rnd=1741923534718"></script>
 	<script src="https://r.mobirisesite.com/1228853/assets/theme/js/script.js?rnd=1741923534718"></script>
 	@await RenderSectionAsync("Scripts", required: false)
+	<script>
+		$(document).ready(function() {
+			// Compatibilidad con mouse y táctil
+			if ($(window).width() > 991) {
+				// Para desktop: mostrar dropdown al pasar el mouse
+				$('.navbar-nav .nav-item.dropdown').hover(
+					function() {
+						$(this).addClass('show');
+						$(this).find('.dropdown-menu').addClass('show');
+					},
+					function() {
+						$(this).removeClass('show');
+						$(this).find('.dropdown-menu').removeClass('show');
+					}
+				);
+			} else {
+				// Para dispositivos móviles: toggle al hacer clic
+				$('.navbar-nav .nav-item.dropdown > .nav-link').on('click', function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+
+					const $parent = $(this).parent();
+					const isOpen = $parent.hasClass('show');
+
+					// Cerrar todos los otros dropdowns
+					$('.navbar-nav .nav-item.dropdown').removeClass('show');
+					$('.navbar-nav .dropdown-menu').removeClass('show');
+
+					// Abrir/cerrar el actual
+					if (!isOpen) {
+						$parent.addClass('show');
+						$parent.find('.dropdown-menu').addClass('show');
+					}
+				});
+			}
+
+			// Cierra dropdowns cuando se hace clic fuera
+			$(document).on('click', function(e) {
+				if (!$(e.target).closest('.navbar-nav .nav-item.dropdown').length) {
+					$('.navbar-nav .nav-item.dropdown').removeClass('show');
+					$('.navbar-nav .dropdown-menu').removeClass('show');
+				}
+			});
+
+			// Efecto de focus para accesibilidad
+			$('.navbar-nav .dropdown-menu .nav-link').on('focus', function() {
+				$(this).closest('.dropdown-menu').addClass('show');
+				$(this).closest('.nav-item.dropdown').addClass('show');
+			}).on('blur', function() {
+				if (!$(this).closest('.nav-item.dropdown').is(':hover')) {
+					$(this).closest('.dropdown-menu').removeClass('show');
+					$(this).closest('.nav-item.dropdown').removeClass('show');
+				}
+			});
+		});
+	</script>
 	<div id="scrollToTop" class="scrollToTop mbr-arrow-up"><a style="text-align: center;"><i></i></a></div>
 </body>
 </html>

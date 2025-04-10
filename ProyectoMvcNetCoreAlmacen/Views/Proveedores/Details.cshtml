@@ -1,77 +1,182 @@
 ﻿@model ProyectoMvcNetCoreAlmacen.Models.Proveedor
-
 <section class="features2 cid-sgSyF0EE4Z" id="features2-d">
-	<section class="contacts2 cid-sgTa8gUoV5" id="contacts2-e">
-		<div class="container">
-			<h2 class="align-center mbr-fonts-style mb-5 mbr-bold display-2">
-				Detalles
-			</h2>
-			<div class="row">
-				<div class="col-md-12 col-lg-9">
-					<div class="google-map">
-						<iframe frameborder="0" style="border:0"
-								src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDbnCmnHmtigIYiD8jIfeHQv7gW2ANhHD4&q=@Uri.EscapeDataString(Model.Direccion)"
-								allowfullscreen="">
-						</iframe>
-					</div>
+    <section class="contacts2 cid-sgTa8gUoV5" id="contacts2-e">
+    <div class="container">
+            <h2 class="mbr-section-title mbr-fonts-style mb-0 mbr-bold display-5">
+                <i class="fa-solid fa-bars-staggered"></i> DETALLES DEL PROVEEDOR
+            </h2>
+            <br />
+        <div class="row justify-content-center">
+            <!-- Dividido en dos columnas iguales -->
+            <div class="col-md-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body p-0">
+                        <div class="google-map h-100">
+                            <iframe frameborder="0" style="border:0; width: 100%; height: 400px;"
+                                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDbnCmnHmtigIYiD8jIfeHQv7gW2ANhHD4&q=@Uri.EscapeDataString(Model.Direccion)"
+                                    allowfullscreen="">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-				</div>
-				<div class="col-md-12 col-lg-3">
-					<div class="card-wrap">
-						<div class="row content-wrap">
-							<div class="col-12">
-								<div class="d-flex justify-content-between align-items-center">
-									<a asp-controller="Proveedores" asp-action="Edit" asp-route-idproveedor="@Model.IdProveedor" class="btn btn-icon" style="border-radius:50%; padding: 10px 15px;">
-										<span class=" socicon socicon mbri-edit2 circle-icon"></span>
-									</a>
+            <!-- Información del proveedor -->
+            <div class="col-md-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body position-relative">
+                        <!-- Botón de edición -->
+                        <div class="position-absolute top-0 end-0 mt-3 me-3">
+                            <a asp-controller="Proveedores" asp-action="Edit" asp-route-idproveedor="@Model.IdProveedor"
+                               class="btn-edit" title="Editar proveedor">
+                                <span class="mbri-edit2"></span>
+                            </a>
+                        </div>
 
-								</div>
-								<h2 class="mbr-card-title align-center mbr-fonts-style mb-1 mbr-bold display-5" style="font-size: xx-large;">
-									@Model.Nombre
-								</h2>
-								<p class="mbr-section-text align-center mbr-fonts-style mb-0 display-4">
-									@Model.Telefono
-								</p>
-								<p class="mbr-section-text align-center mbr-fonts-style mb-0 display-4">
-									@Model.Correo
-								</p>
-							</div>
+                        <!-- Logo o avatar del proveedor -->
+                        <div class="text-center mb-4">
+                            <div class="provider-avatar mb-3">
+                               
+                            </div>
+                            <h2 class="mbr-card-title mbr-fonts-style mbr-bold display-5">
+                                @Model.Nombre
+                            </h2>
+                        </div>
 
-						</div>
-					</div>
-				</div>
+                        <!-- Detalles de contacto -->
+                        <div class="provider-info">
+                            <div class="d-flex align-items-center mb-3">
+                                <span class="mbri-mobile contact-icon me-3"></span>
+                                <p class="mb-0 provider-contact">@Model.Telefono</p>
+                            </div>
+                            <div class="d-flex align-items-center mb-3">
+                                <span class="mbri-letter contact-icon me-3"></span>
+                                <p class="mb-0 provider-contact">@Model.Correo</p>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <span class="mbri-pin contact-icon me-3"></span>
+                                <p class="mb-0 provider-contact">@Model.Direccion</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-			</div>
-		</div>
-	</section>
+        <!-- Botones de acción -->
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <a asp-controller="Proveedores" asp-action="Index" class="btn btn-secondary">Volver a la lista</a>
+            </div>
+        </div>
+    </div>
 </section>
-
+</section>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <style>
-	.circle-icon {
-		display: inline-block;
-		border: 2px solid #f28b00; /* Borde naranja */
-		color: #f28b00; /* Color del icono */
-		border-radius: 50%; /* Hace el borde circular */
-		padding: 8px; /* Espaciado alrededor del icono */
-		font-size: 24px; /* Tamaño del icono */
-		text-align: center; /* Centra el icono dentro del borde */
-		bottom: 150px;
-		right: 367px;
-		position: absolute;
-	}
+    /* Estilos para la vista de detalles del proveedor */
+    .provider-avatar {
+        color: white;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+        margin: 0 auto;
+    }
 
-	.stock-input {
-		border: none;
-		border-bottom: 2px solid black;
-		outline: none;
-		background: transparent;
-		box-shadow: none;
-		width: 100%;
-	}
 
-		.stock-input:focus {
-			border-bottom: 2px solid black;
-			outline: none;
-		}
 
+    .provider-info {
+        padding: 1rem;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+    }
+
+    .provider-contact {
+        font-size: 1rem;
+        color: #333;
+    }
+
+    .contact-icon {
+        color: #f28b00;
+        font-size: 20px;
+        min-width: 24px;
+    }
+
+    .btn-edit {
+        background-color: white;
+        border: 2px solid #f28b00;
+        color: #f28b00;
+        border-radius: 50%;
+        width: 70px;
+        height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        margin-top:-28px;
+    }
+
+        .btn-edit span {
+            font-size: 34px; /* Aumenté el tamaño del ícono */
+        }
+
+        .btn-edit:hover {
+            background-color: #f28b00;
+            color: white;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+    .card {
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+        height: 100%;
+    }
+
+    .google-map {
+        border-radius: 8px;
+        overflow: hidden;
+        height: 100%;
+    }
+
+    /* Asegurar que ambas columnas tengan la misma altura */
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+        .row > [class*='col-'] {
+            display: flex;
+            flex-direction: column;
+        }
+
+    /* Asegurar que el iframe del mapa ocupe todo el espacio disponible */
+    .google-map iframe {
+        min-height: 400px;
+        height: 100%;
+    }
+
+    media (max-width: 767px) {
+        .col-md-6
+
+    {
+        margin-bottom: 20px;
+    }
+
+    }
 </style>

@@ -1,81 +1,533 @@
 ﻿@model IEnumerable<ProyectoMvcNetCoreAlmacen.Models.Pedido>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 <style>
+	/* Estilos generales con estética de almacén/logística */
+	:root {
+		--primary-color: #2c3e50;
+		--secondary-color: #f39c12;
+		--accent-color: #3498db;
+		--light-bg: #f8f9fa;
+		--border-radius: 8px;
+		--box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+		--hover-transition: all 0.25s ease;
+	}
+
+	.pedidos-container {
+		padding: 2rem;
+		background-color: var(--light-bg);
+		border-radius: var(--border-radius);
+		box-shadow: var(--box-shadow);
+	}
+	/* Añade esto al estilo CSS */
+	.estado-pendiente, .estado-en-proceso, .estado-enviado, .estado-entregado {
+		white-space: nowrap;
+		padding: 4px 8px; /* Más compacto */
+		display: inline-block;
+		max-width: 120px; /* Opcional: limita el ancho máximo */
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.page-title {
+		color: var(--primary-color);
+		margin-bottom: 1.5rem;
+		border-bottom: 3px solid var(--secondary-color);
+		padding-bottom: 12px;
+		font-weight: 600;
+	}
+
+		.page-title i {
+			color: var(--secondary-color);
+			margin-right: 10px;
+		}
+
+	.card {
+		border: none;
+		box-shadow: var(--box-shadow);
+		border-radius: var(--border-radius);
+		overflow: hidden;
+	}
+
+	.card-body {
+		padding: 1.5rem;
+	}
+
+	/* Estilos para la tabla */
+	#pedidos {
+		width: 100%;
+		border-collapse: separate;
+		border-spacing: 0;
+	}
+
+		#pedidos thead th {
+			background: linear-gradient(135deg, var(--primary-color), #34495e);
+			color: white;
+			padding: 15px;
+			font-weight: 500;
+			text-align: center;
+			border: none;
+			position: relative;
+		}
+
+			#pedidos thead th:after {
+				content: '';
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				width: 100%;
+				height: 3px;
+				background-color: var(--secondary-color);
+			}
+
+		#pedidos tbody tr {
+			transition: var(--hover-transition);
+		}
+
+			#pedidos tbody tr:hover {
+				background-color: rgba(243, 156, 18, 0.08);
+				transform: translateY(-2px);
+			}
+
+		#pedidos tbody td {
+			padding: 14px 15px;
+			border-bottom: 1px solid #e9ecef;
+			vertical-align: middle;
+		}
+
+	/* Estilos para los botones de exportación */
+	.dt-buttons {
+		margin-bottom: 15px;
+		display: flex;
+		gap: 10px;
+	}
+
+	.btn-exportar-excel, .btn-exportar-pdf, .btn-exportar-print {
+		border-radius: var(--border-radius);
+		padding: 10px 18px;
+		font-weight: 500;
+		transition: var(--hover-transition);
+		border: none;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+	}
+
 	.btn-exportar-excel {
-		background-color: #198754 !important;
+		background-color: #27ae60 !important;
 		color: white !important;
 	}
+
+		.btn-exportar-excel:hover {
+			background-color: #219653 !important;
+			box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3);
+		}
 
 	.btn-exportar-pdf {
-		background-color: #dc3545 !important;
+		background-color: #e74c3c !important;
 		color: white !important;
 	}
+
+		.btn-exportar-pdf:hover {
+			background-color: #c0392b !important;
+			box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
+		}
 
 	.btn-exportar-print {
-		background-color: #00a7c9 !important;
+		background-color: #3498db !important;
 		color: white !important;
 	}
 
+		.btn-exportar-print:hover {
+			background-color: #2980b9 !important;
+			box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+		}
+
+	/* Estilos para el buscador */
 	.dataTables_filter {
-		right: 82px;
-		position: absolute;
-		top: 51px;
+		margin-bottom: 20px;
+		position: relative;
+		float: right !important; /* Fuerza a la derecha */
+		margin-bottom: 1rem;
 	}
 
-	input {
-		border: 3px solid #f28b00;
+		.dataTables_filter input {
+			border: 2px solid #f39c12;
+			border-radius: var(--border-radius);
+			padding: 12px 15px 12px 40px;
+			width: 300px;
+			transition: var(--hover-transition);
+			font-size: 15px;
+		}
+
+			.dataTables_filter input:focus {
+				border-color: var(--secondary-color);
+				box-shadow: 0 0 0 0.25rem rgba(243, 156, 18, 0.25);
+				outline: none;
+			}
+
+		.dataTables_filter:before {
+			content: "\f002";
+			font-family: "Font Awesome 5 Free";
+			font-weight: 900;
+			position: absolute;
+			left: 15px;
+			top: 43%;
+			transform: translateY(-50%);
+			color: #95a5a6;
+			font-size: 16px;
+			z-index: 1;
+		}
+
+	/* Estilos para el enlace de cambio de estado */
+	.change-status {
+		color: var(--primary-color);
+		text-decoration: none;
+		font-weight: 500;
+		transition: var(--hover-transition);
+		padding: 5px 10px;
+		border-radius: 5px;
+		display: inline-block;
+	}
+
+		.change-status:hover {
+			background-color: rgba(44, 62, 80, 0.08);
+		}
+
+	/* Estilos para el modal */
+	.modal-content {
+		border: none;
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+		border-radius: 12px;
+		overflow: hidden;
+	}
+
+	.modal-header {
+		background: #f39c12;
+		color: white;
+		border: none;
+		padding: 20px;
+	}
+
+	.modal-title {
+		font-weight: 600;
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+
+		.modal-title:before {
+			content: "\f205"; /* Toggle On */
+			font-family: "Font Awesome 5 Free";
+			font-weight: 900;
+		}
+
+	.modal-body {
+		padding: 25px;
+	}
+
+	/* Estilos personalizados para el modal */
+	#cambiarEstadoModal .modal-dialog {
+		width: 500px; /* Ancho personalizado */
+		max-width: 90%; /* Para responsive */
+	}
+
+	#cambiarEstadoModal .modal-content {
+		height: 400px; /* Altura personalizada */
+	}
+
+	.form-control, .form-select {
+		border: 2px solid #e9ecef;
+		border-radius: var(--border-radius);
+		padding: 12px 15px;
+		transition: var(--hover-transition);
+		font-size: 15px;
+	}
+
+		.form-control:focus, .form-select:focus {
+			border-color: var(--secondary-color);
+			box-shadow: 0 0 0 0.25rem rgba(243, 156, 18, 0.25);
+		}
+
+	.form-label {
+		font-weight: 500;
+		color: var(--primary-color);
+		margin-bottom: 10px;
+	}
+
+	.modal-footer {
+		padding: 15px 25px;
+		border-top: 1px solid #e9ecef;
+	}
+
+		.modal-footer .btn {
+			padding: 10px 20px;
+			font-weight: 500;
+			border-radius: var(--border-radius);
+			transition: var(--hover-transition);
+		}
+
+		.modal-footer .btn-secondary {
+			background-color: #95a5a6;
+			border-color: #95a5a6;
+		}
+
+			.modal-footer .btn-secondary:hover {
+				background-color: #7f8c8d;
+				border-color: #7f8c8d;
+			}
+
+		.modal-footer .btn-primary {
+			background: linear-gradient(135deg, var(--secondary-color), #e67e22);
+			border: none;
+		}
+
+			.modal-footer .btn-primary:hover {
+				background: linear-gradient(135deg, #e67e22, #d35400);
+				box-shadow: 0 4px 10px rgba(230, 126, 34, 0.3);
+			}
+
+	.close {
+		color: white;
+		opacity: 1;
+		background: none;
+		border: none;
+		font-size: 22px;
+	}
+
+		.close:hover {
+			color: #ecf0f1;
+		}
+
+	/* Estilos para estados de pedidos */
+	.estado-pendiente, .estado-en-proceso, .estado-enviado, .estado-entregado {
+		padding: 8px 12px;
+		border-radius: 20px;
+		font-weight: 500;
+		font-size: 14px;
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+	}
+
+		.estado-pendiente:before, .estado-en-proceso:before, .estado-enviado:before, .estado-entregado:before {
+			font-family: "Font Awesome 5 Free";
+			font-weight: 900;
+		}
+
+	.estado-pendiente {
+		background-color: #ffeaa7;
+		color: #d9a400;
+	}
+
+		.estado-pendiente:before {
+			content: "\f252";
+		}
+
+	.estado-en-proceso {
+		background-color: #bae6fd;
+		color: #0369a1;
+	}
+
+		.estado-en-proceso:before {
+			content: "\f252";
+		}
+
+	.estado-enviado {
+		background-color: #d8b4fe;
+		color: #7e22ce;
+	}
+
+		.estado-enviado:before {
+			content: "\f48b";
+		}
+
+	.estado-entregado {
+		background-color: #bbf7d0;
+		color: #166534;
+	}
+
+		.estado-entregado:before {
+			content: "\f058";
+		}
+
+	/* Añadir estilo para la tabla con datos */
+	.table-responsive {
+		overflow-x: auto;
+		margin-bottom: 20px;
+		border-radius: var(--border-radius);
+	}
+
+	/* Estilos para la paginación */
+	.dataTables_paginate {
+		margin-top: 15px;
+		display: flex;
+		justify-content: flex-end;
+	}
+
+		.dataTables_paginate .paginate_button {
+			padding: 6px 12px;
+			margin: 0 3px;
+			border-radius: 4px;
+			cursor: pointer;
+			background-color: #f8f9fa;
+			color: var(--primary-color);
+			transition: var(--hover-transition);
+		}
+
+			.dataTables_paginate .paginate_button.current {
+				background-color: var(--secondary-color);
+				color: white;
+			}
+
+			.dataTables_paginate .paginate_button:hover:not(.current) {
+				background-color: #e9ecef;
+			}
+
+	/* Animaciones para elementos interactivos */
+	keyframes pulse {
+		0%
+
+	{
+		transform: scale(1);
+	}
+
+	50% {
+		transform: scale(1.05);
+	}
+
+	100% {
+		transform: scale(1);
+	}
+
+	}
+
+	.btn-exportar-excel:active, .btn-exportar-pdf:active, .btn-exportar-print:active,
+	.btn-primary:active {
+		animation: pulse 0.3s ease-in-out;
+	}
+
+	/* Sweetalert personalizado */
+	.swal2-popup {
+		border-radius: 12px;
+		padding: 20px;
+	}
+
+	.swal2-title {
+		color: var(--primary-color);
+	}
+
+	.swal2-icon.swal2-success {
+		color: #27ae60;
+		border-color: #27ae60;
+	}
+
+	/* Mejoras responsive */
+	media (max-width: 992px) {
+		.dataTables_filter
+
+	{
+		width: 100%;
+	}
+
+	.dataTables_filter input {
+		width: 100%;
+	}
+
+	.dt-buttons {
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+
+	.modal-dialog {
+		margin: 10px;
+	}
+
+	}
+
+	media (max-width: 768px) {
+		.page-title
+
+	{
+		font-size: 1.5rem;
+	}
+
+	#pedidos thead th, #pedidos tbody td {
+		padding: 10px 8px;
+		font-size: 14px;
+	}
+
+	.btn-exportar-excel, .btn-exportar-pdf, .btn-exportar-print {
+		padding: 8px 12px;
+		font-size: 14px;
+	}
+
 	}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
 
 <section class="features2 cid-sgSyF0EE4Z" id="features2-d">
 	<div class="container">
-		<h1 class="mbr-section-title mbr-fonts-style mb-0 mbr-bold display-5">Pedidos</h1>
-		<table id="pedidos" class="table table-hover table-responsive table-striped">
-			<br />
-			<thead>
-				<tr>
-					<th>@Html.DisplayNameFor(model => model.IdPedido)</th>
-					<th>Proveedor</th>
-					<th>Producto</th>
-					<th>@Html.DisplayNameFor(model => model.FechaPedido)</th>
-					<th>@Html.DisplayNameFor(model => model.FechaEntrega)</th>
-					<th>@Html.DisplayNameFor(model => model.Estado)</th>
-					<th>@Html.DisplayNameFor(model => model.Cantidad)</th>
-					<th>@Html.DisplayNameFor(model => model.Precio)</th>
-					<th>@Html.DisplayNameFor(model => model.PrecioTotalPedido)</th>
-				</tr>
-			</thead>
-			<tbody>
-				@foreach (var item in Model)
-				{
-					<tr>
-						<td>@Html.DisplayFor(modelItem => item.IdPedido)</td>
-						<td>@Html.DisplayFor(modelItem => item.Proveedor.Nombre)</td>
-						<td>@Html.DisplayFor(modelItem => item.Producto.Nombre)</td>
-						<td>@Html.DisplayFor(modelItem => item.FechaPedido)</td>
-						<td>@Html.DisplayFor(modelItem => item.FechaEntrega)</td>
-						<td>
-							<a href="#" class="change-status" data-id="@item.IdPedido" data-estado="@item.Estado" data-bs-toggle="modal" data-bs-target="#cambiarEstadoModal">
-								@Html.DisplayFor(modelItem => item.Estado)
-							</a>
-						</td>
-						@*   <td>@Html.DisplayFor(modelItem => item.Estado)</td> *@
-						<td>@Html.DisplayFor(modelItem => item.Cantidad)</td>
-						<td>@Html.DisplayFor(modelItem => item.Precio)</td>
-						<td>@Html.DisplayFor(modelItem => item.PrecioTotalPedido)</td>
-					</tr>
-				}
-			</tbody>
-		</table>
+		<div class="row">
+			<div class="col-12">
+				<h1 class="page-title display-6">
+					<i class="fas fa-dolly"></i> GESTIÓN DE PEDIDOS
+				</h1>
+
+				<div class="card mb-4">
+					<div class="card-body">
+
+						<table id="pedidos" class="table table-hover" style="font-size:smaller;">
+							<thead>
+								<tr>
+									<th>@Html.DisplayNameFor(model => model.IdPedido)</th>
+									<th>Proveedor</th>
+									<th>Producto</th>
+									<th>@Html.DisplayNameFor(model => model.FechaPedido)</th>
+									<th>@Html.DisplayNameFor(model => model.FechaEntrega)</th>
+									<th>@Html.DisplayNameFor(model => model.Estado)</th>
+									<th>@Html.DisplayNameFor(model => model.Cantidad)</th>
+									<th>@Html.DisplayNameFor(model => model.Precio)</th>
+									<th>PrecioTotal</th>
+								</tr>
+							</thead>
+							<tbody>
+								@foreach (var item in Model)
+								{
+									<tr>
+										<td>@Html.DisplayFor(modelItem => item.IdPedido)</td>
+										<td>@Html.DisplayFor(modelItem => item.Proveedor.Nombre)</td>
+										<td>@Html.DisplayFor(modelItem => item.Producto.Nombre)</td>
+										<td>@item.FechaPedido.ToString("dd/MM/yyyy")</td>
+										<td>@item.FechaEntrega.ToString("dd/MM/yyyy")</td>
+										<td>
+											<a href="#" class="change-status" data-id="@item.IdPedido" data-estado="@item.Estado" data-bs-toggle="modal" data-bs-target="#cambiarEstadoModal">
+												<span class="estado-@(item.Estado.ToLower().Replace(" ", "-"))">
+													@Html.DisplayFor(modelItem => item.Estado)
+												</span>
+											</a>
+										</td>
+										<td>@Html.DisplayFor(modelItem => item.Cantidad)</td>
+										<td>@Html.DisplayFor(modelItem => item.Precio) €</td>
+										<td>@Html.DisplayFor(modelItem => item.PrecioTotalPedido) €</td>
+									</tr>
+								}
+							</tbody>
+						</table>
+
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </section>
 
-<!-- Modal -->
 <div class="modal fade" id="cambiarEstadoModal" tabindex="-1" aria-labelledby="cambiarEstadoModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered d-flex align-items-center justify-content-center">
-		<div class="modal-content" style="background-color: #f8f9fa; border-radius: 10px; max-width: 450px; max-height: 355px;">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="cambiarEstadoModalLabel">Cambiar estado</h5>
+				<h5 class="modal-title" id="cambiarEstadoModalLabel">Cambiar Estado del Pedido</h5>
 				<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -83,22 +535,29 @@
 			<div class="modal-body">
 				<form id="formCambiarEstado" method="post" action="/Pedidos/CambiarEstado">
 					<input type="hidden" name="IdPedido" id="pedidoId" value="" />
-					<label for="nuevoEstado">Nuevo estado:</label>
-					<select class="form-control" name="Estado" id="nuevoEstado">
-						<option value="Pendiente">Pendiente</option>
-						<option value="En proceso">En proceso</option>
-						<option value="Enviado">Enviado</option>
-						<option value="Entregado">Entregado</option>
-					</select>
+					<div class="mb-3">
+						<label for="nuevoEstado" class="form-label">Seleccione el nuevo estado:</label>
+						<select class="form-control" name="Estado" id="nuevoEstado">
+							<option value="Pendiente">Pendiente</option>
+							<option value="En proceso">En proceso</option>
+							<option value="Enviado">Enviado</option>
+							<option value="Entregado">Entregado</option>
+						</select>
+					</div>
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="submit" class="btn btn-primary" style="border-radius:8px" form="formCambiarEstado">Guardar cambios</button>
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="gap: 0.5rem;">
+					<i class="fas fa-times me-2"></i> Cancelar
+				</button>
+				<button type="submit" class="btn btn-primary" form="formCambiarEstado" style="gap: 0.5rem;">
+					<i class="fas fa-save me-2"></i> Guardar cambios
+				</button>
 			</div>
+
 		</div>
 	</div>
 </div>
-
 
 @section Scripts {
 	<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
@@ -108,10 +567,19 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 	<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+	<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 	<script>
-
-				document.addEventListener("DOMContentLoaded", function () {
+		document.addEventListener("DOMContentLoaded", function () {
+			// Manejo del cambio de estado
 			document.querySelectorAll(".change-status").forEach(button => {
 				button.addEventListener("click", function () {
 					let pedidoId = this.getAttribute("data-id");
@@ -122,7 +590,7 @@
 			});
 
 			document.getElementById("formCambiarEstado").addEventListener("submit", function (event) {
-				event.preventDefault(); // Evita el envío del formulario normal
+				event.preventDefault();
 
 				let formData = new FormData(this);
 
@@ -137,48 +605,102 @@
 					throw new Error("Error al actualizar el estado");
 				})
 				.then(() => {
-					location.reload(); // Recargar la página para ver los cambios
+					// Cerrar el modal
+					const modal = bootstrap.Modal.getInstance(document.getElementById('cambiarEstadoModal'));
+					modal.hide();
+
+					// Mostrar mensaje de éxito
+					const Toast = Swal.mixin({
+						toast: true,
+						position: 'top-end',
+						showConfirmButton: false,
+						timer: 3000,
+						timerProgressBar: true
+					});
+
+					Toast.fire({
+						icon: 'success',
+						title: 'Estado actualizado correctamente'
+					});
+
+					// Recargar la página después de un breve retraso
+					setTimeout(() => {
+						location.reload();
+					}, 1000);
 				})
-				.catch(error => console.error(error));
+				.catch(error => {
+					console.error(error);
+
+					// Mostrar mensaje de error
+					Swal.fire({
+						icon: 'error',
+						title: 'Error',
+						text: 'No se pudo actualizar el estado del pedido',
+					});
+				});
 			});
 		});
 
 
 
 		$(document).ready(function () {
+			// Inicialización de DataTables con configuración mejorada
 			$('#pedidos').DataTable({
-					"paging": false, // Deshabilita la paginación
-					"info": false,
 				"language": {
 					url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json",
-					searchPlaceholder: "Buscar pedido...", // Aquí puedes poner el texto que desees
+					searchPlaceholder: "Buscar pedido...",
 					search: ""
 				},
-				dom: "Bfrtip",
-				buttons: [
+				"autoWidth":false,
+				"responsive": true,
+				"paging":false,
+				"info":false,
+				"dom": "<'row'<'col-sm-12 col-md-6'B><'col-sm-12 col-md-6'f>>" +
+			   "<'row'<'col-sm-12'tr>>",
+				"buttons": [
 					{
 						extend: 'excelHtml5',
-						text: 'Exportar Excel',
-						filename: 'Reporte Pedidos',
-						title: 'Listado de Pedidos',
+						text: '<i class="fas fa-file-excel me-2"></i> Excel',
+						titleAttr: 'Exportar a Excel',
+						filename: 'Reporte_Pedidos_' + new Date().toISOString().slice(0,10),
+						title: 'Listado de Pedidos - ' + new Date().toLocaleDateString(),
 						exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8] },
 						className: 'btn-exportar-excel',
+						messageTop: 'Fecha de reporte: ' + new Date().toLocaleDateString()
 					},
 					{
 						extend: 'pdfHtml5',
-						text: 'Exportar PDF',
-						filename: 'Reporte Pedidos',
-						title: 'Listado de Pedidos',
+						text: '<i class="fas fa-file-pdf me-2"></i> PDF',
+						titleAttr: 'Exportar a PDF',
+						filename: 'Reporte_Pedidos_' + new Date().toISOString().slice(0,10),
+						title: 'Listado de Pedidos - Sistema de Gestión de Almacén',
 						exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8] },
 						className: 'btn-exportar-pdf',
+						messageTop: 'Fecha de reporte: ' + new Date().toLocaleDateString(),
+						orientation: 'landscape',
+						customize: function(doc) {
+							doc.defaultStyle.fontSize = 10;
+							doc.styles.tableHeader.fontSize = 12;
+							doc.styles.tableHeader.alignment = 'center';
+							doc.styles.tableHeader.fillColor = '#2c3e50';
+						}
 					},
 					{
 						extend: 'print',
-						title: 'Listado de Pedidos',
+						text: '<i class="fas fa-print me-2"></i> Imprimir',
+						titleAttr: 'Imprimir',
+						title: 'Listado de Pedidos - Sistema de Gestión de Almacén',
 						exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7, 8] },
-						className: 'btn-exportar-print'
+						className: 'btn-exportar-print',
+						messageTop: 'Fecha de impresión: ' + new Date().toLocaleDateString()
 					}
-				]
+				],
+
+				"initComplete": function(settings, json) {
+					// Aplicar estilos adicionales después de la inicialización
+					$('.dataTables_filter input').attr('aria-label', 'Buscador');
+					$('.dataTables_info').addClass('text-muted');
+				}
 			});
 		});
 	</script>
