@@ -241,6 +241,16 @@
 			flex-direction: column;
 			justify-content: center;
 		}
+		/* Modifica esta parte en tus estilos */
+		.navbar-nav .dropdown-menu {
+			margin-top: 0.2rem; /* Reduce este valor para acercar el dropdown al nav */
+			/* Resto de tus estilos... */
+		}
+
+			/* También ajusta el triángulo decorativo si es necesario */
+			.navbar-nav .dropdown-menu:before {
+				top: -6px; /* Puedes reducir este valor para mover el triángulo hacia arriba */
+			}
 
 			#mobirisePromo .banner p {
 				overflow: hidden;
@@ -351,7 +361,7 @@
 							</li>
 						</ul>
 						<div class="navbar-buttons mbr-section-btn">
-							<a class="btn btn-md btn-secondary display-7" asp-controller="Tiendas" asp-action="Index">Perfil tienda</a>
+							<a class="btn btn-md btn-secondary display-7" asp-controller="Tiendas" asp-action="Index"><i class="fas fa-store"></i> Perfil tienda</a>
 						</div>
 					</div>
 				</nav>
@@ -388,6 +398,8 @@
 	<script src="https://r.mobirisesite.com/1228853/assets/ytplayer/index.js?rnd=1741923534718"></script>
 	<script src="https://r.mobirisesite.com/1228853/assets/dropdown/js/navbar-dropdown.js?rnd=1741923534718"></script>
 	<script src="https://r.mobirisesite.com/1228853/assets/theme/js/script.js?rnd=1741923534718"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
 	@await RenderSectionAsync("Scripts", required: false)
 	<script>
 		$(document).ready(function() {

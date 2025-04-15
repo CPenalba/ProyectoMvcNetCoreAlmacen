@@ -1,75 +1,462 @@
 ﻿@{
-    var tienda = ViewData["Tienda"] as Tienda;
+	var tienda = ViewData["Tienda"] as Tienda;
 }
 
 <section class="features2 cid-sgSyF0EE4Z" id="features2-d">
-    <section class="contacts2 cid-sgTa8gUoV5" id="contacts2-e">
-        <div class="container">
-            <h2 class="align-center mbr-fonts-style mb-5 mbr-bold display-2">
-                Bienvenida/o
-            </h2>
-            <div class="row">
-                <div class="col-md-12 col-lg-9">
-                    <div class="google-map">
-                        <iframe frameborder="0" style="border:0"
-                                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDbnCmnHmtigIYiD8jIfeHQv7gW2ANhHD4&q=@Uri.EscapeDataString(tienda.Direccion)"
-                                allowfullscreen="">
-                        </iframe>
-                    </div>
-                </div>
-                <div class="col-md-12 col-lg-3">
-                    <div class="card-wrap">
-                        <div class="row content-wrap">
-                            <div class="col-12">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <!-- Formulario de Cerrar Sesión con Icono de Logout -->
-                                    <form method="post" asp-action="Logout" asp-controller="Tiendas">
-                                        <button type="submit" class="btn btn-icon" style="border-radius:50%; padding: 10px 15px;">
-                                            <span class="socicon mbri-logout circle-icon"></span>
-                                        </button>
-                                    </form>
-                                </div>
-                                <h2 class="mbr-card-title align-center mbr-fonts-style mb-1 mbr-bold display-5" style="font-size: xx-large;">
-                                    @tienda.Nombre
-                                </h2>
-                                <p class="mbr-section-text align-center mbr-fonts-style mb-0 display-4">
-                                    @tienda.Correo
-                                </p>
-                               
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+	<section class="store-profile-section">
+		<div class="container">
+			<div class="profile-header">
+				<h2 class="store-title">
+					<i class="fas fa-store"></i> Bienvenida/o a tu Tienda
+				</h2>
+			</div>
+
+			<div class="profile-container">
+				<div class="store-info-section">
+					<div class="store-card">
+						<div class="card-header">
+							<h3 class="section-title">
+								<i class="fas fa-info-circle"></i> Información de la Tienda
+							</h3>
+							<form method="post" action="/Tiendas/Logout" class="logout-form">
+								<button type="submit" class="logout-btn" title="Cerrar Sesión">
+									<span class="logout-icon">
+										<span class="socicon mbri-logout"></span>
+									</span>
+								</button>
+							</form>
+						</div>
+
+						<div class="store-details">
+							<div class="detail-item">
+								<div class="detail-icon">
+									<i class="fas fa-shopping-cart"></i>
+								</div>
+								<div class="detail-content">
+									<span class="detail-label">Nombre:</span>
+									<span class="detail-value store-name">@tienda.Nombre</span>
+								</div>
+							</div>
+
+							<div class="detail-item">
+								<div class="detail-icon">
+									<i class="fas fa-envelope"></i>
+								</div>
+								<div class="detail-content">
+									<span class="detail-label">Email:</span>
+									<span class="detail-value store-email">@tienda.Correo</span>
+								</div>
+							</div>
+
+							<div class="detail-item">
+								<div class="detail-icon">
+									<i class="fas fa-map-marker-alt"></i>
+								</div>
+								<div class="detail-content">
+									<span class="detail-label">Dirección:</span>
+									<span class="detail-value store-address">@tienda.Direccion</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="store-stats">
+
+							<div class="store-stats">
+								<a href="@Url.Action("Index", "Productos")" class="stat-item">
+									<div class="stat-icon">
+										<i class="fas fa-boxes"></i>
+									</div>
+									<span class="stat-value">Inventario</span>
+								</a>
+
+								<a href="@Url.Action("Index", "Proveedores")" class="stat-item">
+									<div class="stat-icon">
+										<i class="fas fa-shipping-fast"></i>
+									</div>
+									<span class="stat-value">Proveedores</span>
+								</a>
+
+								<a href="@Url.Action("Index", "Pedidos")" class="stat-item">
+									<div class="stat-icon">
+										<i class="fas fa-dolly"></i>
+									</div>
+									<span class="stat-value">Pedidos</span>
+								</a>
+
+								<a href="@Url.Action("Index", "DetallesVentas")" class="stat-item">
+									<div class="stat-icon">
+										<i class="fas fa-shopping-cart"></i>
+									</div>
+									<span class="stat-value">Ventas</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="map-section">
+					<div class="location-card">
+						<h3 class="section-title">
+							<i class="fas fa-map-marked-alt"></i> Ubicación
+						</h3>
+						<div class="google-map">
+							<iframe src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDbnCmnHmtigIYiD8jIfeHQv7gW2ANhHD4&q=@Uri.EscapeDataString(tienda.Direccion)"
+									allowfullscreen="">
+							</iframe>
+						</div>
+						<div class="map-info">
+							<i class="fas fa-info-circle"></i>
+							<span>Puedes hacer clic en el mapa para ver indicaciones</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 </section>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <style>
-    .circle-icon {
-        display: inline-block;
-        border: 2px solid #f28b00; /* Borde naranja */
-        color: #f28b00; /* Color del icono */
-        border-radius: 50%; /* Hace el borde circular */
-        padding: 16px; /* Espaciado alrededor del icono */
-        font-size: 41px; /* Tamaño del icono */
-        text-align: center; /* Centra el icono dentro del borde */
-        bottom: 107px;
-        right: 329px;
-        position: absolute;
-    }
+	/* Variables */
+	:root {
+		--primary-color: #f28b00;
+		--secondary-color: #2d3748;
+		--text-color: #333;
+		--light-bg: #f8f9fa;
+		--card-bg: #ffffff;
+		--border-radius: 12px;
+		--box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+		--icon-bg: #fff5e8;
+		--border-color: #e2e8f0;
+		--success-color: #38a169;
+	}
 
-    .stock-input {
-        border: none;
-        border-bottom: 2px solid black;
-        outline: none;
-        background: transparent;
-        box-shadow: none;
-        width: 100%;
-    }
+	/* General Styles */
+	body {
+		font-family: 'Poppins', sans-serif;
+		color: var(--text-color);
+		background-color: var(--light-bg);
+		margin: 0;
+		padding: 0;
+		line-height: 1.6;
+	}
 
-        .stock-input:focus {
-            border-bottom: 2px solid black;
-            outline: none;
-        }
+
+	.container {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 20px;
+	}
+
+	.store-stats {
+		display: flex;
+		justify-content: space-around;
+		gap: 10px;
+		padding: 15px 0;
+	}
+
+	.stat-item {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-decoration: none;
+		color: inherit;
+		padding: 10px;
+		border-radius: 8px;
+		transition: background-color 0.3s, transform 0.2s;
+	}
+
+		.stat-item:hover {
+			background-color: #f5f5f5;
+			transform: scale(1.05);
+			text-decoration: none;
+		}
+
+	.stat-value {
+		font-size: 14px;
+		font-weight: 500;
+		color: #333;
+	}
+
+	/* Store Profile Section */
+	.store-profile-section {
+		padding: 40px 0;
+		background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+	}
+
+	.profile-header {
+		margin-bottom: 30px;
+		text-align: center;
+	}
+
+	.store-title {
+		font-size: 32px;
+		font-weight: 700;
+		color: var(--secondary-color);
+		margin: 0;
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+	}
+
+		.store-title i {
+			color: var(--primary-color);
+		}
+
+	.profile-container {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 25px;
+	}
+
+	/* Store Info Section */
+	.store-info-section {
+		flex: 1;
+		min-width: 350px;
+	}
+
+	.store-card {
+		background-color: var(--card-bg);
+		border-radius: var(--border-radius);
+		box-shadow: var(--box-shadow);
+		overflow: hidden;
+		border: 1px solid var(--border-color);
+	}
+
+	.card-header {
+		background-color: var(--primary-color);
+		color: white;
+		padding: 20px;
+		position: relative;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.section-title {
+		margin: 0;
+		font-size: 20px;
+		font-weight: 600;
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+
+	.logout-form {
+		margin: 0;
+	}
+
+	.logout-btn {
+		background: none;
+		border: none;
+		cursor: pointer;
+		padding: 0;
+	}
+
+	.logout-icon {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		background-color: rgba(255, 255, 255, 0.2);
+		color: white;
+		transition: all 0.3s ease;
+	}
+
+		.logout-icon:hover {
+			background-color: rgba(255, 255, 255, 0.3);
+			transform: scale(1.05);
+		}
+
+	.store-details {
+		padding: 20px;
+	}
+
+	.detail-item {
+		display: flex;
+		align-items: center;
+		margin-bottom: 20px;
+		padding-bottom: 15px;
+		border-bottom: 1px solid var(--border-color);
+	}
+
+		.detail-item:last-child {
+			margin-bottom: 0;
+			padding-bottom: 0;
+			border-bottom: none;
+		}
+
+	.detail-icon {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 45px;
+		height: 45px;
+		border-radius: 50%;
+		background-color: var(--icon-bg);
+		margin-right: 15px;
+		flex-shrink: 0;
+	}
+
+		.detail-icon i {
+			color: var(--primary-color);
+			font-size: 18px;
+		}
+
+	.detail-content {
+		flex-grow: 1;
+	}
+
+	.detail-label {
+		display: block;
+		font-size: 14px;
+		color: #6c757d;
+		margin-bottom: 3px;
+	}
+
+	.detail-value {
+		display: block;
+		font-size: 16px;
+		font-weight: 500;
+		color: var(--secondary-color);
+		word-break: break-word;
+	}
+
+	.store-stats {
+		display: flex;
+		background-color: #f8f9fa;
+		border-top: 1px solid var(--border-color);
+	}
+
+	.stat-item {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding: 15px 10px;
+		gap: 8px;
+		text-align: center;
+		border-right: 1px solid var(--border-color);
+	}
+
+		.stat-item:last-child {
+			border-right: none;
+		}
+
+		.stat-item i {
+			color: var(--primary-color);
+			font-size: 20px;
+		}
+
+	.stat-value {
+		font-size: 14px;
+		color: var(--secondary-color);
+		font-weight: 500;
+	}
+
+	/* Map Section */
+	.map-section {
+		flex: 1.5;
+		min-width: 350px;
+	}
+
+	.location-card {
+		background-color: var(--card-bg);
+		border-radius: var(--border-radius);
+		box-shadow: var(--box-shadow);
+		overflow: hidden;
+		border: 1px solid var(--border-color);
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+
+		.location-card .section-title {
+			background-color: var(--primary-color);
+			color: white;
+			padding: 20px;
+			margin: 0;
+		}
+
+	.google-map {
+		flex-grow: 1;
+		min-height: 350px;
+	}
+
+		.google-map iframe {
+			width: 100%;
+			height: 100%;
+			min-height: 350px;
+			border: none;
+		}
+
+	.map-info {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		padding: 12px 20px;
+		background-color: #f8f9fa;
+		border-top: 1px solid var(--border-color);
+		font-size: 14px;
+		color: #6c757d;
+	}
+
+	/* Stock Input */
+	.stock-input {
+		border: none;
+		border-bottom: 2px solid black;
+		outline: none;
+		background: transparent;
+		box-shadow: none;
+		width: 100%;
+		padding: 10px 5px;
+		margin-top: 15px;
+		font-size: 16px;
+		transition: all 0.3s ease;
+	}
+
+		.stock-input:focus {
+			border-bottom: 2px solid var(--primary-color);
+		}
+
+	/* Responsive Design */
+	media (max-width: 992px) {
+		.profile-container
+
+	{
+		flex-direction: column;
+	}
+
+	.store-info-section, .map-section {
+		width: 100%;
+	}
+
+	}
+
+	media (max-width: 576px) {
+		.store-title
+
+	{
+		font-size: 24px;
+	}
+
+	.detail-icon {
+		width: 35px;
+		height: 35px;
+	}
+
+	.detail-label {
+		font-size: 12px;
+	}
+
+	.detail-value {
+		font-size: 14px;
+	}
+
+	.section-title {
+		font-size: 18px;
+	}
+
+	}
 </style>
