@@ -6,11 +6,13 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
 {
     public class TiendasController : Controller
     {
-        private RepositoryTienda repoTienda;
+        private RepositoryTienda repoTienda; 
+        private RepositoryUsuario repoUsuario;
 
-        public TiendasController(RepositoryTienda repoTienda)
+        public TiendasController(RepositoryTienda repoTienda, RepositoryUsuario repoUsuario)
         {
             this.repoTienda = repoTienda;
+            this.repoUsuario = repoUsuario;
         }
         public async Task<IActionResult> Index()
         {
@@ -32,7 +34,8 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
 
             // Si hay una tienda logueada, pasar la tienda a la vista
             ViewData["Tienda"] = tienda;
-            return View();
+            List<Usuario> usuarios = await this.repoUsuario.GetUsuariosAsync((int)tiendaId);
+            return View(usuarios);
         }
 
         public IActionResult Login()

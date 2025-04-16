@@ -1,0 +1,605 @@
+﻿@model Usuario
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<style>
+	/* Variables */
+	:root {
+		--primary-color: #f28b00;
+		--secondary-color: #2d3748;
+		--text-color: #333;
+		--light-bg: #f8f9fa;
+		--card-bg: #ffffff;
+		--border-radius: 12px;
+		--box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+		--icon-bg: #fff5e8;
+		--border-color: #e2e8f0;
+		--success-color: #38a169;
+		--danger-color: #e53e3e;
+	}
+
+	/* General Styles */
+	body {
+		font-family: 'Poppins', sans-serif;
+		color: var(--text-color);
+		margin: 0;
+		padding: 0;
+		line-height: 1.6;
+	}
+
+	.container {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 20px;
+	}
+
+	/* Password Edit Section */
+	.password-edit-section {
+		padding: 40px 0;
+		background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+	}
+
+	.section-header {
+		margin-bottom: 30px;
+		text-align: center;
+	}
+
+	.page-title {
+		font-size: 32px;
+		font-weight: 700;
+		color: var(--secondary-color);
+		margin: 0;
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+	}
+
+		.page-title i {
+			color: var(--primary-color);
+		}
+
+	.password-form-container {
+		max-width: 600px;
+		margin: 0 auto;
+	}
+
+	.password-card {
+		background-color: var(--card-bg);
+		border-radius: var(--border-radius);
+		box-shadow: var(--box-shadow);
+		overflow: hidden;
+		border: 1px solid var(--border-color);
+	}
+
+	.card-header {
+		background-color: var(--primary-color);
+		color: white;
+		padding: 20px;
+		position: relative;
+	}
+
+	.section-title {
+		margin: 0;
+		font-size: 20px;
+		font-weight: 600;
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+
+	.password-form {
+		padding: 30px;
+	}
+
+	.form-group {
+		margin-bottom: 25px;
+	}
+
+	.form-label {
+		display: block;
+		font-size: 14px;
+		color: #6c757d;
+		margin-bottom: 8px;
+		font-weight: 500;
+	}
+
+	.form-input {
+		width: 100%;
+		padding: 12px 15px;
+		border: 1px solid var(--border-color);
+		border-radius: 8px;
+		background-color: #fff;
+		font-size: 16px;
+		transition: all 0.3s ease;
+		outline: none;
+	}
+
+		.form-input:focus {
+			border-color: var(--primary-color);
+			box-shadow: 0 0 0 3px rgba(242, 139, 0, 0.15);
+		}
+
+	.password-input-wrapper {
+		position: relative;
+	}
+
+	.toggle-password {
+		position: absolute;
+		right: 15px;
+		top: 50%;
+		transform: translateY(-50%);
+		background: none;
+		border: none;
+		color: #6c757d;
+		cursor: pointer;
+		font-size: 16px;
+	}
+
+		.toggle-password:hover {
+			color: var(--primary-color);
+		}
+
+	.password-strength {
+		margin-top: 8px;
+		height: 5px;
+		border-radius: 3px;
+		background-color: #e2e8f0;
+		overflow: hidden;
+	}
+
+	.strength-meter {
+		height: 100%;
+		width: 0%;
+		transition: all 0.3s ease;
+	}
+
+	.strength-weak {
+		width: 33%;
+		background-color: var(--danger-color);
+	}
+
+	.strength-medium {
+		width: 66%;
+		background-color: var(--primary-color);
+	}
+
+	.strength-strong {
+		width: 100%;
+		background-color: var(--success-color);
+	}
+
+	.password-feedback {
+		margin-top: 8px;
+		font-size: 12px;
+		color: #6c757d;
+	}
+
+	.buttons-container {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-top: 20px;
+	}
+	/* SweetAlert2 Custom Styles */
+	.swal2-popup {
+		background: var(--card-bg) !important;
+		border-radius: var(--border-radius) !important;
+		box-shadow: var(--box-shadow) !important;
+		border: 1px solid var(--border-color) !important;
+	}
+
+	.swal2-title {
+		color: var(--secondary-color) !important;
+		font-size: 24px !important;
+		font-weight: 600 !important;
+	}
+
+	.swal2-content {
+		color: var(--text-color) !important;
+		font-size: 16px !important;
+	}
+
+	.swal2-confirm {
+		background-color: var(--primary-color) !important;
+		border: none !important;
+		border-radius: 8px !important;
+		padding: 10px 24px !important;
+		font-size: 16px !important;
+		font-weight: 500 !important;
+		transition: all 0.3s ease !important;
+	}
+
+		.swal2-confirm:hover {
+			background-color: #e07e00 !important;
+			transform: translateY(-2px) !important;
+		}
+
+	.swal2-success .swal2-success-ring {
+		border-color: rgba(56, 161, 105, 0.3) !important;
+	}
+
+	.swal2-success [class^=swal2-success-line] {
+		background-color: var(--success-color) !important;
+	}
+
+	.swal2-error [class^=swal2-x-mark-line] {
+		background-color: var(--danger-color) !important;
+	}
+
+	.back-link {
+		color: #6c757d;
+		text-decoration: none;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		font-size: 14px;
+		transition: all 0.3s ease;
+	}
+
+		.back-link:hover {
+			color: var(--primary-color);
+		}
+
+	.form-button {
+		padding: 12px 25px;
+		border: none;
+		border-radius: 8px;
+		font-size: 16px;
+		font-weight: 500;
+		cursor: pointer;
+		transition: all 0.3s ease;
+	}
+
+	.primary-button {
+		background-color: var(--primary-color);
+		color: white;
+	}
+
+		.primary-button:hover {
+			background-color: #e07e00;
+			transform: translateY(-2px);
+		}
+
+	.password-requirements {
+		margin-top: 25px;
+		background-color: #f8f9fa;
+		border-radius: 8px;
+		padding: 15px;
+		border-left: 3px solid var(--primary-color);
+	}
+
+	.requirements-title {
+		font-size: 14px;
+		font-weight: 600;
+		color: var(--secondary-color);
+		margin-bottom: 10px;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+
+	.requirements-list {
+		margin: 0;
+		padding-left: 25px;
+	}
+
+		.requirements-list li {
+			font-size: 13px;
+			color: #6c757d;
+			margin-bottom: 5px;
+		}
+
+			.requirements-list li.fulfilled {
+				color: var(--success-color);
+			}
+
+	.alert {
+		padding: 12px 15px;
+		border-radius: 8px;
+		margin-bottom: 20px;
+		font-size: 14px;
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+
+	.alert-success {
+		background-color: #def7ec;
+		color: #057a55;
+		border-left: 3px solid #057a55;
+	}
+
+	.alert-error {
+		background-color: #fde8e8;
+		color: #c81e1e;
+		border-left: 3px solid #c81e1e;
+	}
+
+	/* Responsive Design */
+	@@media (max-width: 768px) {
+		.password-form {
+			padding: 20px;
+		}
+
+		.page-title {
+			font-size: 26px;
+		}
+
+		.form-input {
+			padding: 10px 12px;
+			font-size: 15px;
+		}
+
+		.form-button {
+			padding: 10px 20px;
+			font-size: 15px;
+		}
+	}
+
+	@@media (max-width: 576px) {
+		.buttons-container {
+			flex-direction: column;
+			gap: 15px;
+			align-items: stretch;
+		}
+
+		.back-link {
+			margin-bottom: 10px;
+			justify-content: center;
+		}
+	}
+</style>
+
+<section class="features2 cid-sgSyF0EE4Z" id="features2-d">
+	<section class="password-edit-section">
+		<div class="container">
+			<div class="section-header">
+				<h1 class="page-title">
+					<i class="fas fa-lock"></i> CAMBIAR CONTRASEÑA
+				</h1>
+			</div>
+
+			<div class="password-form-container">
+				<div class="password-card">
+					<div class="card-header">
+						<h3 class="section-title">
+							<i class="fas fa-key"></i> Actualizar Contraseña
+						</h3>
+					</div>
+
+					<div class="password-form">
+
+
+						<form id="passwordChangeForm" asp-action="CambiarContraseña" method="post">
+							<input type="hidden" name="id" value="@Model.IdUsuario" />
+							<div class="form-group">
+								<label for="newPassword" class="form-label">Nueva Contraseña</label>
+								<div class="password-input-wrapper">
+									<input type="password" name="nuevaContraseña" id="nuevaContraseña" class="form-input" required oninput="checkPasswordStrength()">
+									<button type="button" class="toggle-password" onclick="togglePasswordVisibility('nuevaContraseña')">
+										<i class="fas fa-eye"></i>
+									</button>
+								</div>
+								<div class="password-strength">
+									<div id="strengthMeter" class="strength-meter"></div>
+								</div>
+								<div id="passwordFeedback" class="password-feedback">
+									La contraseña debe tener al menos 8 caracteres
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="confirmPassword" class="form-label">Confirmar Nueva Contraseña</label>
+								<div class="password-input-wrapper">
+									<input type="password" name="confirmPassword" id="confirmPassword" class="form-input" required oninput="checkPasswordMatch()">
+									<button type="button" class="toggle-password" onclick="togglePasswordVisibility('confirmPassword')">
+										<i class="fas fa-eye"></i>
+									</button>
+								</div>
+								<div id="passwordMatchFeedback" class="password-feedback"></div>
+							</div>
+
+							<div class="password-requirements">
+								<div class="requirements-title">
+									<i class="fas fa-shield-alt"></i> Requisitos de la contraseña
+								</div>
+								<ul id="passwordRequirements" class="requirements-list">
+									<li id="lengthReq">Mínimo 8 caracteres</li>
+									<li id="uppercaseReq">Al menos una letra mayúscula</li>
+									<li id="lowercaseReq">Al menos una letra minúscula</li>
+									<li id="numberReq">Al menos un número</li>
+									<li id="specialReq">Al menos un carácter especial (@@, !, #, etc.)</li>
+								</ul>
+							</div>
+
+							<div class="buttons-container">
+								<a href="/Tiendas/Index" class="back-link">
+									<i class="fas fa-arrow-left"></i> Volver a mi perfil
+								</a>
+								<button type="submit" class="form-button primary-button">
+									<i class="fas fa-save"></i> Guardar Cambios
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+		// Función para alternar la visibilidad de contraseñas
+		function togglePasswordVisibility(inputId) {
+			const input = document.getElementById(inputId);
+			const icon = input.parentElement.querySelector('.toggle-password i');
+
+			if (input.type === 'password') {
+				input.type = 'text';
+				icon.classList.remove('fa-eye');
+				icon.classList.add('fa-eye-slash');
+			} else {
+				input.type = 'password';
+				icon.classList.remove('fa-eye-slash');
+				icon.classList.add('fa-eye');
+			}
+		}
+
+		// Función para verificar la fortaleza de la contraseña
+		function checkPasswordStrength() {
+		const password = document.getElementById('nuevaContraseña').value;
+		const strengthMeter = document.getElementById('strengthMeter');
+		const feedback = document.getElementById('passwordFeedback');
+
+		// Resetear la barra de fortaleza
+		strengthMeter.style.width = '0%';
+		strengthMeter.className = 'strength-meter';
+
+		// Verificar los requisitos individuales
+		const hasLength = password.length >= 8;
+		const hasUpperCase = /[A-Z]/.test(password);
+		const hasLowerCase = /[a-z]/.test(password);
+		const hasNumber = /[0-9]/.test(password);
+		const hasSpecial = /[!@@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+
+		// Actualizar la lista de requisitos
+		document.getElementById('lengthReq').className = hasLength ? 'fulfilled' : '';
+		document.getElementById('uppercaseReq').className = hasUpperCase ? 'fulfilled' : '';
+		document.getElementById('lowercaseReq').className = hasLowerCase ? 'fulfilled' : '';
+		document.getElementById('numberReq').className = hasNumber ? 'fulfilled' : '';
+		document.getElementById('specialReq').className = hasSpecial ? 'fulfilled' : '';
+
+		// Calcular la fortaleza
+		let strength = 0;
+		if (hasLength) strength++;
+		if (hasUpperCase) strength++;
+		if (hasLowerCase) strength++;
+		if (hasNumber) strength++;
+		if (hasSpecial) strength++;
+
+		// Actualizar el indicador visual y el mensaje
+		if (password.length === 0) {
+			feedback.textContent = 'La contraseña debe tener al menos 8 caracteres';
+		} else {
+			// Calcular el porcentaje de fortaleza
+			let widthPercentage = (strength / 5) * 100;
+			strengthMeter.style.width = widthPercentage + '%';
+
+			if (strength <= 2) {
+				strengthMeter.classList.add('strength-weak');
+				feedback.textContent = 'Contraseña débil';
+			} else if (strength <= 4) {
+				strengthMeter.classList.add('strength-medium');
+				feedback.textContent = 'Contraseña media';
+			} else {
+				strengthMeter.classList.add('strength-strong');
+				feedback.textContent = 'Contraseña fuerte';
+			}
+		}
+	}
+
+		// Función para verificar si las contraseñas coinciden
+		function checkPasswordMatch() {
+			const newPassword = document.getElementById('nuevaContraseña').value;
+			const confirmPassword = document.getElementById('confirmPassword').value;
+			const feedback = document.getElementById('passwordMatchFeedback');
+
+			if (confirmPassword.length === 0) {
+				feedback.textContent = '';
+			} else if (newPassword === confirmPassword) {
+				feedback.textContent = 'Las contraseñas coinciden';
+				feedback.style.color = 'var(--success-color)';
+			} else {
+				feedback.textContent = 'Las contraseñas no coinciden';
+				feedback.style.color = 'var(--danger-color)';
+			}
+		}
+
+		document.getElementById('passwordChangeForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevenir el envío normal inicialmente
+    
+    const newPassword = document.getElementById('nuevaContraseña').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const form = this;
+
+    // Validación de contraseña
+    const hasLength = newPassword.length >= 8;
+    const hasUpperCase = /[A-Z]/.test(newPassword);
+    const hasLowerCase = /[a-z]/.test(newPassword);
+    const hasNumber = /[0-9]/.test(newPassword);
+    const hasSpecial = /[!@@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(newPassword);
+
+    if (newPassword !== confirmPassword) {
+        Swal.fire({
+            title: 'Error',
+            text: 'Las contraseñas no coinciden',
+            icon: 'error',
+            confirmButtonColor: 'var(--danger-color)',
+            iconColor: 'var(--danger-color)',
+            background: 'var(--card-bg)',
+            confirmButtonText: 'Entendido'
+        });
+        return;
+    }
+
+    if (!hasLength || !hasUpperCase || !hasLowerCase || !hasNumber || !hasSpecial) {
+        Swal.fire({
+            title: 'Error',
+            text: 'La contraseña no cumple con todos los requisitos',
+            icon: 'error',
+            confirmButtonColor: 'var(--danger-color)',
+            iconColor: 'var(--danger-color)',
+            background: 'var(--card-bg)',
+            confirmButtonText: 'Entendido'
+        });
+        return;
+    }
+
+    // Enviar el formulario de manera asíncrona
+    fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error en la respuesta del servidor');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            Swal.fire({
+                title: '¡Éxito!',
+                text: data.message || 'Contraseña actualizada correctamente',
+                icon: 'success',
+                confirmButtonColor: 'var(--success-color)',
+                iconColor: 'var(--success-color)',
+                background: 'var(--card-bg)',
+                confirmButtonText: 'Aceptar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/Tiendas/Index';
+                }
+            });
+        } else {
+            throw new Error(data.message || 'Error al actualizar la contraseña');
+        }
+    })
+    .catch(error => {
+        Swal.fire({
+            title: 'Error',
+            text: error.message,
+            icon: 'error',
+            confirmButtonColor: 'var(--danger-color)',
+            iconColor: 'var(--danger-color)',
+            background: 'var(--card-bg)',
+            confirmButtonText: 'Entendido'
+        });
+    });
+});
+			
+</script>
