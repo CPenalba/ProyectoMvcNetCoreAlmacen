@@ -27,7 +27,7 @@ namespace ProyectoMvcNetCoreAlmacen.Repositories
         }
         public async Task<bool> CambiarContraseñaAsync(int idUsuario, string nuevaContraseña)
         {
-            var usuario = await context.Usuarios.FindAsync(idUsuario);
+            var usuario = await this.GetUsuarioByIdAsync(idUsuario);
             if (usuario == null)
                 return false;
 
@@ -37,6 +37,12 @@ namespace ProyectoMvcNetCoreAlmacen.Repositories
 
             await context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task UpdateUsuarioAsync(Usuario usuario)
+        {
+            this.context.Usuarios.Update(usuario);
+            await this.context.SaveChangesAsync();
         }
     }
 }

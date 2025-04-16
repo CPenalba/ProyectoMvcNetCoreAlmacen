@@ -189,7 +189,8 @@
 				<div class="team-container">
 					@foreach (var item in Model.Where(u => u.Rol != "Jefe"))
 					{
-						<div class="team-card">
+						<div class="team-card @(item.Estado ? "" : "usuario-inactivo")">
+
 							<div class="card-banner"></div>
 							<div class="card-avatar">
 								@if (!string.IsNullOrEmpty(item.Imagen))
@@ -231,6 +232,11 @@
 									<a href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=@item.Correo" target="_blank" class="card-link">
 										<i class="fas fa-envelope"></i>
 									</a>
+									<a href="#" class="card-link cambiar-estado-btn" data-idusuario="@item.IdUsuario">
+										<i class="fas @(item.Estado ? "fa-user-check" : "fa-user-slash")"></i>
+									</a>
+
+
 								</div>
 							</div>
 						</div>
@@ -240,6 +246,42 @@
 		</div>
 	</section>
 </section>
+
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		document.querySelectorAll(".cambiar-estado-btn").forEach(button => {
+			button.addEventListener("click", function () {
+				const idusuario = this.getAttribute("data-idusuario");
+				const card = this.closest(".team-card");
+
+				fetch(`/Tiendas/CambiarEstado?idusuario=${idusuario}`, {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' }
+				})
+				.then(response => response.json())
+				.then(data => {
+					if (data.success) {
+						const nuevoEstado = data.nuevoEstado;
+
+						if (nuevoEstado) {
+							card.classList.remove("usuario-inactivo");
+
+						} else {
+							card.classList.add("usuario-inactivo");
+						}
+
+						alert(`El estado ha cambiado a: ${nuevoEstado ? "Activo" : "Inactivo"}`);
+					} else {
+						alert("Hubo un error al cambiar el estado.");
+					}
+				})
+				.catch(error => {
+					console.error("Error:", error);
+				});
+			});
+		});
+	});
+</script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <style>
@@ -265,6 +307,19 @@
 		line-height: 1.6;
 	}
 
+	.usuario-inactivo {
+		filter: grayscale(100%);
+		opacity: 0.6;
+	}
+	/* Para estado activo */
+	.card-link .fa-power-off.text-success {
+		color: #28a745 !important;
+	}
+
+	/* Para estado inactivo */
+	.card-link .fa-power-off.text-danger {
+		color: #dc3545 !important;
+	}
 
 	.container {
 		max-width: 1200px;

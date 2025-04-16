@@ -19,6 +19,8 @@ namespace ProyectoMvcNetCoreAlmacen.Models
         public string Contraseña { get; set; }
         [Column("Rol")]
         public string Rol { get; set; }
+        [Column("Estado")]
+        public bool Estado { get; set; } = true;
         [Column("IdTienda")]
         public int IdTienda { get; set; }
         [ForeignKey("IdTienda")]

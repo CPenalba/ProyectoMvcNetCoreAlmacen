@@ -38,6 +38,25 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
             return View(usuarios);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CambiarEstado(int idusuario)
+        {
+            
+            var usuario = await this.repoUsuario.GetUsuarioByIdAsync(idusuario);
+
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+
+            usuario.Estado = !usuario.Estado;
+
+            await this.repoUsuario.UpdateUsuarioAsync(usuario);
+
+            return Json(new { success = true, nuevoEstado = usuario.Estado });
+
+        }
+
         public IActionResult Login()
         {
             return View();
