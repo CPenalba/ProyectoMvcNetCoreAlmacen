@@ -116,14 +116,22 @@
 	<section class="team-profiles-section">
 		<div class="container">
 			<div class="team-header">
-				<h2 class="team-heading">Nuestro Equipo</h2>
+				<h2 class="team-heading">Equipo de la Tienda</h2>
+			</div>
+			<div class="add-user-section">
+				<a href="@Url.Action("Create", "Usuarios")" class="add-user-button">
+					<div class="button-icon">
+						<i class="fas fa-user-plus"></i>
+					</div>
+					<span class="button-text">Añadir Usuario</span>
+				</a>
 			</div>
 
 			<!-- Perfil del Director -->
 			<div class="management-section">
 				<h3 class="section-subheading">
 					<span class="section-icon"><i class="fas fa-crown"></i></span>
-					Director
+					Jefe
 				</h3>
 				<div class="director-container">
 					@foreach (var item in Model.Where(u => u.Rol == "Jefe"))
@@ -248,39 +256,40 @@
 </section>
 
 <script>
-	document.addEventListener("DOMContentLoaded", function () {
-		document.querySelectorAll(".cambiar-estado-btn").forEach(button => {
-			button.addEventListener("click", function () {
-				const idusuario = this.getAttribute("data-idusuario");
-				const card = this.closest(".team-card");
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".cambiar-estado-btn").forEach(button => {
+            button.addEventListener("click", function () {
+                const idusuario = this.getAttribute("data-idusuario");
+                const card = this.closest(".team-card");
 
-				fetch(`/Tiendas/CambiarEstado?idusuario=${idusuario}`, {
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' }
-				})
-				.then(response => response.json())
-				.then(data => {
-					if (data.success) {
-						const nuevoEstado = data.nuevoEstado;
+                fetch(`/Tiendas/CambiarEstado?idusuario=${idusuario}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const nuevoEstado = data.nuevoEstado;
 
-						if (nuevoEstado) {
-							card.classList.remove("usuario-inactivo");
+                        if (nuevoEstado) {
+                            card.classList.remove("usuario-inactivo");
+                        } else {
+                            card.classList.add("usuario-inactivo");
+                        }
 
-						} else {
-							card.classList.add("usuario-inactivo");
-						}
-
-						alert(`El estado ha cambiado a: ${nuevoEstado ? "Activo" : "Inactivo"}`);
-					} else {
-						alert("Hubo un error al cambiar el estado.");
-					}
-				})
-				.catch(error => {
-					console.error("Error:", error);
-				});
-			});
-		});
-	});
+                        alert(`El estado ha cambiado a: ${nuevoEstado ? "Activo" : "Inactivo"}`);
+                        // Recargar la página después de mostrar el alert
+                        location.reload();
+                    } else {
+                        alert("Hubo un error al cambiar el estado.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+            });
+        });
+    });
 </script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -386,6 +395,96 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: 25px;
+	}
+
+	/* Estilos mejorados para el botón de añadir usuarios */
+	.add-user-section {
+		display: flex;
+		justify-content: center;
+		margin-bottom: 40px;
+		padding: 0 15px;
+	}
+
+	.add-user-button {
+		display: flex;
+		align-items: center;
+		background: linear-gradient(45deg, var(--primary-color), #ff9e1f);
+		color: white;
+		text-decoration: none;
+		border-radius: 12px;
+		padding: 0;
+		box-shadow: 0 8px 20px rgba(242, 139, 0, 0.25);
+		overflow: hidden;
+		transition: all 0.3s ease, transform 0.2s ease;
+		position: relative;
+		z-index: 1;
+	}
+
+		.add-user-button:hover {
+			transform: translateY(-3px);
+			box-shadow: 0 12px 25px rgba(242, 139, 0, 0.35);
+			text-decoration: none;
+			color: white;
+		}
+
+		.add-user-button:active {
+			transform: translateY(1px);
+		}
+
+	.button-icon {
+		background-color: rgba(255, 255, 255, 0.15);
+		width: 50px;
+		height: 50px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 18px;
+	}
+
+	.button-text {
+		padding: 0 25px;
+		font-weight: 600;
+		font-size: 15px;
+		letter-spacing: 0.5px;
+	}
+
+	.add-user-button::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: linear-gradient(45deg, #ff9e1f, var(--primary-color));
+		opacity: 0;
+		z-index: -1;
+		transition: opacity 0.3s ease;
+	}
+
+	.add-user-button:hover::before {
+		opacity: 1;
+	}
+
+	/* Responsive para el botón mejorado */
+	@@media (max-width: 576px) {
+		.add-user-button
+
+	{
+		width: 100%;
+		max-width: 250px;
+	}
+
+	.button-icon {
+		width: 45px;
+		height: 45px;
+		font-size: 16px;
+	}
+
+	.button-text {
+		padding: 0 20px;
+		font-size: 14px;
+	}
+
 	}
 
 	/* Store Info Section */

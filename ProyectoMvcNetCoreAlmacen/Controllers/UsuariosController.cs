@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ProyectoMvcNetCoreAlmacen.Models;
 using ProyectoMvcNetCoreAlmacen.Repositories;
 
@@ -76,6 +77,51 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
                 return Json(new { success = false, message = $"Error: {ex.Message}" });
             }
         }
+
+        public async Task<IActionResult> Create()
+        {
+            ViewBag.CodigoJefe = ""; // Opcional: puedes usar ViewBag para pasar mensajes
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Usuario u, IFormFile imagen, string codigoJefe)
+        {
+            var tiendaId = HttpContext.Session.GetInt32("TiendaId");
+
+            if (tiendaId == null)
+            {
+                return RedirectToAction("Login", "Tiendas");
+            }
+
+            u.IdTienda = tiendaId.Value;
+
+            // Asignar rol según el código
+            u.Rol = (codigoJefe == "1234") ? "Jefe" : "Trabajador";
+
+            // Procesar la imagen si existe
+            if (imagen != null && imagen.Length > 0)
+            {
+                var fileName = Path.GetFileName(imagen.FileName);
+                var directoryPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "imagenes");
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+
+                var filePath = Path.Combine(directoryPath, fileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await imagen.CopyToAsync(stream);
+                }
+                u.Imagen = fileName;
+            }
+
+            // Insertar el usuario en la base de datos
+            await this.repo.InsertUsuarioAsync(u.IdUsuario, u.Nombre, u.Imagen, u.Correo, u.Contraseña, u.Rol, u.IdTienda);
+            return RedirectToAction("Index", "Tiendas");
+        }
+
     }
 }
 

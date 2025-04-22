@@ -12,7 +12,7 @@ namespace ProyectoMvcNetCoreAlmacen.Models
         [Column("Nombre")]
         public string Nombre { get; set; }
         [Column("Imagen")]
-        public string Imagen { get; set; }
+        public string? Imagen { get; set; }
         [Column("Correo")]
         public string Correo { get; set; }
         [Column("Contraseña")]

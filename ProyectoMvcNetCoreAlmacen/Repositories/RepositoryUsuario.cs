@@ -44,5 +44,19 @@ namespace ProyectoMvcNetCoreAlmacen.Repositories
             this.context.Usuarios.Update(usuario);
             await this.context.SaveChangesAsync();
         }
+
+        public async Task InsertUsuarioAsync(int id, string nombre, string imagen, string correo, string contraseña, string rol, int idTienda)
+        {
+            Usuario u = new Usuario();
+            u.IdUsuario = id;
+            u.Nombre = nombre;
+            u.Imagen = imagen;
+            u.Correo = correo;
+            u.Contraseña = BCrypt.Net.BCrypt.HashPassword(contraseña);
+            u.Rol = rol;
+            u.IdTienda = idTienda;
+            await this.context.Usuarios.AddAsync(u);
+            await this.context.SaveChangesAsync();
+        }
     }
 }

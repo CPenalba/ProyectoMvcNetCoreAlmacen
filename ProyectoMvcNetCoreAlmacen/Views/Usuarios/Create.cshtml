@@ -1,0 +1,396 @@
+﻿@model ProyectoMvcNetCoreAlmacen.Models.Usuario
+
+<section class="features2 cid-sgSyF0EE4Z" id="features2-d">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-lg-6 col-md-9 block-content">
+				<div class="form-block">
+					<h2 class="form-title">Añadir Usuario</h2>
+
+					<form method="post" enctype="multipart/form-data" class="user-form" id="userForm">
+						<div class="form-row">
+							<div class="form-group">
+								<label asp-for="IdUsuario" class="form-control-label">ID Usuario</label>
+								<div class="input-icon-wrapper">
+									<i class="fas fa-id-card input-icon"></i>
+									<input asp-for="IdUsuario" class="input has-icon" placeholder="Ingrese ID de usuario" required />
+								</div>
+								<span asp-validation-for="IdUsuario" class="text-danger"></span>
+							</div>
+
+							<div class="form-group">
+								<label asp-for="Nombre" class="form-control-label">Nombre</label>
+								<div class="input-icon-wrapper">
+									<i class="fas fa-user input-icon"></i>
+									<input asp-for="Nombre" class="input has-icon" placeholder="Ingrese nombre completo" required />
+								</div>
+								<span asp-validation-for="Nombre" class="text-danger"></span>
+							</div>
+
+							<div class="form-group">
+								<label asp-for="Imagen" class="form-control-label">Imagen de Perfil</label>
+								<div class="file-input-wrapper">
+									<div class="file-input-button">
+										<i class="fas fa-cloud-upload-alt"></i> Seleccionar imagen
+									</div>
+									<input type="file" name="imagen" class="form-control input" accept="image/*" />
+								</div>
+								<div class="file-name" id="file-name">Ningún archivo seleccionado</div>
+							</div>
+
+							<div class="form-group">
+								<label asp-for="Correo" class="form-control-label">Correo Electrónico</label>
+								<div class="input-icon-wrapper">
+									<i class="fas fa-envelope input-icon"></i>
+									<input asp-for="Correo" class="input has-icon" placeholder="ejemplo@correo.com" type="email" required />
+								</div>
+								<span asp-validation-for="Correo" class="text-danger"></span>
+							</div>
+
+							<div class="form-group">
+								<label asp-for="Contraseña" class="form-control-label">Contraseña</label>
+								<div class="input-icon-wrapper">
+									<i class="fas fa-lock input-icon"></i>
+									<input asp-for="Contraseña" id="password" class="input has-icon" type="password" placeholder="Ingrese contraseña" required />
+								</div>
+								<span asp-validation-for="Contraseña" class="text-danger"></span>
+
+								<div class="password-requirements">
+									<div>Requisitos de contraseña:</div>
+									<ul>
+										<li class="requirement" id="length"><i class="fas fa-circle"></i> Mínimo 8 caracteres</li>
+										<li class="requirement" id="uppercase"><i class="fas fa-circle"></i> Al menos una mayúscula</li>
+										<li class="requirement" id="lowercase"><i class="fas fa-circle"></i> Al menos una minúscula</li>
+										<li class="requirement" id="number"><i class="fas fa-circle"></i> Al menos un número</li>
+										<li class="requirement" id="special"><i class="fas fa-circle"></i> Al menos un carácter especial (@@, !, #, etc.)</li>
+									</ul>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="form-control-label">Código de Jefe</label>
+								<div class="input-icon-wrapper">
+									<i class="fas fa-key input-icon"></i>
+									<input name="codigoJefe" class="input has-icon" type="password" placeholder="Ingrese código (opcional)" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label asp-for="Rol" class="form-control-label">Rol</label>
+								<div class="input-icon-wrapper">
+									<i class="fas fa-user-tag input-icon"></i>
+									<input asp-for="Rol" class="input has-icon" id="rolInput" readonly value="Trabajador" />
+								</div>
+								<span asp-validation-for="Rol" class="text-danger"></span>
+							</div>
+
+							<div class="form-group">
+								<button type="submit" class="btn-submit" id="submitBtn">
+									<i class="fas fa-user-plus"></i> Añadir Usuario
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	// Script para mostrar el nombre del archivo seleccionado
+	document.querySelector('input[type="file"]').addEventListener('change', function() {
+		const fileName = this.files[0] ? this.files[0].name : 'Ningún archivo seleccionado';
+		document.getElementById('file-name').textContent = fileName;
+	});
+
+	// Script para cambiar el rol según el código de jefe
+	document.querySelector('input[name="codigoJefe"]').addEventListener('change', function() {
+		if(this.value === '1234') {
+			document.getElementById('rolInput').value = 'Jefe';
+		} else {
+			document.getElementById('rolInput').value = 'Trabajador';
+		}
+	});
+
+	// Validación de contraseña
+	const passwordInput = document.getElementById('password');
+	const lengthReq = document.getElementById('length');
+	const upperReq = document.getElementById('uppercase');
+	const lowerReq = document.getElementById('lowercase');
+	const numberReq = document.getElementById('number');
+	const specialReq = document.getElementById('special');
+	const submitBtn = document.getElementById('submitBtn');
+	const form = document.getElementById('userForm');
+
+	// Validar contraseña en tiempo real
+	passwordInput.addEventListener('input', function() {
+		const password = this.value;
+
+		// Verificar cada requisito
+		const hasLength = password.length >= 8;
+		const hasUpperCase = /[A-Z]/.test(password);
+		const hasLowerCase = /[a-z]/.test(password);
+		const hasNumber = /[0-9]/.test(password);
+		const hasSpecial = /[!@@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+
+		// Actualizar visualización de requisitos
+		updateRequirement(lengthReq, hasLength);
+		updateRequirement(upperReq, hasUpperCase);
+		updateRequirement(lowerReq, hasLowerCase);
+		updateRequirement(numberReq, hasNumber);
+		updateRequirement(specialReq, hasSpecial);
+	});
+
+	// Función para actualizar la visualización de requisitos
+	function updateRequirement(element, valid) {
+		if (valid) {
+			element.classList.remove('invalid');
+			element.classList.add('valid');
+			element.querySelector('i').className = 'fas fa-check-circle';
+		} else {
+			element.classList.remove('valid');
+			element.classList.add('invalid');
+			element.querySelector('i').className = 'fas fa-times-circle';
+		}
+	}
+
+	// Validar el formulario al enviar
+	form.addEventListener('submit', function(event) {
+		const password = passwordInput.value;
+
+		const isValid =
+			password.length >= 8 &&
+			/[A-Z]/.test(password) &&
+			/[a-z]/.test(password) &&
+			/[0-9]/.test(password) &&
+			/[!@@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+
+		if (!isValid) {
+			event.preventDefault();
+			alert('Por favor, asegúrate de que la contraseña cumple con todos los requisitos.');
+		}
+	});
+</script>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+<style>
+	:root {
+		--primary-color: #f28b00;
+		--primary-dark: #d97b00;
+		--primary-light: #ffeed4;
+		--secondary-color: #2d3748;
+		--accent-color: #3498db;
+		--accent-dark: #217dbb;
+		--text-color: #333;
+		--text-light: #6c757d;
+		--border-color: #e2e8f0;
+		--card-bg: #ffffff;
+		--light-bg: #f8f9fa;
+		--border-radius: 12px;
+		--box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+	}
+
+	body {
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		background-color: var(--light-bg);
+		color: var(--text-color);
+		line-height: 1.6;
+		margin: 0;
+		padding: 0;
+	}
+
+	.container {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 20px;
+	}
+
+	.form-block {
+		background: var(--card-bg);
+		border-radius: var(--border-radius);
+		box-shadow: var(--box-shadow);
+		padding: 30px;
+		margin-top: 20px;
+		margin-bottom: 20px;
+		border-top: 5px solid var(--primary-color);
+	}
+
+	.form-title {
+		color: var(--secondary-color);
+		margin-bottom: 30px;
+		font-weight: 600;
+		text-align: center;
+		position: relative;
+		padding-bottom: 15px;
+	}
+
+		.form-title:after {
+			content: '';
+			position: absolute;
+			bottom: 0;
+			left: 50%;
+			transform: translateX(-50%);
+			width: 60px;
+			height: 4px;
+			background: var(--primary-color);
+			border-radius: 2px;
+		}
+
+	.form-group {
+		margin-bottom: 20px;
+	}
+
+	.form-control-label {
+		display: block;
+		margin-bottom: 8px;
+		font-weight: 500;
+		color: var(--secondary-color);
+	}
+
+	.input {
+		width: 100%;
+		padding: 12px 15px;
+		border: 1px solid var(--border-color);
+		border-radius: var(--border-radius);
+		transition: all 0.3s ease;
+		font-size: 16px;
+		background-color: #fff;
+	}
+
+		.input:focus {
+			border-color: var(--primary-color);
+			box-shadow: 0 0 0 3px var(--primary-light);
+			outline: none;
+		}
+
+	.file-input-wrapper {
+		position: relative;
+		overflow: hidden;
+		display: inline-block;
+		width: 100%;
+	}
+
+	.file-input-button {
+		background: var(--primary-light);
+		color: var(--primary-dark);
+		border: 1px solid var(--primary-color);
+		padding: 12px 15px;
+		border-radius: var(--border-radius);
+		cursor: pointer;
+		display: inline-block;
+		width: 100%;
+		text-align: center;
+		transition: all 0.3s ease;
+	}
+
+		.file-input-button:hover {
+			background: var(--primary-color);
+			color: white;
+		}
+
+	.file-input-wrapper input[type="file"] {
+		position: absolute;
+		font-size: 100px;
+		opacity: 0;
+		right: 0;
+		top: 0;
+		cursor: pointer;
+	}
+
+	.file-name {
+		margin-top: 8px;
+		font-size: 14px;
+		color: var(--text-light);
+	}
+
+	.text-danger {
+		color: #e74c3c;
+		font-size: 14px;
+		margin-top: 5px;
+		display: block;
+	}
+
+	.btn-submit {
+		background-color: var(--primary-color);
+		color: white;
+		border: none;
+		border-radius: var(--border-radius);
+		padding: 14px 20px;
+		width: 100%;
+		font-size: 16px;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.3s ease;
+		margin-top: 10px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+		.btn-submit:hover {
+			background-color: var(--primary-dark);
+			transform: translateY(-2px);
+		}
+
+		.btn-submit i {
+			margin-right: 8px;
+		}
+
+	.input-icon-wrapper {
+		position: relative;
+	}
+
+	.input-icon {
+		position: absolute;
+		top: 14px;
+		left: 15px;
+		color: var(--text-light);
+	}
+
+	.has-icon {
+		padding-left: 40px;
+	}
+
+	.password-requirements {
+		background-color: var(--primary-light);
+		border-radius: var(--border-radius);
+		padding: 12px;
+		margin-top: 8px;
+		font-size: 14px;
+		color: var(--secondary-color);
+	}
+
+		.password-requirements ul {
+			margin: 8px 0 0 20px;
+			padding: 0;
+		}
+
+		.password-requirements li {
+			margin-bottom: 4px;
+		}
+
+	.requirement {
+		display: flex;
+		align-items: center;
+	}
+
+		.requirement i {
+			margin-right: 5px;
+			color: #ccc;
+		}
+
+	.valid i {
+		color: #2ecc71;
+	}
+
+	.invalid i {
+		color: #e74c3c;
+	}
+
+	@@media (max-width: 768px) {
+		.form-block {
+			padding: 20px;
+		}
+	}
+</style>
