@@ -39,6 +39,17 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
         }
 
         [HttpPost]
+        public IActionResult VerificarCodigoJefe(string codigoJefe)
+        {
+            if (codigoJefe == "1234") // o consulta en base de datos si prefieres
+            {
+                HttpContext.Session.SetString("TienePermisos", "true");
+            }
+            return RedirectToAction("Index"); // o donde quieras volver
+        }
+
+
+        [HttpPost]
         public async Task<IActionResult> CambiarEstado(int idusuario)
         {
             
@@ -69,7 +80,7 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
             if (tienda != null)
             {
                 HttpContext.Session.SetInt32("TiendaId", tienda.IdTienda);
-
+                HttpContext.Session.SetString("TienePermisos", "false");
                 ViewBag.Message = "Has iniciado sesión correctamente.";
                 return RedirectToAction("Index"); // Redirige a la vista de Index con la tienda
             }

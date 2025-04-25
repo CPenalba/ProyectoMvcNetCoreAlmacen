@@ -115,38 +115,45 @@
 				z-index: -1;
 			}
 
-			/* Estilos para los enlaces dentro del menú desplegable */
-			.navbar-nav .dropdown-menu .nav-link {
-				padding: 0.85rem 1.5rem;
-				margin: 0 0.5rem;
-				border-radius: 6px;
-				color: rgba(255, 255, 255, 0.85) !important;
-				font-size: 0.95rem;
-				font-weight: 500;
-				letter-spacing: 0.3px;
-				transition: all 0.25s ease;
-				display: flex;
-				align-items: center;
+		.disabled {
+			opacity: 0.5;
+			pointer-events: none;
+			cursor: not-allowed;
+			text-decoration: none;
+		}
+
+		/* Estilos para los enlaces dentro del menú desplegable */
+		.navbar-nav .dropdown-menu .nav-link {
+			padding: 0.85rem 1.5rem;
+			margin: 0 0.5rem;
+			border-radius: 6px;
+			color: rgba(255, 255, 255, 0.85) !important;
+			font-size: 0.95rem;
+			font-weight: 500;
+			letter-spacing: 0.3px;
+			transition: all 0.25s ease;
+			display: flex;
+			align-items: center;
+		}
+
+			.navbar-nav .dropdown-menu .nav-link:hover {
+				background-color: rgba(255, 255, 255, 0.1);
+				color: #ffffff !important;
+				transform: translateX(5px);
+				box-shadow: inset 3px 0 0 #2c3e50;
 			}
 
-				.navbar-nav .dropdown-menu .nav-link:hover {
-					background-color: rgba(255, 255, 255, 0.1);
-					color: #ffffff !important;
-					transform: translateX(5px);
-					box-shadow: inset 3px 0 0 #2c3e50;
-				}
+			/* Iconos para las opciones del menú */
+			.navbar-nav .dropdown-menu .nav-link i {
+				margin-right: 10px;
+				font-size: 1.1rem;
+				opacity: 0.7;
+				transition: opacity 0.3s;
+			}
 
-				/* Iconos para las opciones del menú */
-				.navbar-nav .dropdown-menu .nav-link i {
-					margin-right: 10px;
-					font-size: 1.1rem;
-					opacity: 0.7;
-					transition: opacity 0.3s;
-				}
-
-				.navbar-nav .dropdown-menu .nav-link:hover i {
-					opacity: 1;
-				}
+			.navbar-nav .dropdown-menu .nav-link:hover i {
+				opacity: 1;
+			}
 
 		/* Animación para el menú activo */
 		.navbar-nav .nav-item.dropdown.active > .nav-link {
@@ -154,7 +161,7 @@
 		}
 
 		/* Responsive design para dispositivos móviles */
-					media (max-width: 991px) {
+		media (max-width: 991px) {
 			.navbar-nav .dropdown-menu
 
 		{
@@ -184,13 +191,16 @@
 		}
 
 		}
+
 		.dropdown-menu .nav-link:hover {
 			box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
 			background-color: rgba(0, 0, 0, 0.1); /* Si deseas un pequeño fondo oscuro */
 		}
+
 		.dropdown-menu {
 			width: 250px; /* O usa min-width: 250px */
 		}
+
 		.login-body {
 			/* https://img.freepik.com/fotos-premium/vista-interior-almacen_103577-1372.jpg */
 			background: url('https://www.scmlogistica.es/wp-content/uploads/tipos-almacenes-mas-habituales-1038x693.jpg') no-repeat center center;
@@ -252,14 +262,14 @@
 				top: -6px; /* Puedes reducir este valor para mover el triángulo hacia arriba */
 			}
 
-			#mobirisePromo .banner p {
-				overflow: hidden;
-				display: -webkit-box;
-				-webkit-line-clamp: 4;
-				-webkit-box-orient: vertical;
-				animation: none;
-				visibility: visible;
-			}
+		#mobirisePromo .banner p {
+			overflow: hidden;
+			display: -webkit-box;
+			-webkit-line-clamp: 4;
+			-webkit-box-orient: vertical;
+			animation: none;
+			visibility: visible;
+		}
 
 		#mobirisePromo .buy-license {
 			text-decoration: underline;
@@ -312,6 +322,19 @@
 								<a class="nav-link link mbr-bold text-white display-7" asp-controller="AlertasStocks" asp-action="Calendar">Home </a>
 							</li>
 
+							@* 	<li class="nav-item dropdown">
+								<a class="nav-link link mbr-bold text-white display-7" href="#" data-toggle="dropdown-submenu" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+									Productos
+								</a>
+								<div class="dropdown-menu" aria-labelledby="dropdown-productos">
+									<a class="nav-link link text-white" asp-controller="Productos" asp-action="Index">
+										<i class="fas fa-box-open mr-2"></i> Ver productos
+									</a>
+									<a class="nav-link link text-white" asp-controller="Productos" asp-action="Create" disabled="@(Context.Session.GetString("TienePermisos") != "true")">
+										<i class="mbri-plus"></i> Añadir productos
+									</a>
+								</div>
+							</li> *@
 							<li class="nav-item dropdown">
 								<a class="nav-link link mbr-bold text-white display-7" href="#" data-toggle="dropdown-submenu" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
 									Productos
@@ -320,9 +343,18 @@
 									<a class="nav-link link text-white" asp-controller="Productos" asp-action="Index">
 										<i class="fas fa-box-open mr-2"></i> Ver productos
 									</a>
-									<a class="nav-link link text-white" asp-controller="Productos" asp-action="Create">
-										<i class="mbri-plus"></i> Añadir productos
-									</a>
+									@if (Context.Session.GetString("TienePermisos") == "true")
+									{
+										<a class="nav-link link text-white" asp-controller="Productos" asp-action="Create">
+											<i class="mbri-plus"></i> Añadir productos
+										</a>
+									}
+									else
+									{
+										<a class="nav-link link text-white disabled" href="#" onclick="event.preventDefault()" title="Necesitas permisos de jefe">
+											<i class="mbri-plus"></i> Añadir productos
+										</a>
+									}
 								</div>
 							</li>
 
@@ -335,9 +367,18 @@
 									<a class="nav-link link text-white" asp-controller="Proveedores" asp-action="Index">
 										<i class="mbri-delivery"></i> Ver proveedores
 									</a>
-									<a class="nav-link link text-white" asp-controller="Proveedores" asp-action="Create">
-										<i class="mbri-plus"></i> Añadir proveedores
-									</a>
+									@if (Context.Session.GetString("TienePermisos") == "true")
+									{
+										<a class="nav-link link text-white" asp-controller="Proveedores" asp-action="Create">
+											<i class="mbri-plus"></i> Añadir proveedores
+										</a>
+									}
+									else
+									{
+										<a class="nav-link link text-white disabled" href="#" onclick="event.preventDefault()" title="Necesitas permisos de jefe">
+											<i class="mbri-plus"></i> Añadir proveedores
+										</a>
+									}
 								</div>
 							</li>
 							<li class="nav-item">
@@ -354,16 +395,25 @@
 									<a class="nav-link link text-white" asp-controller="DetallesVentas" asp-action="Index">
 										<i class="mbri-shopping-cart"></i> Ver ventas
 									</a>
-									<a class="nav-link link text-white" asp-controller="DetallesVentas" asp-action="Create">
-										<i class="mbri-plus"></i> Añadir venta
-									</a>
+									@if (Context.Session.GetString("TienePermisos") == "true")
+									{
+										<a class="nav-link link text-white" asp-controller="DetallesVentas" asp-action="Create">
+											<i class="mbri-plus"></i> Añadir venta
+										</a>
+									}
+									else
+									{
+										<a class="nav-link link text-white disabled" href="#" onclick="event.preventDefault()" title="Necesitas permisos de jefe">
+											<i class="mbri-plus"></i> Añadir venta
+										</a>
+									}
 								</div>
 							</li>
 						</ul>
 						<div class="navbar-buttons mbr-section-btn">
 							<a class="btn btn-md btn-secondary display-7" asp-controller="Tiendas" asp-action="Index">
 								<i class="fas fa-store"></i>&nbsp;&nbsp;Perfil tienda
-								</a>
+							</a>
 						</div>
 					</div>
 				</nav>

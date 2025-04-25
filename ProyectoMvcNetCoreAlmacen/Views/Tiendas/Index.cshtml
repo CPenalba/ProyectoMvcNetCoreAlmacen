@@ -117,6 +117,17 @@
 		<div class="container">
 			<div class="team-header">
 				<h2 class="team-heading">Equipo de la Tienda</h2>
+				<div class="codigo-jefe-container">
+					<div class="codigo-jefe-input-group">
+						<form asp-action="VerificarCodigoJefe" method="post" style="display: contents;">
+							<input type="password" id="inputCodigoJefe" placeholder="Código de jefe" class="codigo-jefe-input" name="codigoJefe">
+							<button id="btnVerificarCodigo" class="codigo-jefe-btn" type="submit">
+								<i class="fas fa-key"></i>
+								<span>Verificar</span>
+							</button>
+						</form>
+					</div>
+				</div>
 			</div>
 			<div class="add-user-section">
 				<a href="@Url.Action("Create", "Usuarios")" class="add-user-button">
@@ -256,40 +267,40 @@
 </section>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        document.querySelectorAll(".cambiar-estado-btn").forEach(button => {
-            button.addEventListener("click", function () {
-                const idusuario = this.getAttribute("data-idusuario");
-                const card = this.closest(".team-card");
+	document.addEventListener("DOMContentLoaded", function () {
+		document.querySelectorAll(".cambiar-estado-btn").forEach(button => {
+			button.addEventListener("click", function () {
+				const idusuario = this.getAttribute("data-idusuario");
+				const card = this.closest(".team-card");
 
-                fetch(`/Tiendas/CambiarEstado?idusuario=${idusuario}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        const nuevoEstado = data.nuevoEstado;
+				fetch(`/Tiendas/CambiarEstado?idusuario=${idusuario}`, {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' }
+				})
+				.then(response => response.json())
+				.then(data => {
+					if (data.success) {
+						const nuevoEstado = data.nuevoEstado;
 
-                        if (nuevoEstado) {
-                            card.classList.remove("usuario-inactivo");
-                        } else {
-                            card.classList.add("usuario-inactivo");
-                        }
+						if (nuevoEstado) {
+							card.classList.remove("usuario-inactivo");
+						} else {
+							card.classList.add("usuario-inactivo");
+						}
 
-                        alert(`El estado ha cambiado a: ${nuevoEstado ? "Activo" : "Inactivo"}`);
-                        // Recargar la página después de mostrar el alert
-                        location.reload();
-                    } else {
-                        alert("Hubo un error al cambiar el estado.");
-                    }
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                });
-            });
-        });
-    });
+						alert(`El estado ha cambiado a: ${nuevoEstado ? "Activo" : "Inactivo"}`);
+						// Recargar la página después de mostrar el alert
+						location.reload();
+					} else {
+						alert("Hubo un error al cambiar el estado.");
+					}
+				})
+				.catch(error => {
+					console.error("Error:", error);
+				});
+			});
+		});
+	});
 </script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -467,24 +478,21 @@
 
 	/* Responsive para el botón mejorado */
 	@@media (max-width: 576px) {
-		.add-user-button
+		.add-user-button {
+			width: 100%;
+			max-width: 250px;
+		}
 
-	{
-		width: 100%;
-		max-width: 250px;
-	}
+		.button-icon {
+			width: 45px;
+			height: 45px;
+			font-size: 16px;
+		}
 
-	.button-icon {
-		width: 45px;
-		height: 45px;
-		font-size: 16px;
-	}
-
-	.button-text {
-		padding: 0 20px;
-		font-size: 14px;
-	}
-
+		.button-text {
+			padding: 0 20px;
+			font-size: 14px;
+		}
 	}
 
 	/* Store Info Section */
@@ -564,6 +572,65 @@
 			margin-bottom: 0;
 			padding-bottom: 0;
 			border-bottom: none;
+		}
+
+	.team-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 20px;
+		position: relative;
+	}
+
+	.codigo-jefe-container {
+		display: flex;
+		align-items: center;
+	}
+
+	.codigo-jefe-input-group {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+
+	.codigo-jefe-input {
+		border: 2px solid var(--border-color);
+		border-radius: var(--border-radius);
+		padding: 8px 12px;
+		font-size: 14px;
+		transition: all 0.3s ease;
+		width: 150px;
+	}
+
+		.codigo-jefe-input:focus {
+			border-color: var(--primary-color);
+			outline: none;
+			box-shadow: 0 0 0 2px rgba(242, 139, 0, 0.2);
+		}
+
+	.codigo-jefe-btn {
+		background-color: var(--primary-color);
+		color: white;
+		border: none;
+		border-radius: var(--border-radius);
+		padding: 8px 16px;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		cursor: pointer;
+		font-weight: 600;
+		transition: all 0.3s ease;
+		box-shadow: 0 4px 6px rgba(242, 139, 0, 0.2);
+	}
+
+		.codigo-jefe-btn:hover {
+			background-color: #e07b00;
+			transform: translateY(-2px);
+			box-shadow: 0 6px 8px rgba(242, 139, 0, 0.3);
+		}
+
+		.codigo-jefe-btn i {
+			font-size: 16px;
 		}
 
 	.detail-icon {

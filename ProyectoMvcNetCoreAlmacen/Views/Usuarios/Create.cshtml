@@ -8,7 +8,7 @@
 					<h2 class="form-title">Añadir Usuario</h2>
 
 					<form method="post" enctype="multipart/form-data" class="user-form" id="userForm">
-						<div class="form-row">
+						<div class="form-row" style="display:revert !important">
 							<div class="form-group">
 								<label asp-for="IdUsuario" class="form-control-label">ID Usuario</label>
 								<div class="input-icon-wrapper">
@@ -58,11 +58,11 @@
 								<div class="password-requirements">
 									<div>Requisitos de contraseña:</div>
 									<ul>
-										<li class="requirement" id="length"><i class="fas fa-circle"></i> Mínimo 8 caracteres</li>
-										<li class="requirement" id="uppercase"><i class="fas fa-circle"></i> Al menos una mayúscula</li>
-										<li class="requirement" id="lowercase"><i class="fas fa-circle"></i> Al menos una minúscula</li>
-										<li class="requirement" id="number"><i class="fas fa-circle"></i> Al menos un número</li>
-										<li class="requirement" id="special"><i class="fas fa-circle"></i> Al menos un carácter especial (@@, !, #, etc.)</li>
+										<li class="requirement" id="length"> &nbsp;Mínimo 8 caracteres</li>
+										<li class="requirement" id="uppercase"> &nbsp;Al menos una mayúscula</li>
+										<li class="requirement" id="lowercase"> &nbsp;Al menos una minúscula</li>
+										<li class="requirement" id="number">&nbsp;Al menos un número</li>
+										<li class="requirement" id="special">&nbsp;Al menos un carácter especial (@@, !, #, etc.)</li>
 									</ul>
 								</div>
 							</div>
@@ -86,7 +86,8 @@
 
 							<div class="form-group">
 								<button type="submit" class="btn-submit" id="submitBtn">
-									<i class="fas fa-user-plus"></i> Añadir Usuario
+									<i class="fas fa-user-plus"></i>&nbsp;Añadir Usuario
+
 								</button>
 							</div>
 						</div>
@@ -143,15 +144,18 @@
 	});
 
 	// Función para actualizar la visualización de requisitos
-	function updateRequirement(element, valid) {
+		function updateRequirement(element, valid) {
+		const icon = element.querySelector('i');
 		if (valid) {
-			element.classList.remove('invalid');
 			element.classList.add('valid');
-			element.querySelector('i').className = 'fas fa-check-circle';
+			element.classList.remove('invalid');
+			icon.classList.remove('fa-circle', 'fa-times-circle');
+			icon.classList.add('fa-check-circle');
 		} else {
-			element.classList.remove('valid');
 			element.classList.add('invalid');
-			element.querySelector('i').className = 'fas fa-times-circle';
+			element.classList.remove('valid');
+			icon.classList.remove('fa-circle', 'fa-check-circle');
+			icon.classList.add('fa-times-circle');
 		}
 	}
 
@@ -215,7 +219,54 @@
 		margin-bottom: 20px;
 		border-top: 5px solid var(--primary-color);
 	}
+	/* Estilos para los requisitos de contraseña */
+	.password-requirements {
+		background-color: #f8f9fa;
+		border-radius: 8px;
+		padding: 15px;
+		margin-top: 10px;
+	}
 
+		.password-requirements ul {
+			list-style-type: none;
+			padding-left: 0;
+			margin-bottom: 0;
+		}
+
+		.password-requirements li {
+			margin-bottom: 5px;
+			display: flex;
+			align-items: center;
+			transition: all 0.3s ease;
+		}
+
+			.password-requirements li i {
+				margin-right: 8px;
+				font-size: 12px;
+			}
+
+			/* Estado inicial (círculo gris) */
+			.password-requirements li .fa-circle {
+				color: #adb5bd;
+			}
+
+			/* Estado válido (check verde) */
+			.password-requirements li.valid {
+				color: #28a745;
+			}
+
+				.password-requirements li.valid .fa-check-circle {
+					color: #28a745;
+				}
+
+			/* Estado inválido (equis roja) */
+			.password-requirements li.invalid {
+				color: #dc3545;
+			}
+
+				.password-requirements li.invalid .fa-times-circle {
+					color: #dc3545;
+				}
 	.form-title {
 		color: var(--secondary-color);
 		margin-bottom: 30px;
