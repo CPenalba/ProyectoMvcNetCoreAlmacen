@@ -9,7 +9,6 @@
 
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 	<link rel="shortcut icon" href="https://r.mobirisesite.com/1228755/assets/images/electronicdevice1.png?rnd=1740240563997" type="image/x-icon">
 	<meta name="description" content="">
@@ -31,89 +30,86 @@
 	<link rel="stylesheet" href="~/css/estilonav.css" type="text/css">
 
 	<style>
-		<!-- Estilos CSS avanzados para los menús dropdown -->
-		<style >
-		/* Mejora general del menú de navegación */
 		.navbar-nav {
 			display: flex;
 			align-items: center;
 		}
 
-		/* Estilos para elementos dropdown */
-		.navbar-nav .nav-item.dropdown {
-			position: relative;
-		}
-
-			.navbar-nav .nav-item.dropdown > .nav-link {
+			/* Estilos para elementos dropdown */
+			.navbar-nav .nav-item.dropdown {
 				position: relative;
-				padding: 0.8rem 1.2rem;
-				transition: all 0.3s ease;
-				border-radius: 4px;
 			}
 
-				.navbar-nav .nav-item.dropdown > .nav-link:hover {
-					background-color: rgba(255, 255, 255, 0.1);
-				}
-
-				/* Indicador de dropdown mejorado */
-				.navbar-nav .nav-item.dropdown > .nav-link:after {
-					content: "";
-					display: inline-block;
-					width: 8px;
-					height: 8px;
-					margin-left: 8px;
-					border-right: 2px solid #fff;
-					border-bottom: 2px solid #fff;
-					transform: rotate(45deg);
-					transition: transform 0.3s ease, margin 0.3s ease;
+				.navbar-nav .nav-item.dropdown > .nav-link {
 					position: relative;
-					top: -2px;
+					padding: 0.8rem 1.2rem;
+					transition: all 0.3s ease;
+					border-radius: 4px;
 				}
 
-			.navbar-nav .nav-item.dropdown:hover > .nav-link:after {
-				transform: rotate(-135deg);
-				margin-top: 3px;
-			}
+					.navbar-nav .nav-item.dropdown > .nav-link:hover {
+						background-color: rgba(255, 255, 255, 0.1);
+					}
 
-		/* Menú desplegable con efectos avanzados */
-		.navbar-nav .dropdown-menu {
-			background: linear-gradient(to bottom, rgba(40, 40, 40, 0.98), rgba(30, 30, 30, 0.98));
-			border-radius: 8px;
-			border: none;
-			padding: 0.8rem 0;
-			margin-top: 0.8rem;
-			box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 2px 5px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1);
-			width: 240px;
-			transform-origin: top center;
-			transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-			opacity: 0;
-			visibility: hidden;
-			transform: translateY(10px) scale(0.98);
-			backdrop-filter: blur(5px);
-			position: absolute;
-		}
+					/* Indicador de dropdown mejorado */
+					.navbar-nav .nav-item.dropdown > .nav-link:after {
+						content: "";
+						display: inline-block;
+						width: 8px;
+						height: 8px;
+						margin-left: 8px;
+						border-right: 2px solid #fff;
+						border-bottom: 2px solid #fff;
+						transform: rotate(45deg);
+						transition: transform 0.3s ease, margin 0.3s ease;
+						position: relative;
+						top: -2px;
+					}
 
-			.navbar-nav .dropdown-menu.show,
-			.navbar-nav .nav-item.dropdown:hover .dropdown-menu {
-				opacity: 1;
-				visibility: visible;
-				transform: translateY(0) scale(1);
-			}
+				.navbar-nav .nav-item.dropdown:hover > .nav-link:after {
+					transform: rotate(-135deg);
+					margin-top: 3px;
+				}
 
-			/* Decoración y separador en el menú desplegable */
-			.navbar-nav .dropdown-menu:before {
-				content: "";
+			/* Menú desplegable con efectos avanzados */
+			.navbar-nav .dropdown-menu {
+				background: linear-gradient(to bottom, rgba(40, 40, 40, 0.98), rgba(30, 30, 30, 0.98));
+				border-radius: 8px;
+				border: none;
+				padding: 0.8rem 0;
+				margin-top: 0.8rem;
+				box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 2px 5px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1);
+				width: 240px;
+				transform-origin: top center;
+				transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+				opacity: 0;
+				visibility: hidden;
+				transform: translateY(10px) scale(0.98);
+				backdrop-filter: blur(5px);
 				position: absolute;
-				top: -6px;
-				left: 20px;
-				width: 12px;
-				height: 12px;
-				background: rgba(35, 35, 35, 0.98);
-				transform: rotate(45deg);
-				border-top: 1px solid rgba(255, 255, 255, 0.1);
-				border-left: 1px solid rgba(255, 255, 255, 0.1);
-				z-index: -1;
 			}
+
+				.navbar-nav .dropdown-menu.show,
+				.navbar-nav .nav-item.dropdown:hover .dropdown-menu {
+					opacity: 1;
+					visibility: visible;
+					transform: translateY(0) scale(1);
+				}
+
+				/* Decoración y separador en el menú desplegable */
+				.navbar-nav .dropdown-menu:before {
+					content: "";
+					position: absolute;
+					top: -6px;
+					left: 20px;
+					width: 12px;
+					height: 12px;
+					background: rgba(35, 35, 35, 0.98);
+					transform: rotate(45deg);
+					border-top: 1px solid rgba(255, 255, 255, 0.1);
+					border-left: 1px solid rgba(255, 255, 255, 0.1);
+					z-index: -1;
+				}
 
 		.disabled {
 			opacity: 0.5;
@@ -321,20 +317,6 @@
 							<li class="nav-item">
 								<a class="nav-link link mbr-bold text-white display-7" asp-controller="AlertasStocks" asp-action="Calendar">Home </a>
 							</li>
-
-							@* 	<li class="nav-item dropdown">
-								<a class="nav-link link mbr-bold text-white display-7" href="#" data-toggle="dropdown-submenu" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-									Productos
-								</a>
-								<div class="dropdown-menu" aria-labelledby="dropdown-productos">
-									<a class="nav-link link text-white" asp-controller="Productos" asp-action="Index">
-										<i class="fas fa-box-open mr-2"></i> Ver productos
-									</a>
-									<a class="nav-link link text-white" asp-controller="Productos" asp-action="Create" disabled="@(Context.Session.GetString("TienePermisos") != "true")">
-										<i class="mbri-plus"></i> Añadir productos
-									</a>
-								</div>
-							</li> *@
 							<li class="nav-item dropdown">
 								<a class="nav-link link mbr-bold text-white display-7" href="#" data-toggle="dropdown-submenu" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
 									Productos
@@ -392,9 +374,18 @@
 									Ventas
 								</a>
 								<div class="dropdown-menu" aria-labelledby="dropdown-ventas">
-									<a class="nav-link link text-white" asp-controller="DetallesVentas" asp-action="Index">
-										<i class="mbri-shopping-cart"></i> Ver ventas
-									</a>
+									@if (Context.Session.GetString("TienePermisos") == "true")
+									{
+										<a class="nav-link link text-white" asp-controller="DetallesVentas" asp-action="Index">
+											<i class="mbri-shopping-cart"></i> Ver ventas
+										</a>
+									}
+									else
+									{
+										<a class="nav-link link text-white disabled" href="#" onclick="event.preventDefault()" title="Necesitas permisos de jefe">
+											<i class="mbri-shopping-cart"></i> Ver ventas
+										</a>
+									}
 									@if (Context.Session.GetString("TienePermisos") == "true")
 									{
 										<a class="nav-link link text-white" asp-controller="DetallesVentas" asp-action="Create">

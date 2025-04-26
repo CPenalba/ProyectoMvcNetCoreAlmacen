@@ -15,8 +15,6 @@ namespace ProyectoMvcNetCoreAlmacen.Data
         public DbSet<AlertaStock> AlertasStocks { get; set; }
         public DbSet<Pedido> Pedidos { get; set; }
 
-
-        // Configuración del modelo
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Producto>()

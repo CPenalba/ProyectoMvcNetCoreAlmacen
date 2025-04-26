@@ -7,19 +7,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddTransient<RepositoryProducto>();
-builder.Services.AddTransient<RepositoryTienda>();
-builder.Services.AddTransient<RepositoryProveedor>();
-builder.Services.AddTransient<RepositoryUsuario>();
-builder.Services.AddTransient<RepositoryDetalleVenta>();
-builder.Services.AddTransient<RepositoryAlertaStock>();
-builder.Services.AddTransient<RepositoryPedido>();
+builder.Services.AddTransient<RepositoryAlmacen>();
 string connectionString = builder.Configuration.GetConnectionString("SqlAlmacen");
 builder.Services.AddDbContext<AlmacenContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // Ajusta según tu necesidad
+    options.IdleTimeout = TimeSpan.FromMinutes(30); 
     options.Cookie.IsEssential = true;
 });
 

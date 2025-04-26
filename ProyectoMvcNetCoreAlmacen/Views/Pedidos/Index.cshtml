@@ -366,6 +366,13 @@
 		justify-content: flex-end;
 	}
 
+	.disabled {
+		opacity: 0.5;
+		pointer-events: none;
+		cursor: not-allowed;
+		text-decoration: none;
+	}
+
 		.dataTables_paginate .paginate_button {
 			padding: 6px 12px;
 			margin: 0 3px;
@@ -502,11 +509,22 @@
 										<td>@item.FechaPedido.ToString("dd/MM/yyyy")</td>
 										<td>@item.FechaEntrega.ToString("dd/MM/yyyy")</td>
 										<td>
+											@if (Context.Session.GetString("TienePermisos") == "true")
+											{
 											<a href="#" class="change-status" data-id="@item.IdPedido" data-estado="@item.Estado" data-bs-toggle="modal" data-bs-target="#cambiarEstadoModal">
 												<span class="estado-@(item.Estado.ToLower().Replace(" ", "-"))">
 													@Html.DisplayFor(modelItem => item.Estado)
 												</span>
 											</a>
+											}
+											else
+											{
+												<a class="change-status disabled " href="#" onclick="event.preventDefault()" title="Necesitas permisos de jefe">
+													<span class="estado-@(item.Estado.ToLower().Replace(" ", "-"))">
+														@Html.DisplayFor(modelItem => item.Estado)
+													</span>
+												</a>
+											}
 										</td>
 										<td>@Html.DisplayFor(modelItem => item.Cantidad)</td>
 										<td>@Html.DisplayFor(modelItem => item.Precio) €</td>

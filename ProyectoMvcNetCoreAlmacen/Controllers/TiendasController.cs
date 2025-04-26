@@ -6,13 +6,11 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
 {
     public class TiendasController : Controller
     {
-        private RepositoryTienda repoTienda; 
-        private RepositoryUsuario repoUsuario;
+        private RepositoryAlmacen repo; 
 
-        public TiendasController(RepositoryTienda repoTienda, RepositoryUsuario repoUsuario)
+        public TiendasController(RepositoryAlmacen repo)
         {
-            this.repoTienda = repoTienda;
-            this.repoUsuario = repoUsuario;
+            this.repo = repo;
         }
         public async Task<IActionResult> Index()
         {
@@ -22,30 +20,25 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
 
             if (tiendaId != null)
             {
-                // Si hay un TiendaId, buscar la tienda en la base de datos
-                tienda = await this.repoTienda.GetTiendaByIdAsync((int)tiendaId);
+                tienda = await this.repo.GetTiendaByIdAsync((int)tiendaId);
             }
-
-            // Si no hay tienda logueada, redirigir a Login
             if (tienda == null)
             {
                 return RedirectToAction("Login");
             }
-
-            // Si hay una tienda logueada, pasar la tienda a la vista
             ViewData["Tienda"] = tienda;
-            List<Usuario> usuarios = await this.repoUsuario.GetUsuariosAsync((int)tiendaId);
+            List<Usuario> usuarios = await this.repo.GetUsuariosAsync((int)tiendaId);
             return View(usuarios);
         }
 
         [HttpPost]
         public IActionResult VerificarCodigoJefe(string codigoJefe)
         {
-            if (codigoJefe == "1234") // o consulta en base de datos si prefieres
+            if (codigoJefe == "1234") 
             {
                 HttpContext.Session.SetString("TienePermisos", "true");
             }
-            return RedirectToAction("Index"); // o donde quieras volver
+            return RedirectToAction("Index"); 
         }
 
 
@@ -53,7 +46,7 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
         public async Task<IActionResult> CambiarEstado(int idusuario)
         {
             
-            var usuario = await this.repoUsuario.GetUsuarioByIdAsync(idusuario);
+            var usuario = await this.repo.GetUsuarioByIdAsync(idusuario);
 
             if (usuario == null)
             {
@@ -62,7 +55,7 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
 
             usuario.Estado = !usuario.Estado;
 
-            await this.repoUsuario.UpdateUsuarioAsync(usuario);
+            await this.repo.UpdateUsuarioAsync(usuario);
 
             return Json(new { success = true, nuevoEstado = usuario.Estado });
 
@@ -76,13 +69,13 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(string correo, string contraseña)
         {
-            Tienda tienda = await this.repoTienda.LoginAsync(correo, contraseña);
+            Tienda tienda = await this.repo.LoginAsync(correo, contraseña);
             if (tienda != null)
             {
                 HttpContext.Session.SetInt32("TiendaId", tienda.IdTienda);
                 HttpContext.Session.SetString("TienePermisos", "false");
                 ViewBag.Message = "Has iniciado sesión correctamente.";
-                return RedirectToAction("Index"); // Redirige a la vista de Index con la tienda
+                return RedirectToAction("Index"); 
             }
             else
             {
@@ -93,7 +86,7 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
 
         public IActionResult Logout()
         {
-            HttpContext.Session.Remove("TiendaId"); // Elimina el IdTienda de la sesión
+            HttpContext.Session.Remove("TiendaId"); 
             return RedirectToAction("Login");
         }
 
@@ -105,9 +98,8 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Tienda t)
         {
-            await this.repoTienda.InsertTiendaAsync(t.Nombre, t.Direccion, t.Correo, t.Contraseña);
+            await this.repo.InsertTiendaAsync(t.Nombre, t.Direccion, t.Correo, t.Contraseña);
             return Json(new { success = true, message = "¡Te has registrado correctamente!", redirectUrl = Url.Action("Login") });
         }
-
     }
 }

@@ -7,9 +7,9 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
 {
     public class UsuariosController : Controller
     {
-        private RepositoryUsuario repo;
+        private RepositoryAlmacen repo;
 
-        public UsuariosController(RepositoryUsuario repo)
+        public UsuariosController(RepositoryAlmacen repo)
         {
             this.repo = repo;
         }
@@ -33,7 +33,7 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
                 return NotFound();
             }
 
-            return View(usuario); // Aquí puedes pasar solo el ID si no quieres mostrar más datos
+            return View(usuario); 
         }
 
         [HttpPost]
@@ -41,7 +41,6 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
         {
             try
             {
-                // Validaciones básicas
                 if (string.IsNullOrEmpty(nuevaContraseña) || string.IsNullOrEmpty(confirmPassword))
                 {
                     return Json(new { success = false, message = "Las contraseñas no pueden estar vacías" });
@@ -51,8 +50,6 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
                 {
                     return Json(new { success = false, message = "Las contraseñas no coinciden" });
                 }
-
-                // Validar requisitos de contraseña (opcional, ya que el cliente también lo hace)
                 if (nuevaContraseña.Length < 8)
                 {
                     return Json(new { success = false, message = "La contraseña debe tener al menos 8 caracteres" });
@@ -80,7 +77,7 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
 
         public async Task<IActionResult> Create()
         {
-            ViewBag.CodigoJefe = ""; // Opcional: puedes usar ViewBag para pasar mensajes
+            ViewBag.CodigoJefe = ""; 
             return View();
         }
 
@@ -93,13 +90,8 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
             {
                 return RedirectToAction("Login", "Tiendas");
             }
-
             u.IdTienda = tiendaId.Value;
-
-            // Asignar rol según el código
             u.Rol = (codigoJefe == "1234") ? "Jefe" : "Trabajador";
-
-            // Procesar la imagen si existe
             if (imagen != null && imagen.Length > 0)
             {
                 var fileName = Path.GetFileName(imagen.FileName);
@@ -116,12 +108,9 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
                 }
                 u.Imagen = fileName;
             }
-
-            // Insertar el usuario en la base de datos
             await this.repo.InsertUsuarioAsync(u.IdUsuario, u.Nombre, u.Imagen, u.Correo, u.Contraseña, u.Rol, u.IdTienda);
             return RedirectToAction("Index", "Tiendas");
         }
-
     }
 }
 

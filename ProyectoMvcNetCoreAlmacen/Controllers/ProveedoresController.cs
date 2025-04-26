@@ -7,9 +7,9 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
     public class ProveedoresController : Controller
     {
 
-        private RepositoryProveedor repo;
+        private RepositoryAlmacen repo;
 
-        public ProveedoresController(RepositoryProveedor repo)
+        public ProveedoresController(RepositoryAlmacen repo)
         {
             this.repo = repo;
         }

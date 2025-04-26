@@ -28,9 +28,18 @@
 				<a id="editarAlerta" href="#" data-idAlerta="">
 					<span class="mbr-iconfont socicon socicon mbri-edit2 circle-icon"></span>
 				</a>
+				@if (Context.Session.GetString("TienePermisos") == "true")
+				{
 				<a id="crearPedido" href="#" style="position:absolute; left:388px">
 					<span class="mbr-iconfont socicon socicon mbri-edit circle-icon"></span>
 				</a>
+				}
+				else
+				{
+					<a class="disabled" id="crearPedido" style="position:absolute; left:388px">
+						<span class="mbr-iconfont socicon socicon mbri-edit circle-icon"></span>
+					</a>
+				}
 			</div>
 		</div>
 	</div>
@@ -145,6 +154,12 @@
 		border-radius: 8px;
 	}
 
+	.disabled {
+		opacity: 0.5;
+		pointer-events: none;
+		cursor: not-allowed;
+		text-decoration: none;
+	}
 	.circle-icon {
 		display: inline-block;
 		border: 2px solid #f28b00; /* Borde naranja */

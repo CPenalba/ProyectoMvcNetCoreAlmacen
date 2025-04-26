@@ -8,14 +8,11 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
     public class ProductosController : Controller
     {
 
-        private RepositoryProducto repoProducto;
-        private RepositoryProveedor repoProveedor;
+        private RepositoryAlmacen repo;
 
-
-        public ProductosController(RepositoryProducto repoProducto, RepositoryProveedor repoProveedor)
+        public ProductosController(RepositoryAlmacen repo)
         {
-            this.repoProducto = repoProducto;
-            this.repoProveedor = repoProveedor;
+            this.repo = repo;
         }
 
         [HttpGet]
@@ -26,7 +23,7 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
             {
                 return RedirectToAction("Login", "Tiendas");
             }
-            List<Producto> productos = await this.repoProducto.GetProductosAsync((int)tiendaId);
+            List<Producto> productos = await this.repo.GetProductosAsync((int)tiendaId);
             return View(productos);
         }
 
@@ -43,15 +40,15 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
 
             if (!string.IsNullOrEmpty(idproducto) && int.TryParse(idproducto, out int idProducto))
             {
-                productos = await this.repoProducto.GetProductosByIdAsync(idProducto, (int)tiendaId);
+                productos = await this.repo.GetProductosByIdAsync(idProducto, (int)tiendaId);
             }
             else if (!string.IsNullOrEmpty(marca))
             {
-                productos = await this.repoProducto.GetProductosByMarcaAsync(marca, (int)tiendaId);
+                productos = await this.repo.GetProductosByMarcaAsync(marca, (int)tiendaId);
             }
             else
             {
-                productos = await this.repoProducto.GetProductosAsync((int)tiendaId);
+                productos = await this.repo.GetProductosAsync((int)tiendaId);
             }
 
             return View(productos);
@@ -70,15 +67,15 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
 
             if (!string.IsNullOrEmpty(idproducto) && int.TryParse(idproducto, out int idProducto))
             {
-                productos = await this.repoProducto.GetProductosByIdAsync(idProducto, (int)tiendaId);
+                productos = await this.repo.GetProductosByIdAsync(idProducto, (int)tiendaId);
             }
             else if (!string.IsNullOrEmpty(marca))
             {
-                productos = await this.repoProducto.GetProductosByMarcaAsync(marca, (int)tiendaId);
+                productos = await this.repo.GetProductosByMarcaAsync(marca, (int)tiendaId);
             }
             else
             {
-                productos = await this.repoProducto.GetProductosAsync((int)tiendaId);
+                productos = await this.repo.GetProductosAsync((int)tiendaId);
             }
 
             return PartialView("_ProductosPartial", productos);
@@ -87,7 +84,7 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
 
         public async Task<IActionResult> Create()
         {
-            var proveedores = await this.repoProveedor.GetProveedoresAsync();
+            var proveedores = await this.repo.GetProveedoresAsync();
             ViewBag.Proveedores = new SelectList(proveedores, "IdProveedor", "Nombre");
             return View();
         }
@@ -95,18 +92,13 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Producto p, IFormFile imagen)
         {
-            // Obtener el IdTienda desde la sesión del usuario (esto depende de cómo esté configurada tu autenticación)
-            // Aquí se supone que el IdTienda se guarda en la sesión.
             var tiendaId = HttpContext.Session.GetInt32("TiendaId");
 
             if (tiendaId == null)
             {
                 return RedirectToAction("Login", "Tiendas");
             }
-            // Asignar el IdTienda al producto
             p.IdTienda = tiendaId.Value;
-
-            // Procesar la imagen si existe
             if (imagen != null && imagen.Length > 0)
             {
                 var fileName = Path.GetFileName(imagen.FileName);
@@ -123,24 +115,21 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
                 }
                 p.Imagen = fileName;
             }
-
-            // Insertar el producto en la base de datos
-            await this.repoProducto.InsertProductoAsync(p.IdProducto, p.Nombre, p.Descripcion, p.Stock, p.Precio, p.Imagen, p.Marca, p.Modelo, p.IdProveedor, p.IdTienda);
-
+            await this.repo.InsertProductoAsync(p.IdProducto, p.Nombre, p.Descripcion, p.Stock, p.Precio, p.Imagen, p.Marca, p.Modelo, p.IdProveedor, p.IdTienda);
             return RedirectToAction("Index");
         }
 
 
         public async Task<IActionResult> Details(int idproducto)
         {
-            Producto p = await this.repoProducto.FindProductoAsync(idproducto);
+            Producto p = await this.repo.FindProductoAsync(idproducto);
             return View(p);
         }
 
         [HttpPost]
         public async Task<IActionResult> ActualizarStock(int idproducto, int cantidad, bool sumar)
         {
-            var producto = await repoProducto.FindProductoAsync(idproducto);
+            var producto = await repo.FindProductoAsync(idproducto);
             if (producto == null)
             {
                 return NotFound();
@@ -152,36 +141,30 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
             }
             else
             {
-                producto.Stock = Math.Max(0, producto.Stock - cantidad); // Evita stock negativo
+                producto.Stock = Math.Max(0, producto.Stock - cantidad); 
             }
 
-            await repoProducto.UpdateProductoStockAsync(producto.IdProducto, producto.Stock);
+            await repo.UpdateProductoStockAsync(producto.IdProducto, producto.Stock);
             return RedirectToAction("Index");
         }
 
         [HttpPost]
         public async Task<IActionResult> CambiarEstado(int idproducto)
         {
-            var producto = await repoProducto.FindProductoAsync(idproducto);
+            var producto = await repo.FindProductoAsync(idproducto);
             if (producto == null)
             {
                 return NotFound();
             }
-
-            // Alternar el estado
             producto.Estado = !producto.Estado;
-
-            // Actualizar el producto en la base de datos
-            await repoProducto.UpdateProductoAsync(producto);
-
+            await repo.UpdateProductoAsync(producto);
             return Json(new { success = true, nuevoEstado = producto.Estado });
         }
 
-
         public async Task<IActionResult> Edit(int idproducto)
         {
-            Producto p = await this.repoProducto.FindProductoAsync(idproducto);
-            var proveedores = await this.repoProveedor.GetProveedoresAsync();
+            Producto p = await this.repo.FindProductoAsync(idproducto);
+            var proveedores = await this.repo.GetProveedoresAsync();
             ViewBag.Proveedores = new SelectList(proveedores, "IdProveedor", "Nombre");
             if (p == null)
             {
@@ -199,7 +182,6 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
             {
                 return RedirectToAction("Login", "Tiendas");
             }
-            // Asignar el IdTienda al producto
             p.IdTienda = tiendaId.Value;
             if (imagen != null && imagen.Length > 0)
             {
@@ -214,7 +196,7 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
                 p.Imagen = fileName;
             }
 
-            await this.repoProducto.UpdateProductoAsync(p);
+            await this.repo.UpdateProductoAsync(p);
             return RedirectToAction("Index");
         }
     }

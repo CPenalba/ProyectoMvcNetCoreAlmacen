@@ -7,14 +7,11 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
 {
     public class DetallesVentasController : Controller
     {
-        private RepositoryDetalleVenta repo;
-        private RepositoryProducto repoProducto;
+        private RepositoryAlmacen repo;
 
-
-        public DetallesVentasController(RepositoryDetalleVenta repo, RepositoryProducto repoProducto)
+        public DetallesVentasController(RepositoryAlmacen repo)
         {
             this.repo = repo;
-            this.repoProducto = repoProducto;
         }
 
         public async Task<IActionResult> Index(int? año)
@@ -24,18 +21,12 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
             {
                 return RedirectToAction("Login", "Tiendas");
             }
-
-            // Obtener lista de años disponibles para el dropdown
             var añosDisponibles = await this.repo.GetAñosVentasAsync((int)tiendaId);
             ViewBag.Años = new SelectList(añosDisponibles, año ?? DateTime.Now.Year);
-
-            // Obtener datos para el gráfico
             var datosVentas = await this.repo.GetVentasPorMesAsync((int)tiendaId, año ?? DateTime.Now.Year);
             ViewBag.DatosVentas = datosVentas;
-
             var productosMasVendidos = await this.repo.GetProductosMasVendidosAsync((int)tiendaId);
             ViewBag.ProductosMasVendidos = productosMasVendidos;
-
             List<DetalleVenta> detalles = await this.repo.GetDetallesVentasAsync((int)tiendaId);
             return View(detalles);
         }
@@ -48,7 +39,7 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
                 return RedirectToAction("Login", "Tiendas");
             }
 
-            var productos = await this.repoProducto.GetProductosAsync((int)tiendaId);
+            var productos = await this.repo.GetProductosAsync((int)tiendaId);
             ViewBag.Productos = productos;
 
 
@@ -64,11 +55,8 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
             {
                 return RedirectToAction("Login", "Tiendas");
             }
-
-            // Asignar el IdTienda al producto
             v.IdTienda = tiendaId.Value;
             v.PrecioTotalVenta = v.Precio * v.Cantidad;
-
             await this.repo.InsertVentaAsync(v.IdDetalleVenta, v.Fecha, v.IdProducto, v.IdTienda, v.Cantidad, v.Precio, v.PrecioTotalVenta);
             return RedirectToAction("Index");
         }

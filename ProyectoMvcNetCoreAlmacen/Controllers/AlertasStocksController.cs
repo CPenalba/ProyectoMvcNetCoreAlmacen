@@ -9,13 +9,11 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
 {
     public class AlertasStocksController : Controller
     {
-        private RepositoryAlertaStock repo;
-        private RepositoryProducto repoProducto;
+        private RepositoryAlmacen repo;
 
-        public AlertasStocksController(RepositoryAlertaStock repo, RepositoryProducto repoProducto)
+        public AlertasStocksController(RepositoryAlmacen repo)
         {
             this.repo = repo;
-            this.repoProducto = repoProducto;
         }
         public async Task<IActionResult> Index()
         {
@@ -43,7 +41,7 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
                 return RedirectToAction("Login", "Tiendas");
             }
 
-            var productos = await this.repoProducto.GetProductosAsync((int)tiendaId);
+            var productos = await this.repo.GetProductosAsync((int)tiendaId);
             ViewBag.Productos = new SelectList(productos, "IdProducto", "Nombre");
 
             return View();
@@ -58,11 +56,7 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
             {
                 return RedirectToAction("Login", "Tiendas");
             }
-
-            // Asignar el IdTienda al producto
             a.IdTienda = tiendaId.Value;
-
-            // Establecer el estado a "Pendiente" automáticamente
             a.Estado = "Pendiente";
 
             await this.repo.InsertAlertaAsync(a.IdAlertaStock, a.IdProducto, a.IdTienda, a.FechaAlerta, a.Descripcion, a.Estado);
@@ -87,11 +81,11 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
 
             if (a == null)
             {
-                return NotFound(); // Verifica si la alerta realmente existe
+                return NotFound(); 
             }
-            var productos = await this.repoProducto.GetProductosAsync((int)tiendaId);
+            var productos = await this.repo.GetProductosAsync((int)tiendaId);
             ViewBag.Productos = new SelectList(productos, "IdProducto", "Nombre");
-            return View(a); //
+            return View(a); 
         }
 
         [HttpPost]
@@ -109,17 +103,11 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
             {
                 return NotFound();
             }
-
-            // Cambiar el estado
             alerta.Estado = estado;
-
-            // Actualizar la alerta
             await this.repo.UpdateAlertaAsync(alerta);
 
             return Json(new { success = true });
         }
-
-
 
         public async Task<IActionResult> Calendar()
         {
@@ -134,7 +122,6 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
 
             foreach (AlertaStock a in alertas)
             {
-                // Obtener el nombre del producto
                 var producto = await this.repo.GetProductoByIdAsync(a.IdProducto);
 
                 var item = new

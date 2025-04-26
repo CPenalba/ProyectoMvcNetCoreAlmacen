@@ -6,9 +6,9 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
 {
     public class PedidosController : Controller
     {
-        private RepositoryPedido repo;
+        private RepositoryAlmacen repo;
 
-        public PedidosController(RepositoryPedido repo)
+        public PedidosController(RepositoryAlmacen repo)
         {
             this.repo = repo;
         }
@@ -31,8 +31,6 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
             {
                 return RedirectToAction("Login", "Tiendas");
             }
-
-            // Pasar los valores a la vista mediante ViewBag
             ViewBag.IdProducto = idProducto;
             ViewBag.IdProveedor = idProveedor;
             ViewBag.Precio = precio;
@@ -43,14 +41,12 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Pedido p)
         {
-            // Aquí se supone que el IdTienda se guarda en la sesión.
             var tiendaId = HttpContext.Session.GetInt32("TiendaId");
 
             if (tiendaId == null)
             {
                 return RedirectToAction("Login", "Tiendas");
             }
-            // Asignar el IdTienda al producto
             p.IdTienda = tiendaId.Value;
             p.FechaPedido = DateTime.Now;
             p.FechaEntrega = p.FechaPedido.AddDays(7);
@@ -68,6 +64,5 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
             await this.repo.UpdateEstadoPedidoAsync(IdPedido, Estado);
             return RedirectToAction("Index");
         }
-
     }
 }
