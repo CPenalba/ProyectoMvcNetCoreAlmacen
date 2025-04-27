@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ProyectoMvcNetCoreAlmacen.Models.DetalleVenta>
+﻿@model IEnumerable<NugetProyectoAlmacen.Models.DetalleVenta>
 
 <section class="features2 cid-sgSyF0EE4Z" id="features2-d">
 	<div class="container">
@@ -39,7 +39,7 @@
 					</div>
 					<div class="card-body p-0">
 						<ul class="list-group list-group-flush">
-							@foreach (var producto in ViewBag.ProductosMasVendidos as List<ProyectoMvcNetCoreAlmacen.Models.Producto>)
+							@foreach (var producto in ViewBag.ProductosMasVendidos as List<NugetProyectoAlmacen.Models.Producto>)
 							{
 								<li class="list-group-item d-flex justify-content-between align-items-center">
 									<span>@producto.Nombre</span>

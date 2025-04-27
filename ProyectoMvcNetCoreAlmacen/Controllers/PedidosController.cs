@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ProyectoMvcNetCoreAlmacen.Models;
+using NugetProyectoAlmacen.Models;
 using ProyectoMvcNetCoreAlmacen.Repositories;
 
 namespace ProyectoMvcNetCoreAlmacen.Controllers

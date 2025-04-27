@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProyectoMvcNetCoreAlmacen.Data;
-using ProyectoMvcNetCoreAlmacen.Models;
+using NugetProyectoAlmacen.Models;
 
 namespace ProyectoMvcNetCoreAlmacen.Repositories
 {

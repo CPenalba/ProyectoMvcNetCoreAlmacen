@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ProyectoMvcNetCoreAlmacen.Models;
+using NugetProyectoAlmacen.Models;
 
 namespace ProyectoMvcNetCoreAlmacen.Data
 {

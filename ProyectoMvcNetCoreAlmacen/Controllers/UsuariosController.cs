@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using ProyectoMvcNetCoreAlmacen.Models;
+using NugetProyectoAlmacen.Models;
 using ProyectoMvcNetCoreAlmacen.Repositories;
 
 namespace ProyectoMvcNetCoreAlmacen.Controllers
