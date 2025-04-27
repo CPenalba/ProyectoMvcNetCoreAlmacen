@@ -81,13 +81,24 @@
 								</div>
 								<span class="stat-value">Pedidos</span>
 							</a>
-
-							<a href="@Url.Action("Index", "DetallesVentas")" class="stat-item">
-								<div class="stat-icon">
-									<i class="fas fa-shopping-cart"></i>
-								</div>
-								<span class="stat-value">Ventas</span>
-							</a>
+							@if (Context.Session.GetString("TienePermisos") == "true")
+							{
+								<a href="@Url.Action("Index", "DetallesVentas")" class="stat-item">
+									<div class="stat-icon">
+										<i class="fas fa-shopping-cart"></i>
+									</div>
+									<span class="stat-value">Ventas</span>
+								</a>
+							}
+							else
+							{
+								<a class="stat-item disabled" href="#" onclick="event.preventDefault()" title="Necesitas permisos de jefe">
+									<div class="stat-icon">
+										<i class="fas fa-shopping-cart"></i>
+									</div>
+									<span class="stat-value">Ventas</span>
+								</a>
+							}
 						</div>
 
 					</div>
@@ -883,6 +894,13 @@
 		border-bottom: 1px solid #e5e7eb;
 	}
 
+	.disabled {
+		opacity: 0.5;
+		pointer-events: none;
+		cursor: not-allowed;
+		text-decoration: none;
+	}
+
 	.section-icon {
 		width: 35px;
 		height: 35px;
@@ -1033,9 +1051,9 @@
 		text-decoration: none;
 	}
 
-		.contact-item i {
-			color: var(--primary-color);
-		}
+	.contact-item i {
+		color: var(--primary-color);
+	}
 
 	.profile-actions {
 		display: flex;
