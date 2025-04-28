@@ -98,7 +98,7 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Tienda t)
         {
-            await this.repo.InsertTiendaAsync(t.Nombre, t.Direccion, t.Correo, t.Contraseña);
+            await this.repo.InsertTiendaAsync(t);
             return Json(new { success = true, message = "¡Te has registrado correctamente!", redirectUrl = Url.Action("Login") });
         }
     }

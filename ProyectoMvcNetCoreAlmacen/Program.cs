@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddTransient<RepositoryAlmacen>();
-string connectionString = builder.Configuration.GetConnectionString("SqlAlmacen");
+string connectionString = builder.Configuration.GetConnectionString("SqlAzure");
 builder.Services.AddDbContext<AlmacenContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services.AddSession(options =>

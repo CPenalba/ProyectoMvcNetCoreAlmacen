@@ -33,7 +33,7 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Proveedor p)
         {
-            await this.repo.InsertProveedorAsync(p.IdProveedor, p.Nombre, p.Telefono, p.Correo, p.Direccion);
+            await this.repo.InsertProveedorAsync(p);
             return RedirectToAction("Index");
         }
 

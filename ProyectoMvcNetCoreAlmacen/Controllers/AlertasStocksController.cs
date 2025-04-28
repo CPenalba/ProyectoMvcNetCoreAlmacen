@@ -59,7 +59,7 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
             a.IdTienda = tiendaId.Value;
             a.Estado = "Pendiente";
 
-            await this.repo.InsertAlertaAsync(a.IdAlertaStock, a.IdProducto, a.IdTienda, a.FechaAlerta, a.Descripcion, a.Estado);
+            await this.repo.InsertAlertaAsync(a);
             return Json(new { success = true, message = "Alerta creada correctamente", redirectUrl = Url.Action("Calendar") });
         }
 
