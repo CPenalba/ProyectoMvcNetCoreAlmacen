@@ -1,4 +1,6 @@
+using Azure.Security.KeyVault.Secrets;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Azure;
 using ProyectoMvcNetCoreAlmacen.Data;
 using ProyectoMvcNetCoreAlmacen.Repositories;
 
@@ -8,7 +10,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddTransient<RepositoryAlmacen>();
-string connectionString = builder.Configuration.GetConnectionString("SqlAzure");
+builder.Services.AddAzureClients(factory =>
+{
+    factory.AddSecretClient(builder.Configuration.GetSection("KeyVault"));
+
+});
+SecretClient secretClient = builder.Services.BuildServiceProvider().GetService<SecretClient>();
+KeyVaultSecret secret = await secretClient.GetSecretAsync("SqlAzure");
+string connectionString = secret.Value;
 builder.Services.AddDbContext<AlmacenContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services.AddSession(options =>
