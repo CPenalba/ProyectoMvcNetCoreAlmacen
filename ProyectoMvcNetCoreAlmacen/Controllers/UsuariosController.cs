@@ -2,16 +2,19 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NugetProyectoAlmacen.Models;
 using ProyectoMvcNetCoreAlmacen.Repositories;
+using ProyectoMvcNetCoreAlmacen.Services;
 
 namespace ProyectoMvcNetCoreAlmacen.Controllers
 {
     public class UsuariosController : Controller
     {
         private RepositoryAlmacen repo;
+        private IBlobStorageService service;
 
-        public UsuariosController(RepositoryAlmacen repo)
+        public UsuariosController(RepositoryAlmacen repo, IBlobStorageService service)
         {
             this.repo = repo;
+            this.service = service;
         }
         public async Task<IActionResult> Index()
         {
@@ -94,23 +97,20 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
             u.Rol = (codigoJefe == "1234") ? "Jefe" : "Trabajador";
             if (imagen != null && imagen.Length > 0)
             {
-                var fileName = Path.GetFileName(imagen.FileName);
-                var directoryPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "imagenes");
-                if (!Directory.Exists(directoryPath))
-                {
-                    Directory.CreateDirectory(directoryPath);
-                }
+                // Generar un nombre único para evitar colisiones
+                var fileName = $"{Guid.NewGuid()}{Path.GetExtension(imagen.FileName)}";
 
-                var filePath = Path.Combine(directoryPath, fileName);
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await imagen.CopyToAsync(stream);
-                }
-                u.Imagen = fileName;
+                // Subir la imagen a Azure Blob Storage
+                var imageUrl = await service.UploadFileAsync(imagen, fileName);
+
+                // Guardar el nombre del archivo (o la URL completa) en la BD
+               u.Imagen = imageUrl; ; // O puedes guardar imageUrl si prefieres
             }
             await this.repo.InsertUsuarioAsync(u.IdUsuario, u.Nombre, u.Imagen, u.Correo, u.Contraseña, u.Rol, u.IdTienda);
             return RedirectToAction("Index", "Tiendas");
         }
+
+
     }
 }
 

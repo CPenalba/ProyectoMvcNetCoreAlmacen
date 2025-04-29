@@ -176,7 +176,7 @@
 								<div class="profile-avatar">
 									@if (!string.IsNullOrEmpty(item.Imagen))
 									{
-										<img src="@Url.Content("~/imagenes/" + item.Imagen)"
+										<img src="@item.Imagen"
 											 onerror="this.onerror=null;this.src='https://icones.pro/wp-content/uploads/2021/02/icone-utilisateur-orange.png';"
 											 alt="Imagen del usuario"
 											 title="@item.Nombre">
@@ -237,7 +237,7 @@
 							<div class="card-avatar">
 								@if (!string.IsNullOrEmpty(item.Imagen))
 								{
-									<img src="@Url.Content("~/imagenes/" + item.Imagen)"
+									<img src="@item.Imagen"
 										 onerror="this.onerror=null;this.src='https://img.freepik.com/vector-premium/icono-circulo-usuario-anonimo-ilustracion-vector-estilo-plano-sombra_520826-1931.jpg';"
 										 alt="Imagen del usuario"
 										 title="@item.Nombre">

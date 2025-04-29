@@ -2,17 +2,19 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NugetProyectoAlmacen.Models;
 using ProyectoMvcNetCoreAlmacen.Repositories;
+using ProyectoMvcNetCoreAlmacen.Services;
 
 namespace ProyectoMvcNetCoreAlmacen.Controllers
 {
     public class ProductosController : Controller
     {
-
         private RepositoryAlmacen repo;
+        private IBlobStorageService service;
 
-        public ProductosController(RepositoryAlmacen repo)
+        public ProductosController(RepositoryAlmacen repo, IBlobStorageService service)
         {
             this.repo = repo;
+            this.service = service;
         }
 
         [HttpGet]
@@ -98,24 +100,33 @@ namespace ProyectoMvcNetCoreAlmacen.Controllers
             {
                 return RedirectToAction("Login", "Tiendas");
             }
+
             p.IdTienda = tiendaId.Value;
+
             if (imagen != null && imagen.Length > 0)
             {
-                var fileName = Path.GetFileName(imagen.FileName);
-                var directoryPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "imagenes");
-                if (!Directory.Exists(directoryPath))
-                {
-                    Directory.CreateDirectory(directoryPath);
-                }
+                // Generar un nombre único para evitar colisiones
+                var fileName = $"{Guid.NewGuid()}{Path.GetExtension(imagen.FileName)}";
 
-                var filePath = Path.Combine(directoryPath, fileName);
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await imagen.CopyToAsync(stream);
-                }
-                p.Imagen = fileName;
+                // Subir la imagen a Azure Blob Storage
+                var imageUrl = await service.UploadFileAsync(imagen, fileName);
+
+                // Guardar el nombre del archivo (o la URL completa) en la BD
+                p.Imagen = imageUrl; ; // O puedes guardar imageUrl si prefieres
             }
-            await this.repo.InsertProductoAsync(p.IdProducto, p.Nombre, p.Descripcion, p.Stock, p.Precio, p.Imagen, p.Marca, p.Modelo, p.IdProveedor, p.IdTienda);
+
+            await this.repo.InsertProductoAsync(
+                p.IdProducto,
+                p.Nombre,
+                p.Descripcion,
+                p.Stock,
+                p.Precio,
+                p.Imagen, // Ahora es el nombre del archivo en Azure
+                p.Marca,
+                p.Modelo,
+                p.IdProveedor,
+                p.IdTienda);
+
             return RedirectToAction("Index");
         }
 

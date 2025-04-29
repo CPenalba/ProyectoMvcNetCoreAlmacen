@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<NugetProyectoAlmacen.Models.Producto>
 
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <div class="row">
 	@foreach (var item in Model)
@@ -7,7 +8,7 @@
 		<div class="item features-image col-12 col-md-6 col-lg-3">
 			<div class="item-wrapper @(item.Estado ? "" : "producto-inactivo")">
 				<div class="item-img">
-					<img src="@Url.Content("~/imagenes/" + item.Imagen)"
+					<img src="@item.Imagen"
 						 onerror="this.onerror=null;this.src='https://static.vecteezy.com/system/resources/previews/005/720/408/non_2x/crossed-image-icon-picture-not-available-delete-picture-symbol-free-vector.jpg';"
 						 alt="Imagen del producto"
 						 title="@item.Nombre">

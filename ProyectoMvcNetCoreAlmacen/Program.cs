@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Azure;
 using ProyectoMvcNetCoreAlmacen.Data;
 using ProyectoMvcNetCoreAlmacen.Repositories;
+using ProyectoMvcNetCoreAlmacen.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,11 +16,12 @@ builder.Services.AddAzureClients(factory =>
     factory.AddSecretClient(builder.Configuration.GetSection("KeyVault"));
 
 });
+
 SecretClient secretClient = builder.Services.BuildServiceProvider().GetService<SecretClient>();
 KeyVaultSecret secret = await secretClient.GetSecretAsync("SqlAzure");
 string connectionString = secret.Value;
 builder.Services.AddDbContext<AlmacenContext>(options => options.UseSqlServer(connectionString));
-
+builder.Services.AddScoped<IBlobStorageService, BlobStorageService>();
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30); 
